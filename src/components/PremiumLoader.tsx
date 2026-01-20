@@ -111,19 +111,6 @@ const PremiumLoader = ({ onComplete, minimumDuration = 2500 }: PremiumLoaderProp
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                 />
-                {/* Top Right */}
-                <motion.path
-                  d="M calc(100% - 16) 4 L calc(100% - 4) 4 L calc(100% - 4) 16"
-                  fill="none"
-                  stroke="hsl(192 85% 50% / 0.6)"
-                  strokeWidth="2"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  style={{ 
-                    d: 'path("M calc(100% - 16px) 4 L calc(100% - 4px) 4 L calc(100% - 4px) 16")'
-                  }}
-                />
               </svg>
 
               {/* Logo */}
