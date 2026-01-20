@@ -1,12 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from '@/components/Header';
+import Hero from '@/components/Hero';
+import TrustStrip from '@/components/TrustStrip';
+import About from '@/components/About';
+import ProductUniverse from '@/components/ProductUniverse';
+import Partners from '@/components/Partners';
+import WhySaiEnterprises from '@/components/WhySaiEnterprises';
+import GlobalPresence from '@/components/GlobalPresence';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen">
+      <Header />
+      <main>
+        <Hero />
+        <TrustStrip />
+        <About />
+        <ProductUniverse />
+        <Partners />
+        <WhySaiEnterprises />
+        <GlobalPresence />
+        <Contact />
+      </main>
+      <Footer />
+      <Toaster />
     </div>
   );
 };

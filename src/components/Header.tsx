@@ -67,8 +67,8 @@ const Header = () => {
               >
                 <a
                   href={link.href}
-                  className={`flex items-center gap-1 font-medium transition-colors hover:text-primary ${
-                    isScrolled ? 'text-foreground' : 'text-primary-foreground'
+                  className={`flex items-center gap-1 font-medium transition-colors hover:text-accent ${
+                    isScrolled ? 'text-foreground' : 'text-white'
                   }`}
                 >
                   {link.name}
@@ -117,8 +117,8 @@ const Header = () => {
           >
             <a
               href="mailto:reddydayaker@gmail.com"
-              className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary ${
-                isScrolled ? 'text-muted-foreground' : 'text-primary-foreground/80'
+              className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-accent ${
+                isScrolled ? 'text-muted-foreground' : 'text-white/80'
               }`}
             >
               <Mail className="w-4 h-4" />
@@ -132,7 +132,7 @@ const Header = () => {
             className={`lg:hidden p-2 rounded-md transition-colors ${
               isScrolled
                 ? 'text-foreground hover:bg-secondary'
-                : 'text-primary-foreground hover:bg-primary-foreground/10'
+                : 'text-white hover:bg-white/10'
             }`}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
