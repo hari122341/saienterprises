@@ -1,0 +1,722 @@
+// Product data extracted from Sai Enterprises brochure - Single Source of Truth
+
+export interface Product {
+  id: string;
+  name: string;
+  category: 'pre-press' | 'press' | 'post-press' | 'corrugation';
+  subcategory?: string;
+  description?: string;
+  sizes?: string[];
+  specifications?: Record<string, string>;
+  features?: string[];
+  applications?: string[];
+}
+
+export interface ProductCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  icon: string;
+  products: Product[];
+}
+
+export const productCategories: ProductCategory[] = [
+  {
+    id: 'pre-press',
+    name: 'Pre-Press',
+    slug: 'pre-press',
+    description: 'Plate making, exposure, and imaging solutions for professional print preparation',
+    icon: 'Layers',
+    products: [
+      {
+        id: 'plate-exposure',
+        name: 'Screen/Plate Exposure Machine',
+        category: 'pre-press',
+        description: 'Professional plate exposure systems for offset printing',
+        features: ['Precision UV exposure', 'Uniform light distribution', 'Digital timer control'],
+      },
+      {
+        id: 'plate-processor',
+        name: 'Plate Processor',
+        category: 'pre-press',
+        description: 'Automated plate processing systems',
+        features: ['Automatic chemical replenishment', 'Consistent processing', 'High throughput'],
+      },
+      {
+        id: 'plate-baking-oven',
+        name: 'Plate Baking Oven',
+        category: 'pre-press',
+        description: 'Plate baking solutions for extended plate life',
+        features: ['Even heat distribution', 'Temperature control', 'Energy efficient'],
+      },
+      {
+        id: 'ctcp',
+        name: 'Fully Automatic CTCP',
+        category: 'pre-press',
+        description: 'Computer to Conventional Plate imaging system',
+        specifications: {
+          'Max Plate Size': '1163 × 940 mm',
+          'Min Plate Size': '300 × 300 mm',
+        },
+        features: ['Fully automatic operation', 'High resolution imaging', 'UV exposure technology'],
+      },
+      {
+        id: 'ctp',
+        name: 'CTP System',
+        category: 'pre-press',
+        description: 'Computer to Plate direct imaging technology',
+        features: ['Digital workflow integration', 'High speed imaging', 'Consistent quality'],
+      },
+      {
+        id: 'large-format-film',
+        name: 'Large Format Film Separation',
+        category: 'pre-press',
+        description: 'Large format film output solutions',
+        features: ['High resolution output', 'Multiple format support'],
+      },
+    ],
+  },
+  {
+    id: 'press',
+    name: 'Press',
+    slug: 'press',
+    description: 'Offset and digital printing machinery from world-renowned manufacturers',
+    icon: 'Printer',
+    products: [
+      {
+        id: 'baby-offset',
+        name: 'Baby Offset Machines',
+        category: 'press',
+        description: 'Compact offset printing for small format jobs',
+        features: ['Compact design', 'Easy operation', 'Cost effective'],
+      },
+      {
+        id: 'sheet-fed-offset',
+        name: 'Sheet Fed Offset Machines',
+        category: 'press',
+        subcategory: 'Brands: Heidelberg, Komori, Manroland, Mitsubishi',
+        description: 'Premium sheet-fed offset printing machines from leading brands',
+        features: ['High precision registration', 'Multi-color capability', 'Automated make-ready'],
+      },
+      {
+        id: 'digital-presses',
+        name: 'Digital Printing Presses',
+        category: 'press',
+        description: 'Modern digital printing solutions',
+        features: ['Variable data printing', 'Quick turnaround', 'No plate costs'],
+      },
+      {
+        id: 'commercial-web-offset',
+        name: 'Commercial Web Offset Presses',
+        category: 'press',
+        description: 'High-volume commercial web printing',
+        features: ['High speed production', 'Cost effective for long runs', 'Inline finishing'],
+      },
+      {
+        id: 'newspaper-web',
+        name: 'News Paper Industry Web Presses',
+        category: 'press',
+        description: 'Dedicated newspaper production lines',
+        features: ['High pagination', 'Fast changeover', 'Reliable operation'],
+      },
+      {
+        id: 'business-forms-web',
+        name: 'Business Forms Web Presses',
+        category: 'press',
+        description: 'Specialized presses for business forms production',
+        features: ['Numbering systems', 'Perforation inline', 'Collating capability'],
+      },
+    ],
+  },
+  {
+    id: 'post-press',
+    name: 'Post-Press',
+    slug: 'post-press',
+    description: 'Complete finishing solutions including cutting, binding, lamination, and packaging',
+    icon: 'Scissors',
+    products: [
+      // Paper Cutters
+      {
+        id: 'programmable-paper-cutter',
+        name: 'HPM Programmable Paper Cutter',
+        category: 'post-press',
+        subcategory: 'Cutting',
+        description: 'Heavy duty digital programmable paper cutting system',
+        sizes: ['660mm / 26"'],
+        features: ['High automation level', 'Digital programming', 'Safety systems', 'Precision cutting'],
+      },
+      {
+        id: 'pile-turner',
+        name: 'Pile Turner',
+        category: 'post-press',
+        subcategory: 'Material Handling',
+        description: 'Automatic pile turning and aeration',
+        features: ['Automatic operation', 'Paper aeration', 'Static removal'],
+      },
+      {
+        id: 'three-knife-trimmer-auto',
+        name: 'Automatic Feeding Three Knife Trimmer',
+        category: 'post-press',
+        subcategory: 'Cutting',
+        description: 'Automatic three-side trimming system',
+        features: ['Automatic feeding', 'Three-side trim', 'High precision'],
+      },
+      {
+        id: 'three-knife-trimmer-semi',
+        name: 'Semi Automatic Three Knife Trimmer',
+        category: 'post-press',
+        subcategory: 'Cutting',
+        description: 'Semi-automatic three-side trimming',
+        features: ['Semi-automatic operation', 'Cost effective'],
+      },
+      // Binding
+      {
+        id: 'perfect-binder',
+        name: 'Perfect Binder',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Professional perfect binding machine',
+        sizes: ['17 inch', '21 inch', '24 inch'],
+        specifications: {
+          'Speed': '700 Books/Hour',
+          'Max Thickness': '70 mm',
+        },
+        features: ['Separate side glue unit', 'High production speed'],
+      },
+      {
+        id: 'semi-auto-case-maker',
+        name: 'Semi Automatic Case Maker',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Hard cover case making machine',
+        features: ['Precise case forming', 'Multiple size capability'],
+      },
+      {
+        id: 'book-block-casing-in',
+        name: 'Book Block Casing-In Plus',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Professional book casing-in system',
+        features: ['Automatic operation', 'Precision alignment'],
+      },
+      {
+        id: 'nipping-smashing',
+        name: 'Nipping & Smashing Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Book block nipping and smashing',
+        features: ['Even pressure application', 'Book spine forming'],
+      },
+      {
+        id: 'passport-sewing',
+        name: 'Passport Sewing Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Heavy duty lock stitch sewing machine',
+        features: ['Heavy duty 1 needle plain feed', 'Horizontal axis rotary hook', 'Extra large capacity bobbin', 'Semi lubrication system'],
+      },
+      {
+        id: 'passport-book-center-sewing',
+        name: 'Passport & Book Center Sewing Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+        specifications: {
+          'Max Book Size': '560mm x 460mm',
+          'Min Book Size': '100mm x 240mm',
+          'Book Thickness': '1mm - 6mm',
+        },
+      },
+      {
+        id: 'wire-o-binding',
+        name: 'Automatic Wire O Binding Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Automatic wire binding system',
+        features: ['Automatic operation', 'Multiple ring sizes'],
+      },
+      {
+        id: 'spiral-binding',
+        name: 'Automatic Spiral Binding Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Automatic spiral/coil binding',
+        features: ['Automatic coil insertion', 'High speed operation'],
+      },
+      {
+        id: 'stitching',
+        name: 'Stitching Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+        description: 'Wire stitching for saddle stitch binding',
+        features: ['Reliable stitching', 'Multiple head options'],
+      },
+      // Lamination
+      {
+        id: 'thermal-laminator',
+        name: 'Thermal & Water Base Laminator with Sheeter',
+        category: 'post-press',
+        subcategory: 'Lamination',
+        description: 'Thermal film lamination with pre-gummed film',
+        sizes: ['24 inch', '32 inch'],
+        features: ['Heat process lamination', 'Optional sheeting system', 'Water base capability'],
+      },
+      {
+        id: 'digital-thermal-laminator',
+        name: 'Digital Heavy Duty Thermal Lamination Machine 15"',
+        category: 'post-press',
+        subcategory: 'Lamination',
+        description: 'Digital thermal lamination for small format',
+        features: ['Digital controls', 'Heavy duty construction'],
+      },
+      {
+        id: 'reel-to-sheet-separator',
+        name: 'Automatic Reel to Sheet Separator',
+        category: 'post-press',
+        subcategory: 'Lamination',
+        description: 'Cut laminated sheets from roll',
+        sizes: ['24 inch', '32 inch'],
+        features: ['Saves time & manpower', 'Clean cuts'],
+      },
+      {
+        id: 'strip-gumming',
+        name: 'Strip Gumming & Water Based Laminator',
+        category: 'post-press',
+        subcategory: 'Lamination',
+        description: 'Multi-purpose strip gumming and lamination',
+        sizes: ['24 inch', '32 inch'],
+        features: ['Strip gumming saves money', 'Dual purpose machine'],
+      },
+      {
+        id: 'uv-aqua-coater',
+        name: 'UV / Aqua Coater with Drier',
+        category: 'post-press',
+        subcategory: 'Coating',
+        description: 'UV and aqueous coating system',
+        features: ['UV coating capability', 'Aqueous coating', 'Integrated drying'],
+      },
+      {
+        id: 'two-color-uv-conversion',
+        name: 'Two Color UV Conversion',
+        category: 'post-press',
+        subcategory: 'Coating',
+        description: 'UV conversion for two color presses',
+      },
+      // Die Cutting & Foiling
+      {
+        id: 'die-punching',
+        name: 'Die Punching Machine',
+        category: 'post-press',
+        subcategory: 'Die Cutting',
+        description: 'Heavy duty die cutting/punching',
+        sizes: ['22" X 32"', '25" X 37"', '28" X 40"', '58" X 96"'],
+        features: ['Wrap around safety device', 'Fully covered fly wheel', 'Electromagnetic clutch & brake', 'Available with hot foil stamping'],
+      },
+      {
+        id: 'foil-stamping',
+        name: 'Foil Stamping Machine',
+        category: 'post-press',
+        subcategory: 'Finishing',
+        specifications: {
+          'Stamping Plate Size': '150x250mm / 200x300mm',
+          'Table Size': '320 x 355 mm',
+        },
+      },
+      {
+        id: 'hot-foil-stamping',
+        name: 'Hot Foil Stamping Machine',
+        category: 'post-press',
+        subcategory: 'Finishing',
+        specifications: {
+          'Stamping Plate Size': '300 x 350 mm',
+          'Table Size': '400 x 450 mm',
+          'Job Height': '100 mm Max',
+          'Foil Width': '10-300 mm',
+        },
+      },
+      // Rigid Box
+      {
+        id: 'rigid-box-corner-pasting',
+        name: 'Corner Pasting Machine',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Rigid box corner pasting',
+        features: ['Precision corner folding', 'Strong adhesion'],
+      },
+      {
+        id: 'box-forming',
+        name: 'Box Forming Machine',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Rigid box forming and shaping',
+      },
+      {
+        id: 'automatic-gluing',
+        name: 'Automatic Gluing Machine',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Automatic adhesive application for box making',
+      },
+      {
+        id: 'cylindrical-box-making',
+        name: 'Cylindrical (Round) Box Making Machine',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Round and cylindrical box production',
+      },
+      {
+        id: 'board-cutter-postpress',
+        name: 'Board Cutter',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Precision board cutting for box making',
+      },
+      {
+        id: 'spine-board-cutter',
+        name: 'Spine Board Cutter',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Specialized spine board cutting',
+      },
+      {
+        id: 'twin-corner-cutting',
+        name: 'Twin Corner Cutting Machine',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Dual corner cutting for efficiency',
+        applications: ['Books', 'Diaries', 'Notebooks', 'Commercial brochures'],
+      },
+      {
+        id: 'board-pasting',
+        name: 'Board to Board Pasting Machine',
+        category: 'post-press',
+        subcategory: 'Rigid Box',
+        description: 'Board lamination and pasting',
+      },
+      // Folding & Paper Handling
+      {
+        id: 'paper-folding',
+        name: 'Paper Folding Machine',
+        category: 'post-press',
+        subcategory: 'Folding',
+        specifications: {
+          'Max Sheet Size': '660x1040 mm',
+          'Min Sheet Size': '150x200 mm',
+          'Paper GSM': '40-200',
+        },
+      },
+      {
+        id: 'reel-to-sheeting',
+        name: 'Reel to Sheeting Machine',
+        category: 'post-press',
+        subcategory: 'Conversion',
+        description: 'Convert reel paper to sheet format',
+        sizes: ['36 inch', '48 inch'],
+        features: ['Cost effective', 'Reduces waste'],
+      },
+      {
+        id: 'slitting-rewinding',
+        name: 'Slitting & Rewinding Machine',
+        category: 'post-press',
+        subcategory: 'Conversion',
+        description: 'Convert jumbo reels to smaller widths',
+        sizes: ['24 inch', '42 inch', '62 inch', '80 inch'],
+        features: ['Reduces paper cost', 'Multiple width output'],
+      },
+      // Cards & Specialty
+      {
+        id: 'cards-crafting',
+        name: 'Automatic Card Crafting Machine',
+        category: 'post-press',
+        subcategory: 'Cards',
+        description: 'Automatic card production',
+      },
+      {
+        id: 'cards-matching',
+        name: 'Automatic Cards Matching Machine with Hole Drilling',
+        category: 'post-press',
+        subcategory: 'Cards',
+        description: 'Card matching with integrated drilling',
+      },
+      {
+        id: 'cards-collating',
+        name: 'Automatic Cards Collating Machine',
+        category: 'post-press',
+        subcategory: 'Cards',
+        description: 'Card collating and sorting',
+      },
+      // Other Equipment
+      {
+        id: 'notching',
+        name: 'Automatic Notching (Grooving) Machine',
+        category: 'post-press',
+        subcategory: 'Specialty',
+        description: 'Precision grooving and notching',
+      },
+      {
+        id: 'knife-grinding',
+        name: 'Knife Grinding Machine',
+        category: 'post-press',
+        subcategory: 'Maintenance',
+        description: 'Precision knife sharpening',
+      },
+      {
+        id: 'knurling-embossing',
+        name: 'Paper/Board Knurling/Embossing Machine',
+        category: 'post-press',
+        subcategory: 'Finishing',
+        sizes: ['20 inch', '24 inch', '32 inch'],
+      },
+      {
+        id: 'paper-punching',
+        name: 'Automatic Paper Punching Machine',
+        category: 'post-press',
+        subcategory: 'Punching',
+        description: 'Heavy duty paper punching for binding preparation',
+      },
+      {
+        id: 'drilling-machine',
+        name: 'Drilling Machine',
+        category: 'post-press',
+        subcategory: 'Punching',
+        description: 'Paper drilling for binding',
+      },
+      {
+        id: 'eyelet-punching',
+        name: 'Automatic Eyelet Punching Machine',
+        category: 'post-press',
+        subcategory: 'Punching',
+        description: 'Eyelet insertion for various applications',
+        applications: ['Paper bags', 'Cobra file clips', 'Hospital files', 'Price tags', 'Tanglers'],
+      },
+      {
+        id: 'envelope-punching',
+        name: 'Envelope Punching Machine',
+        category: 'post-press',
+        subcategory: 'Punching',
+        description: 'Specialized envelope punching',
+      },
+      {
+        id: 'label-punching',
+        name: 'Label Punching Machine',
+        category: 'post-press',
+        subcategory: 'Punching',
+        sizes: ['100x100 mm', '150x150 mm', '190x190 mm', '270x270 mm', '340x340 mm'],
+      },
+      {
+        id: 'paper-shredding',
+        name: 'Paper Shredding Machine',
+        category: 'post-press',
+        subcategory: 'Waste Management',
+      },
+      {
+        id: 'cardboard-shredding',
+        name: 'Cardboard Shredding Machine',
+        category: 'post-press',
+        subcategory: 'Waste Management',
+      },
+      {
+        id: 'book-back-glueing',
+        name: 'Book Back Glueing and Drying Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+      },
+      {
+        id: 'book-back-rounding',
+        name: 'Book Back Rounding Machine',
+        category: 'post-press',
+        subcategory: 'Binding',
+      },
+      {
+        id: 'roller-pressing',
+        name: 'Roller Pressing Machine',
+        category: 'post-press',
+        subcategory: 'Finishing',
+      },
+      {
+        id: 'dampener-roller-cleaner',
+        name: 'Dampener Roller Cleaner',
+        category: 'post-press',
+        subcategory: 'Maintenance',
+        sizes: ['60 inch'],
+      },
+      {
+        id: 'bundling-press',
+        name: 'Bundling Press',
+        category: 'post-press',
+        subcategory: 'Finishing',
+      },
+      {
+        id: 'hot-melt-adhesive-coater',
+        name: 'Hot Melt Adhesive Coater',
+        category: 'post-press',
+        subcategory: 'Coating',
+        sizes: ['24 inch', '32 inch'],
+      },
+      {
+        id: 'gluing-systems',
+        name: 'Gluing Systems',
+        category: 'post-press',
+        subcategory: 'Coating',
+      },
+      {
+        id: 'paper-baling',
+        name: 'Paper Baling Machine',
+        category: 'post-press',
+        subcategory: 'Waste Management',
+      },
+      {
+        id: 'slant-die-cutting',
+        name: 'Slant Die-Cutting Machine',
+        category: 'post-press',
+        subcategory: 'Die Cutting',
+      },
+      {
+        id: 'sticky-memo-pad-gluing',
+        name: 'Sticky Memo Pad Gluing Machine',
+        category: 'post-press',
+        subcategory: 'Specialty',
+      },
+      {
+        id: 'numbering',
+        name: 'Numbering Machine',
+        category: 'post-press',
+        subcategory: 'Finishing',
+      },
+    ],
+  },
+  {
+    id: 'corrugation',
+    name: 'Corrugation Machinery',
+    slug: 'corrugation',
+    description: 'Complete corrugation solutions for box and packaging production',
+    icon: 'Package',
+    products: [
+      {
+        id: 'flute-laminator-auto',
+        name: 'Fully Automatic Flute Laminator',
+        category: 'corrugation',
+        specifications: {
+          'Size': '1400x1100 mm',
+        },
+        features: ['Fully automatic operation', 'High precision lamination'],
+      },
+      {
+        id: 'flute-laminator-semi',
+        name: 'Semi Auto Flute Laminator',
+        category: 'corrugation',
+        description: 'With auto lift system',
+        specifications: {
+          'Size': '1300x1100 mm',
+        },
+      },
+      {
+        id: 'paper-corrugation',
+        name: 'Double Profile Paper Corrugation Machine',
+        category: 'corrugation',
+        description: 'Available in single profile also',
+        sizes: ['42"', '52"', '62"', '72"'],
+      },
+      {
+        id: 'thin-blade-slitter',
+        name: 'Thin Blade Slitter Scorer',
+        category: 'corrugation',
+        sizes: ['2200 mm', '2400 mm'],
+      },
+      {
+        id: 'four-bar-rotary',
+        name: 'Four Bar Rotary Cutting & Creasing Machine',
+        category: 'corrugation',
+        sizes: ['75"', '85"', '95"', '105"'],
+      },
+      {
+        id: 'reel-to-sheet-corrugation',
+        name: 'Reel to Sheet Cutting',
+        category: 'corrugation',
+        sizes: ['42"', '52"', '62"', '72"'],
+      },
+      {
+        id: 'heavy-duty-board-cutter',
+        name: 'Heavy Duty Board Cutter',
+        category: 'corrugation',
+        sizes: ['52"', '62"', '72"'],
+      },
+      {
+        id: 'eccentric-slotter',
+        name: 'Eccentric Slotter',
+        category: 'corrugation',
+        sizes: ['75"', '85"', '95"', '105"'],
+      },
+      {
+        id: 'power-box-stitching',
+        name: 'Heavy Duty Power Box Stitching Machine Angular',
+        category: 'corrugation',
+        sizes: ['36"', '42"', '48"', '52"', '60"'],
+      },
+      {
+        id: 'sheet-pasting',
+        name: 'Sheet Pasting Machine',
+        category: 'corrugation',
+        sizes: ['55"', '65"', '75"', '85"', '95"', '105"'],
+      },
+      {
+        id: 'combined-slotter',
+        name: 'Combined Slotter, Slitter, Scorer & Creasing Machine',
+        category: 'corrugation',
+        sizes: ['2200x1400 mm', '2400x1400 mm', '2600x1400 mm'],
+      },
+    ],
+  },
+];
+
+export const partnerBrands = [
+  { name: 'Heidelberg', country: 'Germany', specialty: 'Premium Offset Presses' },
+  { name: 'Komori', country: 'Japan', specialty: 'Sheet-fed Offset Technology' },
+  { name: 'Manroland', country: 'Germany', specialty: 'Web & Sheet-fed Presses' },
+  { name: 'Mitsubishi', country: 'Japan', specialty: 'Precision Printing Systems' },
+  { name: 'Müller Martini', country: 'Switzerland', specialty: 'Post-Press & Binding' },
+  { name: 'MBO', country: 'Germany', specialty: 'Folding Technology' },
+  { name: 'HPM', country: 'Taiwan', specialty: 'Paper Cutting Systems' },
+  { name: 'Kanefusa', country: 'Japan', specialty: 'Industrial Cutting Knives' },
+];
+
+export const companyInfo = {
+  name: 'Sai Enterprises',
+  tagline: 'Graphic Machinery Suppliers',
+  motto: 'We Believe in Long-Term Relationships',
+  experience: '24+ Years',
+  email: 'reddydayaker@gmail.com',
+  locations: {
+    headquarters: {
+      city: 'Hyderabad',
+      state: 'Telangana',
+      country: 'India',
+      type: 'Head Office',
+    },
+    branches: [
+      { city: 'New Delhi', country: 'India' },
+      { city: 'Pune', country: 'India' },
+      { city: 'Vijayawada', state: 'Andhra Pradesh', country: 'India' },
+    ],
+    overseas: {
+      city: 'Nairobi',
+      country: 'Kenya',
+      type: 'Overseas Branch',
+    },
+  },
+  services: [
+    'Consultancy for Printing Machines',
+    'Installation & Commissioning',
+    'Service & Support',
+    'Pre-owned Machinery',
+    'New Equipment Supply',
+    'Complete Print Solutions',
+  ],
+};
+
+export const consumables = [
+  { name: 'Rigid Box Materials', category: 'Packaging' },
+  { name: 'Thermal Tape', category: 'Binding' },
+  { name: 'Jelly Glue', category: 'Adhesives' },
+  { name: 'Kanefusa Knives (Japanese)', category: 'Cutting', description: 'All Paper Cutter and Three Knife Trimmer Knives' },
+];
