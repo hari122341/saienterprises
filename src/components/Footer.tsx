@@ -1,55 +1,54 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Mail, MapPin, ArrowUp } from 'lucide-react';
-import saiLogo from '@/assets/sai-logo.png';
 import { companyInfo } from '@/data/products';
 
 const Footer = () => {
   return (
-    <footer className="bg-foreground text-background">
-      <div className="container-wide py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer className="border-t border-border py-12 md:py-16">
+      <div className="container-wide">
+        <div className="flex flex-col md:flex-row justify-between gap-8">
+          {/* Left - Company */}
           <div>
-            <img src={saiLogo} alt="Sai Enterprises" className="h-14 mb-4 brightness-0 invert" />
-            <p className="text-background/70 text-sm mb-2">{companyInfo.motto}</p>
-            <p className="text-background/60 text-sm">{companyInfo.experience} of excellence</p>
+            <p className="text-sm font-medium text-foreground mb-4">Sai Enterprises</p>
+            <p className="text-sm text-muted-foreground max-w-xs">
+              {companyInfo.experience} of excellence in graphic & corrugation machinery.
+              <br />
+              India · Kenya
+            </p>
           </div>
-          <div>
-            <h4 className="font-bold text-lg mb-4">Machinery</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/machinery/pre-press" className="text-background/70 hover:text-background transition-colors">Pre-Press</Link></li>
-              <li><Link to="/machinery/press" className="text-background/70 hover:text-background transition-colors">Press</Link></li>
-              <li><Link to="/machinery/post-press" className="text-background/70 hover:text-background transition-colors">Post-Press</Link></li>
-              <li><Link to="/machinery/corrugation" className="text-background/70 hover:text-background transition-colors">Corrugation</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-lg mb-4">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/about" className="text-background/70 hover:text-background transition-colors">About Us</Link></li>
-              <li><Link to="/brands" className="text-background/70 hover:text-background transition-colors">Brand Partners</Link></li>
-              <li><Link to="/global" className="text-background/70 hover:text-background transition-colors">Global Presence</Link></li>
-              <li><Link to="/contact" className="text-background/70 hover:text-background transition-colors">Contact</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-lg mb-4">Contact</h4>
-            <a href={`mailto:${companyInfo.email}`} className="flex items-center gap-2 text-background/70 hover:text-background text-sm mb-3">
-              <Mail className="w-4 h-4" /> {companyInfo.email}
-            </a>
-            <div className="flex items-start gap-2 text-background/70 text-sm">
-              <MapPin className="w-4 h-4 mt-0.5" />
-              <span>HQ: {companyInfo.locations.headquarters.city}</span>
-            </div>
+
+          {/* Right - Links */}
+          <div className="flex flex-wrap gap-x-12 gap-y-4">
+            <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              About
+            </Link>
+            <Link to="/machinery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Machinery
+            </Link>
+            <Link to="/brands" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Brands
+            </Link>
+            <Link to="/global" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Global
+            </Link>
+            <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Contact
+            </Link>
           </div>
         </div>
-      </div>
-      <div className="border-t border-background/10">
-        <div className="container-wide py-6 flex items-center justify-between">
-          <p className="text-sm text-background/60">© {new Date().getFullYear()} {companyInfo.name}. All rights reserved.</p>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2 text-sm text-background/70 hover:text-background">
-            <ArrowUp className="w-4 h-4" /> Top
-          </button>
+
+        {/* Bottom line */}
+        <div className="mt-12 pt-8 border-t border-border">
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} {companyInfo.name}. All rights reserved.
+            </p>
+            <a 
+              href={`mailto:${companyInfo.email}`}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {companyInfo.email}
+            </a>
+          </div>
         </div>
       </div>
     </footer>
