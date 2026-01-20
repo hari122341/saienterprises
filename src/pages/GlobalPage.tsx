@@ -1,72 +1,154 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Building2, Globe } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { companyInfo } from '@/data/products';
+
+const locations = {
+  india: [
+    { city: 'Hyderabad', role: 'Head Office' },
+    { city: 'New Delhi', role: 'Branch Office' },
+    { city: 'Pune', role: 'Branch Office' },
+    { city: 'Vijayawada', role: 'Branch Office' },
+  ],
+  kenya: [
+    { city: 'Nairobi', role: 'East Africa Office' },
+  ],
+};
 
 const GlobalPage = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div 
+      className="min-h-screen bg-background"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <Header />
-      <main className="pt-24">
-        <section className="py-16 bg-secondary/30 border-b border-border">
-          <div className="container-wide">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <span className="micro-label text-primary mb-4 block">Our Reach</span>
-              <h1 className="text-foreground mb-4">Global Presence</h1>
-              <p className="text-xl text-muted-foreground max-w-2xl">
-                Serving the printing and packaging industry across India and Africa.
-              </p>
-            </motion.div>
-          </div>
+      
+      <main>
+        {/* Hero */}
+        <section className="pt-32 pb-16 md:pt-40 md:pb-24 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
+            <p className="caption mb-6">Presence</p>
+            <h1 className="text-foreground mb-8">
+              India.<br />
+              East Africa.
+            </h1>
+            <p className="text-muted-foreground text-lg md:text-xl max-w-xl">
+              Five locations across two countries, providing local support 
+              and expertise to the printing and packaging industry.
+            </p>
+          </motion.div>
         </section>
 
-        <section className="section-padding">
-          <div className="container-wide">
-            <div className="grid lg:grid-cols-2 gap-12">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-6">India</h2>
-                <div className="space-y-4">
-                  <div className="p-6 rounded-xl bg-primary text-primary-foreground">
-                    <Building2 className="w-6 h-6 mb-3" />
-                    <h3 className="font-bold text-lg">{companyInfo.locations.headquarters.city}</h3>
-                    <p className="opacity-80">{companyInfo.locations.headquarters.state}</p>
-                    <span className="inline-block mt-2 px-2 py-0.5 bg-white/20 rounded text-xs">Head Office</span>
-                  </div>
-                  {companyInfo.locations.branches.map((branch) => (
-                    <div key={branch.city} className="p-6 rounded-xl bg-card border border-border">
-                      <MapPin className="w-5 h-5 text-primary mb-3" />
-                      <h3 className="font-semibold text-foreground">{branch.city}</h3>
-                      <p className="text-muted-foreground text-sm">{branch.state}</p>
-                    </div>
-                  ))}
+        {/* India */}
+        <section className="border-t border-border py-16 md:py-24 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="caption mb-12">India</p>
+            
+            <div className="border-t border-border max-w-2xl">
+              {locations.india.map((location) => (
+                <div 
+                  key={location.city}
+                  className="py-6 md:py-8 border-b border-border flex items-center justify-between"
+                >
+                  <span 
+                    className="text-xl md:text-2xl font-light text-foreground"
+                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                  >
+                    {location.city}
+                  </span>
+                  <span className="text-sm text-muted-foreground">{location.role}</span>
                 </div>
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-6">Africa</h2>
-                <div className="p-8 rounded-xl bg-accent text-accent-foreground">
-                  <Globe className="w-8 h-8 mb-4" />
-                  <h3 className="font-bold text-xl">{companyInfo.locations.overseas.city}</h3>
-                  <p className="opacity-80 text-lg">{companyInfo.locations.overseas.country}</p>
-                  <span className="inline-block mt-3 px-3 py-1 bg-white/20 rounded text-sm">Overseas Branch</span>
-                </div>
-              </div>
+              ))}
             </div>
-          </div>
+          </motion.div>
         </section>
 
-        <section className="py-16 gradient-premium">
-          <div className="container-wide text-center">
-            <h2 className="text-primary-foreground mb-4">Have Questions?</h2>
-            <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-semibold rounded-lg">
-              Contact Us <ArrowRight className="w-5 h-5" />
+        {/* Kenya */}
+        <section className="border-t border-border py-16 md:py-24 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="caption mb-12">Kenya</p>
+            
+            <div className="border-t border-border max-w-2xl">
+              {locations.kenya.map((location) => (
+                <div 
+                  key={location.city}
+                  className="py-6 md:py-8 border-b border-border flex items-center justify-between"
+                >
+                  <span 
+                    className="text-xl md:text-2xl font-light text-foreground"
+                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                  >
+                    {location.city}
+                  </span>
+                  <span className="text-sm text-muted-foreground">{location.role}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Reach statement */}
+        <section className="border-t border-border py-16 md:py-24 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-2xl"
+          >
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Our presence in these strategic locations allows us to provide 
+              rapid response, local expertise, and ongoing support to our clients. 
+              Whether you're in Maharashtra or Mombasa, we're equipped to serve 
+              your machinery needs.
+            </p>
+          </motion.div>
+        </section>
+
+        {/* CTA */}
+        <section className="border-t border-border py-24 md:py-32 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-xl"
+          >
+            <h3 className="text-foreground mb-8">
+              Find your nearest office.
+            </h3>
+            <Link
+              to="/contact"
+              className="btn-quiet group inline-flex"
+            >
+              <span>Contact us</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </div>
+          </motion.div>
         </section>
       </main>
+
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

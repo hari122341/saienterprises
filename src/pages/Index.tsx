@@ -13,7 +13,13 @@ const categories = [
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div 
+      className="min-h-screen bg-background"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <Header />
       
       <main>
@@ -110,7 +116,7 @@ const Index = () => {
       </main>
 
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,63 +1,118 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Globe, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { partnerBrands } from '@/data/products';
 
 const BrandsPage = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div 
+      className="min-h-screen bg-background"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <Header />
-      <main className="pt-24">
-        <section className="py-16 bg-secondary/30 border-b border-border">
-          <div className="container-wide">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <span className="micro-label text-primary mb-4 block">Trusted Partners</span>
-              <h1 className="text-foreground mb-4">World-Class Brands</h1>
-              <p className="text-xl text-muted-foreground max-w-2xl">
-                We work with the world's leading manufacturers of printing and finishing machinery.
-              </p>
-            </motion.div>
-          </div>
+      
+      <main>
+        {/* Hero */}
+        <section className="pt-32 pb-16 md:pt-40 md:pb-24 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
+            <p className="caption mb-6">Partners</p>
+            <h1 className="text-foreground mb-8">
+              Brands we trust.
+            </h1>
+            <p className="text-muted-foreground text-lg md:text-xl max-w-xl">
+              We work with world-class manufacturers to bring you machinery 
+              that meets the highest standards of quality and reliability.
+            </p>
+          </motion.div>
         </section>
 
-        <section className="section-padding">
-          <div className="container-wide">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Brands List - Editorial style */}
+        <section className="border-t border-border py-16 md:py-24 px-8 md:px-16 lg:px-24">
+          <div className="max-w-4xl">
+            <div className="border-t border-border">
               {partnerBrands.map((brand, index) => (
                 <motion.div
                   key={brand.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="p-8 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-industrial transition-all text-center"
+                  className="py-8 md:py-10 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
-                  <h3 className="text-xl font-bold text-foreground mb-3">{brand.name}</h3>
-                  <p className="text-sm text-muted-foreground flex items-center justify-center gap-2 mb-4">
-                    <Globe className="w-4 h-4" />
-                    {brand.country}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{brand.specialty}</p>
+                  <h3 
+                    className="text-2xl md:text-3xl font-light text-foreground"
+                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                  >
+                    {brand.name}
+                  </h3>
+                  <div className="flex items-center gap-6">
+                    <span className="text-sm text-muted-foreground">{brand.country}</span>
+                    {brand.specialty && (
+                      <>
+                        <span className="text-muted-foreground/30">·</span>
+                        <span className="text-sm text-muted-foreground">{brand.specialty}</span>
+                      </>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="py-16 gradient-premium">
-          <div className="container-wide text-center">
-            <h2 className="text-primary-foreground mb-4">Need Specific Brand Equipment?</h2>
-            <p className="text-primary-foreground/80 mb-8 max-w-xl mx-auto">Contact us for availability and pricing.</p>
-            <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-semibold rounded-lg">
-              Get in Touch <ArrowRight className="w-5 h-5" />
+        {/* Trust note */}
+        <section className="border-t border-border py-16 md:py-24 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-2xl"
+          >
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Each brand we represent has been selected for their commitment to 
+              precision engineering, reliability, and long-term value. When you 
+              choose machinery through Sai Enterprises, you're choosing quality 
+              backed by decades of industry experience.
+            </p>
+          </motion.div>
+        </section>
+
+        {/* CTA */}
+        <section className="border-t border-border py-24 md:py-32 px-8 md:px-16 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-xl"
+          >
+            <h3 className="text-foreground mb-8">
+              Looking for specific machinery?
+            </h3>
+            <Link
+              to="/contact"
+              className="btn-quiet group inline-flex"
+            >
+              <span>Contact us</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </div>
+          </motion.div>
         </section>
       </main>
+
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
