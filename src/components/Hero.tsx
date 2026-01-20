@@ -1,7 +1,14 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight, MapPin, Shield, Settings, Calendar } from 'lucide-react';
 import saiLogo from '@/assets/sai-logo.png';
+
+const trustChips = [
+  { icon: Calendar, label: '24+ Years', sublabel: 'Industry Excellence' },
+  { icon: MapPin, label: 'India + Kenya', sublabel: 'Global Presence' },
+  { icon: Settings, label: 'New + Refurbished', sublabel: 'Complete Range' },
+  { icon: Shield, label: 'Installation + Support', sublabel: 'End-to-End Service' },
+];
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -11,172 +18,290 @@ const Hero = () => {
   });
 
   // Parallax transforms
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+
+  // Stagger animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  };
 
   return (
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-primary"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Animated Background with Parallax */}
-      <motion.div className="absolute inset-0 overflow-hidden" style={{ y: backgroundY }}>
-        {/* Subtle grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, hsl(0 0% 100%) 1px, transparent 1px),
-              linear-gradient(to bottom, hsl(0 0% 100%) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
+      {/* Premium Gradient Background */}
+      <motion.div 
+        className="absolute inset-0 gradient-premium"
+        style={{ y: backgroundY }}
+      >
+        {/* Blueprint Grid */}
+        <div className="absolute inset-0 blueprint-grid opacity-40" />
+        
+        {/* Animated Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20" />
+        
+        {/* Moving Lines - Subtle Industrial Feel */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none">
+          {/* Horizontal Lines */}
+          <motion.line
+            x1="0"
+            y1="30%"
+            x2="100%"
+            y2="30%"
+            stroke="hsl(192 85% 50% / 0.08)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 3, delay: 1 }}
+          />
+          <motion.line
+            x1="0"
+            y1="70%"
+            x2="100%"
+            y2="70%"
+            stroke="hsl(192 85% 50% / 0.08)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 3, delay: 1.2 }}
+          />
+          
+          {/* Vertical Lines */}
+          <motion.line
+            x1="20%"
+            y1="0"
+            x2="20%"
+            y2="100%"
+            stroke="hsl(192 85% 50% / 0.05)"
+            strokeWidth="1"
+            strokeDasharray="8 16"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 4, delay: 0.5 }}
+          />
+          <motion.line
+            x1="80%"
+            y1="0"
+            x2="80%"
+            y2="100%"
+            stroke="hsl(192 85% 50% / 0.05)"
+            strokeWidth="1"
+            strokeDasharray="8 16"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 4, delay: 0.7 }}
+          />
+        </svg>
+
+        {/* Floating Geometric Shapes */}
+        <motion.div
+          className="absolute top-1/4 right-[15%] w-72 h-72 border border-white/5 rounded-full"
+          animate={{ 
+            rotate: 360,
+            scale: [1, 1.1, 1],
+          }}
+          transition={{ 
+            rotate: { duration: 60, repeat: Infinity, ease: 'linear' },
+            scale: { duration: 8, repeat: Infinity, ease: 'easeInOut' }
           }}
         />
-        
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary to-primary/95" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-        
-        {/* Decorative circles with parallax */}
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.05 }}
-          transition={{ duration: 2, ease: 'easeOut' }}
-          className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] rounded-full border border-primary-foreground/20"
-        />
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.03 }}
-          transition={{ duration: 2.5, ease: 'easeOut', delay: 0.3 }}
-          className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] rounded-full border border-primary-foreground/20"
+          className="absolute bottom-1/4 left-[10%] w-48 h-48 border border-accent/10"
+          style={{ rotate: 45 }}
+          animate={{ 
+            rotate: [45, 90, 45],
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* Industrial elements */}
+        {/* Gradient Orbs */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.02 }}
-          transition={{ delay: 1, duration: 2 }}
-          className="absolute top-1/4 right-1/4 w-40 h-40 border-2 border-primary-foreground/20 rotate-45"
+          className="absolute top-1/3 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]"
+          animate={{ 
+            x: [0, 50, 0],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.02 }}
-          transition={{ delay: 1.2, duration: 2 }}
-          className="absolute bottom-1/3 left-1/4 w-32 h-32 border-2 border-primary-foreground/20 rotate-12"
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/20 rounded-full blur-[100px]"
+          animate={{ 
+            y: [0, -30, 0],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
       </motion.div>
 
-      {/* Content with parallax */}
+      {/* Main Content */}
       <motion.div 
-        className="relative container-wide text-center z-10 pt-20"
-        style={{ y: textY, opacity, scale }}
+        className="relative z-10 container-wide text-center pt-24 pb-32"
+        style={{ y: contentY, opacity, scale }}
       >
-        {/* Logo with entrance animation */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mb-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <motion.img
-            src={saiLogo}
-            alt="Sai Enterprises"
-            className="h-24 md:h-32 lg:h-40 mx-auto"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          />
-        </motion.div>
+          {/* Logo */}
+          <motion.div variants={itemVariants} className="mb-8">
+            <motion.img
+              src={saiLogo}
+              alt="Sai Enterprises"
+              className="h-20 md:h-28 lg:h-32 mx-auto"
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            />
+          </motion.div>
 
-        {/* Headline with staggered animation */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 tracking-tight"
-        >
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+          {/* Micro Label */}
+          <motion.div 
+            variants={itemVariants}
+            className="mb-6"
           >
-            We Believe in
-          </motion.span>
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="block mt-2 text-accent"
-          >
-            Long-Term Relationships
-          </motion.span>
-        </motion.h1>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
+              <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+              <span className="text-xs uppercase tracking-[0.2em] text-white/70 font-medium">
+                Graphic Machinery Suppliers
+              </span>
+            </span>
+          </motion.div>
 
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="text-lg md:text-xl lg:text-2xl text-primary-foreground/80 max-w-3xl mx-auto mb-4"
-        >
-          24+ Years of Excellence in Graphic & Corrugation Machinery
-        </motion.p>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-base md:text-lg text-primary-foreground/60 max-w-2xl mx-auto mb-12"
-        >
-          Your trusted partner for Pre-Press, Press, Post-Press & Corrugation solutions
-        </motion.p>
-
-        {/* CTA Buttons with hover animations */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <motion.a
-            href="#products"
-            whileHover={{ scale: 1.05, boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-4 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-colors shadow-lg"
+          {/* Main Headline */}
+          <motion.h1 
+            variants={itemVariants}
+            className="text-white mb-6 max-w-5xl mx-auto"
           >
-            Explore Products
-          </motion.a>
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-4 border-2 border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg transition-all duration-300"
+            <span className="block text-white/90">We Believe in</span>
+            <span className="block text-gradient-gold mt-2">
+              Long-Term Relationships
+            </span>
+          </motion.h1>
+
+          {/* Subheadline */}
+          <motion.p 
+            variants={itemVariants}
+            className="text-xl md:text-2xl lg:text-3xl text-white/70 max-w-3xl mx-auto mb-4 font-light"
           >
-            Get Consultation
-          </motion.a>
+            24+ Years of Excellence in Graphic & Corrugation Machinery
+          </motion.p>
+
+          {/* Supporting Text */}
+          <motion.p 
+            variants={itemVariants}
+            className="text-base md:text-lg text-white/50 max-w-2xl mx-auto mb-12"
+          >
+            Your trusted partner for Pre-Press, Press, Post-Press & Corrugation solutions
+          </motion.p>
+
+          {/* Premium CTA Buttons */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+          >
+            <motion.a
+              href="#products"
+              className="group relative px-8 py-4 bg-white text-primary font-semibold rounded-lg overflow-hidden shadow-industrial-lg"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Explore Machinery
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-0 group-hover:opacity-10 transition-opacity"
+              />
+            </motion.a>
+
+            <motion.a
+              href="#contact"
+              className="group px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-lg backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="flex items-center gap-2">
+                Request Consultation
+              </span>
+            </motion.a>
+          </motion.div>
+
+          {/* Trust Chips */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
+          >
+            {trustChips.map((chip, index) => {
+              const Icon = chip.icon;
+              return (
+                <motion.div
+                  key={chip.label}
+                  className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-default"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 + index * 0.1, duration: 0.5 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition-colors">
+                    <Icon className="w-5 h-5 text-accent" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-semibold text-white">{chip.label}</p>
+                    <p className="text-xs text-white/50">{chip.sublabel}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator with refined animation */}
+      {/* Scroll Indicator */}
       <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        style={{ opacity }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        style={{ opacity }}
+        transition={{ delay: 2 }}
       >
         <motion.a
           href="#trust"
-          animate={{ y: [0, 10, 0] }}
+          className="flex flex-col items-center gap-2 text-white/40 hover:text-white/60 transition-colors"
+          animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="text-primary-foreground/60 hover:text-primary-foreground transition-colors block"
         >
-          <ChevronDown className="w-8 h-8" />
+          <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+          <ChevronDown className="w-5 h-5" />
         </motion.a>
       </motion.div>
+
+      {/* Bottom Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-[5]" />
     </section>
   );
 };
