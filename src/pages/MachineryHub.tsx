@@ -1,6 +1,5 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -34,19 +33,19 @@ const categories = [
 ];
 
 const MachineryHub = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
   const getCategoryCount = (categoryId: string) => {
     const category = productCategories.find(c => c.id === categoryId);
     return category?.products.length || 0;
   };
 
   return (
-    <div className="min-h-screen bg-background" ref={containerRef}>
+    <motion.div 
+      className="min-h-screen bg-background"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <Header />
       
       <main>
@@ -139,7 +138,7 @@ const MachineryHub = () => {
       </main>
 
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
