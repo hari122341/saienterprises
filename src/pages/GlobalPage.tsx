@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ScrollProgress from '@/components/ScrollProgress';
 
 const locations = {
   india: [
@@ -25,6 +26,7 @@ const GlobalPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
+      <ScrollProgress />
       <Header />
       
       <main>
