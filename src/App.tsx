@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { useScrollToTop } from "./hooks/useScrollToTop";
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
 import MachineryHub from "./pages/MachineryHub";
@@ -18,6 +19,9 @@ const queryClient = new QueryClient();
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  
+  // Scroll to top on route change
+  useScrollToTop();
   
   return (
     <AnimatePresence mode="wait">
