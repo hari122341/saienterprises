@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ScrollProgress from '@/components/ScrollProgress';
 import { useToast } from '@/hooks/use-toast';
 import { companyInfo, productCategories } from '@/data/products';
 
@@ -34,6 +35,7 @@ const ContactPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
+      <ScrollProgress />
       <Header />
       
       <main>

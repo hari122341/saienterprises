@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ScrollProgress from '@/components/ScrollProgress';
 import { companyInfo } from '@/data/products';
 
 const locations = [
@@ -31,6 +32,7 @@ const AboutPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
+      <ScrollProgress />
       <Header />
       
       <main>
