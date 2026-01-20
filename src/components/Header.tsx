@@ -1,138 +1,135 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, Mail, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Mail } from 'lucide-react';
 import saiLogo from '@/assets/sai-logo.png';
-import { productCategories } from '@/data/products';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isMachineryOpen, setIsMachineryOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Products', href: '#products', hasDropdown: true },
-    { name: 'Partners', href: '#partners' },
-    { name: 'Global Presence', href: '#global' },
-    { name: 'Contact', href: '#contact' },
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
+
+  const machineryLinks = [
+    { name: 'Pre-Press', href: '/machinery/pre-press' },
+    { name: 'Press', href: '/machinery/press' },
+    { name: 'Post-Press', href: '/machinery/post-press' },
+    { name: 'Corrugation', href: '/machinery/corrugation' },
   ];
+
+  const navLinks = [
+    { name: 'About', href: '/about' },
+    { name: 'Machinery', href: '/machinery', hasDropdown: true },
+    { name: 'Brands', href: '/brands' },
+    { name: 'Global', href: '/global' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const isHomePage = location.pathname === '/';
+  const showWhiteText = isHomePage && !isScrolled;
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-md py-2'
+          ? 'bg-background/95 backdrop-blur-md shadow-sm py-3'
           : 'bg-transparent py-4'
       }`}
     >
       <div className="container-wide">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-3"
-          >
+          <Link to="/" className="flex items-center gap-3">
             <img
               src={saiLogo}
               alt="Sai Enterprises"
-              className={`transition-all duration-300 ${
-                isScrolled ? 'h-12' : 'h-14'
-              }`}
+              className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12'}`}
             />
-          </motion.a>
+          </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link, index) => (
-              <motion.div
+          <nav className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <div
                 key={link.name}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="relative group"
-                onMouseEnter={() => link.hasDropdown && setIsProductsOpen(true)}
-                onMouseLeave={() => link.hasDropdown && setIsProductsOpen(false)}
+                className="relative"
+                onMouseEnter={() => link.hasDropdown && setIsMachineryOpen(true)}
+                onMouseLeave={() => link.hasDropdown && setIsMachineryOpen(false)}
               >
-                <a
-                  href={link.href}
-                  className={`flex items-center gap-1 font-medium transition-colors hover:text-accent ${
-                    isScrolled ? 'text-foreground' : 'text-white'
-                  }`}
+                <Link
+                  to={link.href}
+                  className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+                    showWhiteText
+                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      : 'text-foreground hover:text-primary hover:bg-secondary'
+                  } ${location.pathname.startsWith(link.href) && link.href !== '/machinery' ? 'bg-primary/10 text-primary' : ''}`}
                 >
                   {link.name}
                   {link.hasDropdown && <ChevronDown className="w-4 h-4" />}
-                </a>
+                </Link>
 
-                {/* Products Dropdown */}
+                {/* Machinery Dropdown */}
                 {link.hasDropdown && (
                   <AnimatePresence>
-                    {isProductsOpen && (
+                    {isMachineryOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-64 bg-card rounded-lg shadow-xl border border-border overflow-hidden"
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full left-0 mt-1 w-48 bg-card rounded-xl shadow-industrial-lg border border-border overflow-hidden"
                       >
-                        {productCategories.map((category) => (
-                          <a
-                            key={category.id}
-                            href={`#${category.slug}`}
-                            className="block px-4 py-3 hover:bg-secondary transition-colors"
-                          >
-                            <span className="font-medium text-foreground">
-                              {category.name}
-                            </span>
-                            <p className="text-sm text-muted-foreground mt-0.5 line-clamp-1">
-                              {category.description}
-                            </p>
-                          </a>
-                        ))}
+                        <div className="py-2">
+                          {machineryLinks.map((item) => (
+                            <Link
+                              key={item.name}
+                              to={item.href}
+                              className={`block px-4 py-2.5 text-sm hover:bg-secondary transition-colors ${
+                                location.pathname === item.href ? 'text-primary bg-primary/5' : 'text-foreground'
+                              }`}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 )}
-              </motion.div>
+              </div>
             ))}
           </nav>
 
-          {/* Contact Info - Desktop */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="hidden lg:flex items-center gap-4"
-          >
-            <a
-              href="mailto:reddydayaker@gmail.com"
-              className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-accent ${
-                isScrolled ? 'text-muted-foreground' : 'text-white/80'
-              }`}
+          {/* CTA Button */}
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              to="/contact"
+              className="px-5 py-2.5 bg-primary text-primary-foreground font-medium text-sm rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
             >
-              <Mail className="w-4 h-4" />
-              <span className="hidden xl:inline">reddydayaker@gmail.com</span>
-            </a>
-          </motion.div>
+              Get in Touch
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`lg:hidden p-2 rounded-md transition-colors ${
-              isScrolled
-                ? 'text-foreground hover:bg-secondary'
-                : 'text-white hover:bg-white/10'
+            className={`lg:hidden p-2 rounded-lg transition-colors ${
+              showWhiteText
+                ? 'text-white hover:bg-white/10'
+                : 'text-foreground hover:bg-secondary'
             }`}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -147,28 +144,59 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             className="lg:hidden bg-background border-t border-border"
           >
-            <div className="container-wide py-4 space-y-2">
+            <div className="container-wide py-4 space-y-1">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 px-4 text-foreground font-medium hover:bg-secondary rounded-md transition-colors"
-                >
-                  {link.name}
-                </a>
+                <div key={link.name}>
+                  {link.hasDropdown ? (
+                    <>
+                      <button
+                        onClick={() => setIsMachineryOpen(!isMachineryOpen)}
+                        className="w-full flex items-center justify-between py-3 px-4 text-foreground font-medium hover:bg-secondary rounded-lg transition-colors"
+                      >
+                        {link.name}
+                        <ChevronDown className={`w-4 h-4 transition-transform ${isMachineryOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      <AnimatePresence>
+                        {isMachineryOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="pl-4 space-y-1"
+                          >
+                            {machineryLinks.map((item) => (
+                              <Link
+                                key={item.name}
+                                to={item.href}
+                                className="block py-2.5 px-4 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="block py-3 px-4 text-foreground font-medium hover:bg-secondary rounded-lg transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
               ))}
               <div className="pt-4 border-t border-border">
-                <a
-                  href="mailto:reddydayaker@gmail.com"
-                  className="flex items-center gap-2 py-3 px-4 text-muted-foreground hover:text-primary"
+                <Link
+                  to="/contact"
+                  className="block w-full py-3 px-4 bg-primary text-primary-foreground font-medium text-center rounded-lg"
                 >
-                  <Mail className="w-4 h-4" />
-                  reddydayaker@gmail.com
-                </a>
+                  Get in Touch
+                </Link>
               </div>
             </div>
           </motion.div>
