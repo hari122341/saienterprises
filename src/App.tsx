@@ -15,7 +15,7 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 const MachineryHub = lazy(() => import("./pages/MachineryHub"));
 const MachineryCategory = lazy(() => import("./pages/MachineryCategory"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
-const BrandsPage = lazy(() => import("./pages/BrandsPage"));
+const PartnersPage = lazy(() => import("./pages/PartnersPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -36,7 +36,7 @@ const AnimatedRoutes = () => {
           <Route path="/machinery" element={<MachineryHub />} />
           <Route path="/machinery/:categorySlug" element={<MachineryCategory />} />
           <Route path="/machinery/:categorySlug/:productId" element={<ProductDetail />} />
-          <Route path="/brands" element={<BrandsPage />} />
+          <Route path="/partners" element={<PartnersPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

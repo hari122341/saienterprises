@@ -11,7 +11,7 @@ const BrandPartnersSection = () => {
   const duplicatedBrands = [...partnerBrands, ...partnerBrands, ...partnerBrands];
 
   return (
-    <section ref={containerRef} className="py-24 sm:py-32 md:py-40 bg-secondary/30 overflow-hidden">
+    <section id="partners" ref={containerRef} className="py-16 sm:py-20 md:py-24 bg-secondary/30 overflow-hidden">
       <div className="px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -19,7 +19,7 @@ const BrandPartnersSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
+            className="text-center mb-10 sm:mb-12"
           >
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
@@ -35,7 +35,7 @@ const BrandPartnersSection = () => {
               />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-              World-class <span className="text-primary italic">brands.</span>
+              World-class <span className="text-primary italic">partners.</span>
             </h2>
           </motion.div>
         </div>
@@ -76,7 +76,7 @@ const BrandPartnersSection = () => {
       </div>
 
       {/* Scrolling Marquee - Row 2 (Reverse, slightly faster) */}
-      <div className="relative mb-16">
+      <div className="relative mb-10">
         <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-secondary/100 via-secondary/80 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-secondary/100 via-secondary/80 to-transparent z-10 pointer-events-none" />
         

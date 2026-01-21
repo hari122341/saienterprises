@@ -8,7 +8,7 @@ import ScrollProgress from '@/components/ScrollProgress';
 import PageTransition from '@/components/PageTransition';
 import { partnerBrands } from '@/data/products';
 
-const BrandsPage = () => {
+const PartnersPage = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const brandsRef = useRef<HTMLDivElement>(null);
   const brandsInView = useInView(brandsRef, { once: true });
@@ -29,7 +29,7 @@ const BrandsPage = () => {
       
       <main>
         {/* Hero */}
-        <section ref={heroRef} className="relative min-h-[70vh] flex items-center justify-center bg-foreground overflow-hidden">
+        <section ref={heroRef} className="relative min-h-[60vh] flex items-center justify-center bg-foreground overflow-hidden">
           {/* Animated gradient background */}
           <motion.div 
             className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-primary/15 blur-[120px]"
@@ -88,13 +88,13 @@ const BrandsPage = () => {
         </section>
 
         {/* Brand Grid - Single, Clean Layout */}
-        <section ref={brandsRef} className="py-24 sm:py-32 px-6 sm:px-8 md:px-16 lg:px-24 bg-background">
+        <section ref={brandsRef} className="py-16 sm:py-20 px-6 sm:px-8 md:px-16 lg:px-24 bg-background">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={brandsInView ? { opacity: 1, y: 0 } : {}}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-10"
             >
               <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                 <span className="w-8 h-px bg-primary" />
@@ -152,7 +152,7 @@ const BrandsPage = () => {
         </section>
 
         {/* HPM Exclusive Section */}
-        <section className="py-24 sm:py-32 px-6 sm:px-8 md:px-16 lg:px-24 bg-primary overflow-hidden">
+        <section className="py-16 sm:py-20 px-6 sm:px-8 md:px-16 lg:px-24 bg-primary overflow-hidden">
           <div className="max-w-4xl mx-auto text-center relative">
             {/* Floating decorative elements */}
             <motion.div 
@@ -172,7 +172,7 @@ const BrandsPage = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="inline-flex items-center gap-3 mb-8">
+              <div className="inline-flex items-center gap-3 mb-5">
                 <Star className="w-4 h-4 text-primary-foreground/40" />
                 <span className="text-[10px] uppercase tracking-[0.25em] text-primary-foreground/50">
                   Exclusive Partnership
@@ -181,7 +181,7 @@ const BrandsPage = () => {
               </div>
               
               <motion.h2 
-                className="font-black text-6xl sm:text-7xl md:text-8xl text-primary-foreground tracking-wider mb-6"
+                className="font-black text-5xl sm:text-6xl md:text-7xl text-primary-foreground tracking-wider mb-4"
                 initial={{ scale: 0.9, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
@@ -198,7 +198,7 @@ const BrandsPage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 sm:py-32 px-6 sm:px-8 md:px-16 lg:px-24 bg-secondary/30">
+        <section className="py-16 sm:py-20 px-6 sm:px-8 md:px-16 lg:px-24 bg-secondary/30">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -236,4 +236,4 @@ const BrandsPage = () => {
   );
 };
 
-export default BrandsPage;
+export default PartnersPage;

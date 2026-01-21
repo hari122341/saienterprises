@@ -19,7 +19,7 @@ const trustPoints = [
   {
     icon: Handshake,
     value: '8+',
-    label: 'Global Brands',
+    label: 'Global Partners',
     description: 'Heidelberg, Komori & more',
   },
   {
