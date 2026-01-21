@@ -36,6 +36,7 @@ const ServicesSection = () => {
   const [selectedService, setSelectedService] = useState('General Inquiry');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   
   const { scrollYProgress } = useScroll({
@@ -48,7 +49,7 @@ const ServicesSection = () => {
 
   return (
     <>
-      <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-background overflow-hidden">
+      <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
         {/* Premium decorative elements */}
         <motion.div 
           className="absolute top-20 right-20 w-2 h-2 rounded-full bg-primary"
@@ -81,9 +82,9 @@ const ServicesSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
-              className="mb-16 sm:mb-24"
+              className="mb-12 sm:mb-16"
             >
-              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8">
                 <div>
                   <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                     <motion.span 
@@ -99,13 +100,87 @@ const ServicesSection = () => {
                   </h2>
                 </div>
                 <p className="text-muted-foreground max-w-md text-base lg:text-lg leading-relaxed lg:text-right">
-                  Core capabilities that have driven success for over two decades across continents.
+                  Core capabilities that have driven success for over two decades.
                 </p>
               </div>
             </motion.div>
 
-            {/* Services Grid */}
-            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+            {/* Mobile Horizontal Scroll */}
+            <div 
+              ref={scrollRef}
+              className="md:hidden -mx-6 px-6 overflow-x-auto scrollbar-hide"
+              style={{ scrollSnapType: 'x mandatory' }}
+            >
+              <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
+                {services.map((service, index) => {
+                  const Icon = service.icon;
+                  
+                  return (
+                    <motion.div
+                      key={service.title}
+                      initial={{ opacity: 0, x: 40 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      onClick={() => {
+                        setSelectedService(service.title);
+                        setIsModalOpen(true);
+                      }}
+                      className={`flex-shrink-0 w-[280px] cursor-pointer overflow-hidden transition-all duration-500 ${
+                        service.highlight 
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-card border border-border'
+                      }`}
+                      style={{ scrollSnapAlign: 'start' }}
+                    >
+                      <div className="relative p-6">
+                        {/* Background number */}
+                        <span className={`absolute top-4 right-4 text-[80px] font-serif leading-none pointer-events-none ${
+                          service.highlight ? 'text-primary-foreground/5' : 'text-foreground/[0.03]'
+                        }`}>
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+
+                        {/* Icon */}
+                        <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${
+                          service.highlight ? 'bg-primary-foreground/10' : 'bg-primary/10'
+                        }`}>
+                          <Icon className={`w-5 h-5 ${service.highlight ? 'text-primary-foreground' : 'text-primary'}`} />
+                          {service.highlight && (
+                            <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-primary-foreground/60" />
+                          )}
+                        </div>
+
+                        {/* Content */}
+                        <h3 className={`font-serif text-xl sm:text-2xl mb-3 ${
+                          service.highlight ? 'text-primary-foreground' : 'text-foreground'
+                        }`}>
+                          {service.title}
+                        </h3>
+                        
+                        <p className={`text-sm leading-relaxed mb-4 ${
+                          service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                        }`}>
+                          {service.description}
+                        </p>
+
+                        {/* Stats badge */}
+                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+                          service.highlight 
+                            ? 'bg-primary-foreground/10 text-primary-foreground' 
+                            : 'bg-secondary text-foreground'
+                        }`}>
+                          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
+                          {service.stats}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Desktop Grid */}
+            <div className="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8">
               {services.map((service, index) => {
                 const Icon = service.icon;
                 const isHovered = hoveredIndex === index;
@@ -124,7 +199,7 @@ const ServicesSection = () => {
                     }}
                     className={`group relative cursor-pointer overflow-hidden transition-all duration-500 ${
                       service.highlight 
-                        ? 'bg-primary text-primary-foreground md:col-span-2 lg:col-span-1' 
+                        ? 'bg-primary text-primary-foreground' 
                         : 'bg-card border border-border hover:border-primary/30'
                     }`}
                   >
@@ -141,9 +216,7 @@ const ServicesSection = () => {
                       {/* Icon */}
                       <motion.div 
                         className={`relative w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${
-                          service.highlight 
-                            ? 'bg-primary-foreground/10' 
-                            : 'bg-primary/10'
+                          service.highlight ? 'bg-primary-foreground/10' : 'bg-primary/10'
                         }`}
                         animate={isHovered ? { scale: 1.1, rotate: 5 } : { scale: 1, rotate: 0 }}
                         transition={{ duration: 0.3 }}

@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Send, Phone, Mail, MapPin, ArrowRight, Sparkles } from 'lucide-react';
+import { Send, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { companyInfo } from '@/data/products';
 import { z } from 'zod';
-import { useRef } from 'react';
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
   company: z.string().trim().max(100).optional(),
   email: z.string().trim().email("Please enter a valid email").max(255),
+  phone: z.string().trim().max(20).optional(),
   message: z.string().trim().min(1, "Message is required").max(2000),
 });
 
@@ -22,6 +22,7 @@ const ContactSection = () => {
     name: '',
     company: '',
     email: '',
+    phone: '',
     message: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -35,10 +36,10 @@ const ContactSection = () => {
       contactSchema.parse(formData);
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "Enquiry Sent",
+        title: "Message Sent",
         description: "We'll respond within 24 to 48 business hours.",
       });
-      setFormData({ name: '', company: '', email: '', message: '' });
+      setFormData({ name: '', company: '', email: '', phone: '', message: '' });
       setErrors({});
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -64,45 +65,26 @@ const ContactSection = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-foreground overflow-hidden">
-      {/* Premium decorative background */}
-      <div className="absolute inset-0 opacity-[0.03]">
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
+      {/* Subtle background */}
+      <div className="absolute inset-0 opacity-[0.02]">
         <div 
           className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(90deg, hsl(var(--background)) 1px, transparent 1px),
-                              linear-gradient(hsl(var(--background)) 1px, transparent 1px)`,
-            backgroundSize: '80px 80px'
+            backgroundImage: `radial-gradient(circle at center, hsl(var(--foreground)) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px'
           }}
         />
       </div>
 
-      {/* Floating orbs */}
-      <motion.div 
-        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px] pointer-events-none"
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.15, 0.1]
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
-      <motion.div 
-        className="absolute bottom-1/3 left-1/4 w-64 h-64 rounded-full bg-primary/5 blur-[100px] pointer-events-none"
-        animate={{ 
-          scale: [1.2, 1, 1.2],
-          opacity: [0.05, 0.1, 0.05]
-        }}
-        transition={{ duration: 12, repeat: Infinity }}
-      />
-
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
+            className="text-center mb-12 sm:mb-16"
           >
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
@@ -117,140 +99,24 @@ const ContactSection = () => {
                 animate={isInView ? { scaleX: 1 } : {}}
               />
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-background leading-tight mb-4">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-4">
               Let's start a <span className="text-primary italic">conversation.</span>
             </h2>
-            <p className="text-background/60 max-w-lg mx-auto text-base sm:text-lg">
-              Ready to transform your print production? We typically respond within 24 hours.
+            <p className="text-muted-foreground max-w-lg mx-auto text-base sm:text-lg">
+              Ready to elevate your print production? We typically respond within 24 hours.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-            {/* Contact Info Cards */}
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+            {/* Contact Form - Modern Card */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-2 space-y-4"
-            >
-              {/* Phone Card */}
-              <motion.div 
-                className="group p-6 sm:p-8 bg-background/5 border border-background/10 hover:border-primary/30 transition-all duration-300"
-                whileHover={{ x: 5 }}
-              >
-                <div className="flex items-start gap-4">
-                  <motion.div 
-                    className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0"
-                    whileHover={{ scale: 1.1, rotate: 10 }}
-                  >
-                    <Phone className="w-5 h-5 text-primary" />
-                  </motion.div>
-                  <div>
-                    <h4 className="text-sm font-medium text-background mb-3">Call Us</h4>
-                    <div className="space-y-1">
-                      {companyInfo.phones.map(phone => (
-                        <a 
-                          key={phone}
-                          href={`tel:${phone.replace(/\s/g, '')}`}
-                          className="block text-background/70 hover:text-primary transition-colors text-base"
-                        >
-                          {phone}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Email Card */}
-              <motion.div 
-                className="group p-6 sm:p-8 bg-background/5 border border-background/10 hover:border-primary/30 transition-all duration-300"
-                whileHover={{ x: 5 }}
-              >
-                <div className="flex items-start gap-4">
-                  <motion.div 
-                    className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0"
-                    whileHover={{ scale: 1.1, rotate: 10 }}
-                  >
-                    <Mail className="w-5 h-5 text-primary" />
-                  </motion.div>
-                  <div className="min-w-0 flex-1">
-                    <h4 className="text-sm font-medium text-background mb-3">Email Us</h4>
-                    <div className="space-y-1">
-                      {companyInfo.emails.map(email => (
-                        <a 
-                          key={email}
-                          href={`mailto:${email}`}
-                          className="block text-background/70 hover:text-primary transition-colors text-base break-all"
-                        >
-                          {email}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Location Card */}
-              <motion.div 
-                className="group p-6 sm:p-8 bg-primary"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
-                    <MapPin className="w-5 h-5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-primary-foreground/80 mb-2">Head Office</h4>
-                    <p className="font-serif text-2xl text-primary-foreground mb-1">
-                      {companyInfo.locations.headquarters.city}
-                    </p>
-                    <p className="text-primary-foreground/60 text-sm">
-                      {companyInfo.locations.headquarters.state}, India
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Sparkle decoration */}
-                <motion.div 
-                  className="absolute top-4 right-4"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                >
-                  <Sparkles className="w-5 h-5 text-primary-foreground/20" />
-                </motion.div>
-              </motion.div>
-
-              {/* Experience badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.5 }}
-                className="flex items-center gap-4 p-6 bg-background/5 border border-background/10"
-              >
-                <span className="font-serif text-4xl sm:text-5xl text-primary">24+</span>
-                <div>
-                  <p className="text-background font-medium">Years of Excellence</p>
-                  <p className="text-background/50 text-sm">Trusted across continents</p>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="lg:col-span-3"
+              className="order-2 lg:order-1"
             >
-              <form onSubmit={handleSubmit} className="bg-background p-8 sm:p-10 md:p-12 shadow-2xl">
-                <div className="mb-8">
-                  <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-2">Send us a message</h3>
-                  <p className="text-muted-foreground text-sm">Fill in the form below and we'll get back to you.</p>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-6 mb-6">
+              <form onSubmit={handleSubmit} className="bg-card border border-border p-6 sm:p-8 md:p-10 shadow-lg">
+                <div className="grid sm:grid-cols-2 gap-5 mb-5">
                   {/* Name */}
                   <div>
                     <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
@@ -261,17 +127,10 @@ const ContactSection = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`
-                        w-full px-4 py-3.5 bg-secondary/50 border text-foreground text-base
-                        focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-background
-                        transition-all placeholder:text-muted-foreground/50
-                        ${errors.name ? 'border-destructive' : 'border-border'}
-                      `}
+                      className={`w-full px-4 py-3 bg-background border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 ${errors.name ? 'border-destructive' : 'border-border'}`}
                       placeholder="Your name"
                     />
-                    {errors.name && (
-                      <p className="text-xs text-destructive mt-1">{errors.name}</p>
-                    )}
+                    {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
                   </div>
 
                   {/* Company */}
@@ -284,37 +143,47 @@ const ContactSection = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-secondary/50 border border-border text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-background transition-all placeholder:text-muted-foreground/50"
+                      className="w-full px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
                       placeholder="Company name"
                     />
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="mb-6">
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
-                    Email <span className="text-primary">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`
-                      w-full px-4 py-3.5 bg-secondary/50 border text-foreground text-base
-                      focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-background
-                      transition-all placeholder:text-muted-foreground/50
-                      ${errors.email ? 'border-destructive' : 'border-border'}
-                    `}
-                    placeholder="your@email.com"
-                  />
-                  {errors.email && (
-                    <p className="text-xs text-destructive mt-1">{errors.email}</p>
-                  )}
+                <div className="grid sm:grid-cols-2 gap-5 mb-5">
+                  {/* Email */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                      Email <span className="text-primary">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 bg-background border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 ${errors.email ? 'border-destructive' : 'border-border'}`}
+                      placeholder="your@email.com"
+                    />
+                    {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                      Phone
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
+                      placeholder="+91 00000 00000"
+                    />
+                  </div>
                 </div>
 
                 {/* Message */}
-                <div className="mb-8">
+                <div className="mb-6">
                   <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
                     Message <span className="text-primary">*</span>
                   </label>
@@ -322,38 +191,114 @@ const ContactSection = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows={5}
-                    className={`
-                      w-full px-4 py-3.5 bg-secondary/50 border text-foreground text-base resize-none
-                      focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-background
-                      transition-all placeholder:text-muted-foreground/50
-                      ${errors.message ? 'border-destructive' : 'border-border'}
-                    `}
+                    rows={4}
+                    className={`w-full px-4 py-3 bg-background border text-foreground text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 ${errors.message ? 'border-destructive' : 'border-border'}`}
                     placeholder="Tell us about your machinery requirements..."
                   />
-                  {errors.message && (
-                    <p className="text-xs text-destructive mt-1">{errors.message}</p>
-                  )}
+                  {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
                 </div>
 
                 {/* Submit */}
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all text-base font-medium"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all text-sm font-semibold tracking-wide"
                 >
                   {isSubmitting ? (
                     <span>Sending...</span>
                   ) : (
                     <>
-                      <span>Send Enquiry</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <span>Send Message</span>
+                      <Send className="w-4 h-4" />
                     </>
                   )}
                 </motion.button>
               </form>
+            </motion.div>
+
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8 }}
+              className="order-1 lg:order-2 space-y-6"
+            >
+              {/* Quick Info Cards */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                {/* Phone */}
+                <div className="group p-5 bg-secondary/50 border border-border hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Phone className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">Call Us</h4>
+                      <div className="space-y-1">
+                        {companyInfo.phones.slice(0, 2).map(phone => (
+                          <a 
+                            key={phone}
+                            href={`tel:${phone.replace(/\s/g, '')}`}
+                            className="block text-foreground hover:text-primary transition-colors text-sm"
+                          >
+                            {phone}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="group p-5 bg-secondary/50 border border-border hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Mail className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">Email Us</h4>
+                      <a 
+                        href={`mailto:${companyInfo.emails[0]}`}
+                        className="block text-foreground hover:text-primary transition-colors text-sm truncate"
+                      >
+                        {companyInfo.emails[0]}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Head Office Highlight */}
+              <motion.div 
+                className="p-6 bg-primary"
+                whileHover={{ scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-primary-foreground" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs uppercase tracking-wider text-primary-foreground/70 mb-2 font-medium">Head Office</h4>
+                    <p className="font-serif text-xl sm:text-2xl text-primary-foreground mb-1">
+                      {companyInfo.locations.headquarters.city}
+                    </p>
+                    <p className="text-primary-foreground/60 text-sm">
+                      {companyInfo.locations.headquarters.state}, India
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Experience note */}
+              <div className="flex items-center gap-4 p-4 border border-border">
+                <span className="font-serif text-3xl text-primary">24+</span>
+                <div>
+                  <p className="text-foreground font-medium text-sm">Years of Excellence</p>
+                  <p className="text-muted-foreground text-xs">Trusted across two continents</p>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
