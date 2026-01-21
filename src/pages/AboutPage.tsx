@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
 import PageTransition from '@/components/PageTransition';
+import Timeline from '@/components/Timeline';
 import { companyInfo } from '@/data/products';
 import aboutImage from '@/assets/about-locations.jpg';
 
@@ -124,6 +125,9 @@ const AboutPage = () => {
             </motion.div>
           </div>
         </section>
+
+        {/* Timeline */}
+        <Timeline />
 
         {/* Services - Simple List */}
         <section className="border-t border-border py-14 sm:py-20 md:py-28 px-5 sm:px-8 md:px-16 lg:px-24 bg-secondary/30">
