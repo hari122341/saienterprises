@@ -56,7 +56,14 @@ const Timeline = () => {
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8 }}
       >
-        <p className="caption mb-8 sm:mb-12">Our Journey</p>
+        <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-8 sm:mb-12">
+          <motion.span 
+            className="w-8 h-px bg-primary"
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+          />
+          Our Journey
+        </span>
         
         <div className="relative max-w-4xl">
           {/* Timeline line */}

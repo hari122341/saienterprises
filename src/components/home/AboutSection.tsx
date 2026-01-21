@@ -47,15 +47,15 @@ const AboutSection = () => {
             className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-between min-h-[350px] sm:min-h-[400px] md:min-h-[500px] group hover:border-primary/20 transition-colors duration-500"
           >
             <div>
-              <motion.span 
-                className="inline-block text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6 sm:mb-8"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
+              <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6 sm:mb-8">
+                <motion.span 
+                  className="w-8 h-px bg-primary"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                />
                 About Us
-              </motion.span>
+              </span>
               <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground leading-[1.1] mb-4 sm:mb-6">
                 More than<br />
                 <span className="text-primary">machinery</span> suppliers.
