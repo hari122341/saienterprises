@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 import { motion } from "framer-motion";
 
-import heroIndustrial from "@/assets/hero-industrial.jpg";
+import aboutLocations from "@/assets/about-locations.jpg";
 import { useParallaxScroll } from "@/hooks/useParallaxScroll";
 
 type AboutHeroProps = {
@@ -25,16 +25,31 @@ const AboutHero = ({ experience }: AboutHeroProps) => {
         style={{ y, scale, opacity }}
       >
         <img
-          src={heroIndustrial}
-          alt="Industrial machinery and workshop environment"
+          src={aboutLocations}
+          alt="Sai Enterprises locations and service presence"
           className="w-full h-full object-cover"
-          style={{ filter: "saturate(0.75) brightness(0.72) contrast(1.12)" }}
+          style={{
+            filter:
+              "saturate(0.82) brightness(0.68) contrast(1.08) hue-rotate(-10deg)",
+          }}
           decoding="async"
         />
 
-        {/* Editorial overlays (vignette + subtle technical grid) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/35 via-transparent to-background/35" />
+        {/* Editorial overlays (cool grade + vignette + grain + subtle technical grid) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30" />
+
+        {/* Soft grain (no external assets) */}
+        <div
+          className="absolute inset-0 opacity-[0.10] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 30%, hsl(var(--foreground)/0.14) 0, transparent 45%), radial-gradient(circle at 70% 40%, hsl(var(--foreground)/0.10) 0, transparent 42%), radial-gradient(circle at 45% 75%, hsl(var(--foreground)/0.12) 0, transparent 48%)",
+            backgroundSize: "180px 180px",
+            filter: "blur(0.2px)",
+          }}
+        />
+
         <div
           className="absolute inset-0 opacity-[0.18]"
           style={{
