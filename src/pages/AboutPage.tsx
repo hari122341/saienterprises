@@ -7,7 +7,7 @@ import ScrollProgress from '@/components/ScrollProgress';
 import PageTransition from '@/components/PageTransition';
 import Timeline from '@/components/Timeline';
 import { companyInfo } from '@/data/products';
-import aboutImage from '@/assets/about-locations.jpg';
+import AboutHero from '@/components/about/AboutHero';
 
 const locations = [
   { city: 'Hyderabad', role: 'Head Office', country: 'India' },
@@ -33,51 +33,7 @@ const AboutPage = () => {
       <Header />
       
       <main>
-        {/* Hero Section with Image */}
-        <section className="relative min-h-[60vh] sm:min-h-[70vh] flex items-end overflow-hidden">
-          {/* Background Image */}
-          <motion.div 
-            className="absolute inset-0"
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          >
-            <img 
-              src={aboutImage} 
-              alt="" 
-              className="w-full h-full object-cover"
-              style={{ filter: 'saturate(0.7) brightness(0.85) contrast(1.05)' }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
-          </motion.div>
-
-          {/* Content */}
-          <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16 md:pb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-3xl"
-            >
-              <motion.p 
-                className="caption mb-4 sm:mb-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                About
-              </motion.p>
-              <h1 className="text-foreground mb-6 sm:mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif">
-                We've been here<br />
-                long enough.
-              </h1>
-              <p className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-xl leading-relaxed">
-                {companyInfo.experience} of excellence in graphic and corrugation machinery. 
-                Building long-term relationships across India and East Africa.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        <AboutHero experience={companyInfo.experience} />
 
         {/* Story - Calm Narrative */}
         <section className="py-14 sm:py-20 md:py-28 px-5 sm:px-8 md:px-16 lg:px-24">
