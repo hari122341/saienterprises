@@ -30,12 +30,15 @@ const AboutHero = ({ experience }: AboutHeroProps) => {
           className="w-full h-full object-cover"
           style={{
             filter:
-              "saturate(0.82) brightness(0.68) contrast(1.08) hue-rotate(-10deg)",
+              "saturate(0.80) brightness(0.74) contrast(1.02) hue-rotate(-10deg) blur(0.6px)",
           }}
           decoding="async"
         />
 
         {/* Editorial overlays (cool grade + vignette + grain + subtle technical grid) */}
+        {/* Header readability shield (keeps navbar crisp regardless of photo) */}
+        <div className="absolute inset-x-0 top-0 h-32 sm:h-40 md:h-48 bg-gradient-to-b from-background/98 via-background/80 to-transparent backdrop-blur-sm" />
+
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30" />
 
