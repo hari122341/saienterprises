@@ -1,67 +1,74 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { ArrowUpRight, Layers, Printer, Scissors, Box } from 'lucide-react';
 import { productCategories } from '@/data/products';
-import machineryPrepress from '@/assets/machinery-prepress.jpg';
-import machineryDetail from '@/assets/machinery-detail.jpg';
-import machineryPostpress from '@/assets/machinery-postpress.jpg';
-import machineryCorrugation from '@/assets/machinery-corrugation.jpg';
 
-const categoryImages: Record<string, string> = {
-  'pre-press': machineryPrepress,
-  'press': machineryDetail,
-  'post-press': machineryPostpress,
-  'corrugation': machineryCorrugation,
+const categoryIcons = {
+  'pre-press': Layers,
+  'press': Printer,
+  'post-press': Scissors,
+  'corrugation': Box,
 };
 
 const OfferingsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-foreground overflow-hidden">
-      {/* Background Image */}
-      <motion.div 
-        className="absolute inset-0"
-        style={{ scale: imageScale }}
-      >
-        <motion.img 
-          key={activeIndex}
-          src={categoryImages[productCategories[activeIndex]?.slug] || machineryPrepress}
-          alt=""
-          className="w-full h-full object-cover"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
-          transition={{ duration: 0.8 }}
-          style={{ filter: 'grayscale(0.5)' }}
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(90deg, hsl(var(--background)) 1px, transparent 1px),
+                              linear-gradient(hsl(var(--background)) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70" />
-      </motion.div>
+      </div>
 
-      <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20 py-20 sm:py-28 md:py-36">
+      {/* Floating orbs */}
+      <motion.div 
+        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[100px] pointer-events-none"
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.15, 0.1]
+        }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+      <motion.div 
+        className="absolute bottom-1/3 left-1/4 w-64 h-64 rounded-full bg-primary/5 blur-[80px] pointer-events-none"
+        animate={{ 
+          scale: [1.2, 1, 1.2],
+          opacity: [0.05, 0.1, 0.05]
+        }}
+        transition={{ duration: 10, repeat: Infinity }}
+      />
+
+      <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16 sm:mb-20"
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16 sm:mb-20"
           >
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
                 className="w-8 h-px bg-primary"
                 initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
+                animate={isInView ? { scaleX: 1 } : {}}
               />
               Machinery
+              <motion.span 
+                className="w-8 h-px bg-primary"
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+              />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-background leading-tight">
               Complete print<br />
@@ -69,88 +76,116 @@ const OfferingsSection = () => {
             </h2>
           </motion.div>
 
-          {/* Interactive Category List */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Left - Category Navigation */}
-            <div className="space-y-0">
-              {productCategories.map((category, index) => (
+          {/* Category Cards Grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {productCategories.map((category, index) => {
+              const Icon = categoryIcons[category.slug as keyof typeof categoryIcons] || Box;
+              const isActive = activeIndex === index;
+              
+              return (
                 <motion.div
                   key={category.id}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   onMouseEnter={() => setActiveIndex(index)}
-                  className="group"
                 >
                   <Link
                     to={`/machinery/${category.slug}`}
-                    className={`flex items-center justify-between py-6 border-b transition-all duration-500 ${
-                      activeIndex === index 
-                        ? 'border-primary' 
-                        : 'border-background/10 hover:border-background/30'
+                    className={`group relative block p-6 sm:p-8 h-full min-h-[280px] sm:min-h-[320px] transition-all duration-500 ${
+                      isActive 
+                        ? 'bg-primary' 
+                        : 'bg-background/5 hover:bg-background/10 border border-background/10'
                     }`}
                   >
-                    <div className="flex items-baseline gap-4 sm:gap-6">
-                      <span className={`text-xs font-mono transition-colors duration-300 ${
-                        activeIndex === index ? 'text-primary' : 'text-background/30'
-                      }`}>
-                        0{index + 1}
-                      </span>
-                      <span className={`font-serif text-2xl sm:text-3xl md:text-4xl transition-all duration-300 ${
-                        activeIndex === index 
-                          ? 'text-background translate-x-2' 
-                          : 'text-background/50 group-hover:text-background/70'
-                      }`}>
-                        {category.name}
-                      </span>
-                    </div>
+                    {/* Number */}
+                    <span className={`absolute top-4 right-4 text-5xl sm:text-6xl font-serif transition-colors duration-300 ${
+                      isActive ? 'text-primary-foreground/10' : 'text-background/5'
+                    }`}>
+                      0{index + 1}
+                    </span>
+
+                    {/* Icon */}
                     <motion.div 
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        activeIndex === index 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'bg-background/10 text-background/30 group-hover:bg-background/20'
+                      className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 transition-all duration-300 ${
+                        isActive 
+                          ? 'bg-primary-foreground/10' 
+                          : 'bg-primary/10'
+                      }`}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      <Icon className={`w-6 h-6 transition-colors duration-300 ${
+                        isActive ? 'text-primary-foreground' : 'text-primary'
+                      }`} />
+                    </motion.div>
+
+                    {/* Content */}
+                    <h3 className={`font-serif text-2xl sm:text-3xl mb-3 transition-colors duration-300 ${
+                      isActive ? 'text-primary-foreground' : 'text-background'
+                    }`}>
+                      {category.name}
+                    </h3>
+                    
+                    <p className={`text-sm leading-relaxed mb-6 line-clamp-3 transition-colors duration-300 ${
+                      isActive ? 'text-primary-foreground/70' : 'text-background/50'
+                    }`}>
+                      {category.description}
+                    </p>
+
+                    {/* Products count */}
+                    <div className={`flex items-center gap-2 text-xs uppercase tracking-wider transition-colors duration-300 ${
+                      isActive ? 'text-primary-foreground/60' : 'text-background/40'
+                    }`}>
+                      <span>{category.products.length} Products</span>
+                    </div>
+
+                    {/* Arrow */}
+                    <motion.div 
+                      className={`absolute bottom-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        isActive 
+                          ? 'bg-primary-foreground text-primary' 
+                          : 'bg-background/10 text-background/50 group-hover:bg-primary group-hover:text-primary-foreground'
                       }`}
                       whileHover={{ scale: 1.1 }}
                     >
                       <ArrowUpRight className="w-4 h-4" />
                     </motion.div>
+
+                    {/* Bottom accent line */}
+                    <motion.div
+                      className={`absolute bottom-0 left-0 h-1 transition-all duration-500 ${
+                        isActive ? 'bg-primary-foreground/20' : 'bg-primary'
+                      }`}
+                      initial={{ width: 0 }}
+                      animate={{ width: isActive ? '100%' : '0%' }}
+                      whileHover={{ width: '100%' }}
+                    />
                   </Link>
                 </motion.div>
-              ))}
-            </div>
-
-            {/* Right - Active Category Details */}
-            <motion.div 
-              key={activeIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col justify-center"
-            >
-              <div className="relative aspect-[4/3] mb-8 overflow-hidden">
-                <motion.img 
-                  src={categoryImages[productCategories[activeIndex]?.slug]}
-                  alt={productCategories[activeIndex]?.name}
-                  className="w-full h-full object-cover"
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.8 }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-              </div>
-              <p className="text-background/60 text-sm sm:text-base leading-relaxed mb-6">
-                {productCategories[activeIndex]?.description}
-              </p>
-              <Link
-                to={`/machinery/${productCategories[activeIndex]?.slug}`}
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
-              >
-                <span>Explore {productCategories[activeIndex]?.name}</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
+              );
+            })}
           </div>
+
+          {/* View All Link */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-center mt-12 sm:mt-16"
+          >
+            <Link
+              to="/machinery"
+              className="inline-flex items-center gap-3 text-primary hover:text-primary/80 transition-colors"
+            >
+              <span className="text-sm font-medium tracking-wide">Explore all machinery</span>
+              <motion.div
+                className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center"
+                whileHover={{ x: 5 }}
+              >
+                <ArrowUpRight className="w-4 h-4" />
+              </motion.div>
+            </Link>
+          </motion.div>
         </div>
       </div>
     </section>

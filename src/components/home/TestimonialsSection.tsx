@@ -1,30 +1,47 @@
-import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Their machinery transformed our production line completely. Quality equipment and exceptional after-sales support.",
+    quote: "Their machinery transformed our production line completely. Quality equipment and exceptional after-sales support that we've never experienced before.",
     author: "Rajesh Kumar",
+    designation: "Production Director",
     company: "PrintPro Industries",
-    location: "Hyderabad",
+    location: "Hyderabad, India",
+    rating: 5,
   },
   {
-    quote: "We've partnered with Sai Enterprises for over 15 years. Their commitment to quality and service is unmatched.",
+    quote: "We've partnered with Sai Enterprises for over 15 years. Their commitment to quality and service is unmatched in the industry.",
     author: "Mohammed Ali",
-    company: "Graphic Solutions",
-    location: "Nairobi",
+    designation: "Managing Director",
+    company: "Graphic Solutions Ltd",
+    location: "Nairobi, Kenya",
+    rating: 5,
   },
   {
-    quote: "From consultation to installation, every step was handled with professionalism. Our Heidelberg press runs flawlessly.",
+    quote: "From consultation to installation, every step was handled with professionalism. Our Heidelberg press runs flawlessly thanks to their expertise.",
     author: "Priya Sharma",
+    designation: "Operations Manager",
     company: "Sharma Print Works",
-    location: "Delhi",
+    location: "New Delhi, India",
+    rating: 5,
   },
   {
-    quote: "The team understood our requirements perfectly and delivered exactly what we needed.",
+    quote: "The team understood our requirements perfectly and delivered exactly what we needed. Highly recommend their services to anyone in the printing industry.",
     author: "David Ochieng",
+    designation: "CEO",
     company: "East Africa Press",
-    location: "Mombasa",
+    location: "Mombasa, Kenya",
+    rating: 5,
+  },
+  {
+    quote: "Exceptional service and genuine parts. They've been our trusted partner for all our post-press equipment needs.",
+    author: "Vikram Patel",
+    designation: "Technical Head",
+    company: "Patel Packaging",
+    location: "Pune, India",
+    rating: 5,
   },
 ];
 
@@ -32,36 +49,42 @@ const TestimonialsSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const quoteY = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const orbY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-
+  // Auto-scroll with configurable speed
   useEffect(() => {
+    if (!isAutoPlaying) return;
+    
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    }, 4000); // 4 second interval for smooth reading
+    
     return () => clearInterval(interval);
-  }, []);
+  }, [isAutoPlaying]);
+
+  const handlePrev = () => {
+    setIsAutoPlaying(false);
+    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const handleNext = () => {
+    setIsAutoPlaying(false);
+    setActiveIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const handleDotClick = (index: number) => {
+    setIsAutoPlaying(false);
+    setActiveIndex(index);
+  };
 
   return (
-    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
-      {/* Parallax orbs */}
-      <motion.div 
-        className="absolute top-1/3 left-1/4 w-72 h-72 rounded-full bg-primary/10 blur-3xl pointer-events-none"
-        style={{ y: orbY }}
-      />
-      <motion.div 
-        className="absolute bottom-1/4 right-1/3 w-48 h-48 rounded-full bg-background/5 blur-2xl pointer-events-none"
-        style={{ y: useTransform(scrollYProgress, [0, 1], [-40, 40]) }}
-      />
+    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-background overflow-hidden">
+      {/* Subtle decorative elements */}
+      <div className="absolute top-20 left-20 w-32 h-32 border border-primary/5 rounded-full pointer-events-none" />
+      <div className="absolute bottom-20 right-20 w-48 h-48 border border-primary/5 rounded-full pointer-events-none" />
 
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -82,74 +105,117 @@ const TestimonialsSection = () => {
                 animate={isInView ? { scaleX: 1 } : {}}
               />
             </span>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
+              What our <span className="text-primary italic">clients</span> say
+            </h2>
           </motion.div>
 
-          {/* Quote Display */}
-          <div className="relative min-h-[300px] sm:min-h-[350px] flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -40 }}
-                transition={{ duration: 0.6 }}
-                className="text-center"
-              >
-                {/* Large Quote Mark */}
-                <motion.span 
-                  className="block font-serif text-[120px] sm:text-[180px] leading-none text-primary/20 mb-[-40px] sm:mb-[-60px]"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  "
-                </motion.span>
-                
-                {/* Quote */}
-                <blockquote className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-background leading-tight max-w-4xl mx-auto mb-10">
-                  {testimonials[activeIndex].quote}
-                </blockquote>
+          {/* Testimonial Slider */}
+          <div className="relative">
+            {/* Main testimonial card */}
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="bg-card border border-border p-8 sm:p-12 md:p-16 relative"
+            >
+              {/* Quote icon */}
+              <div className="absolute top-8 right-8 sm:top-12 sm:right-12">
+                <Quote className="w-12 h-12 sm:w-16 sm:h-16 text-primary/10" />
+              </div>
 
-                {/* Author */}
+              {/* Stars */}
+              <div className="flex gap-1 mb-6 sm:mb-8">
+                {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <Star className="w-5 h-5 fill-primary text-primary" />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Quote */}
+              <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8 sm:mb-12 max-w-4xl">
+                "{testimonials[activeIndex].quote}"
+              </blockquote>
+
+              {/* Author info */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 sm:pt-8 border-t border-border">
                 <div>
-                  <p className="text-background font-medium text-lg sm:text-xl mb-1">
+                  <p className="font-serif text-xl sm:text-2xl text-foreground mb-1">
                     {testimonials[activeIndex].author}
                   </p>
-                  <p className="text-background/50 text-sm">
+                  <p className="text-sm text-primary font-medium mb-1">
+                    {testimonials[activeIndex].designation}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
                     {testimonials[activeIndex].company}, {testimonials[activeIndex].location}
                   </p>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
 
-          {/* Navigation Dots */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.5 }}
-            className="flex justify-center gap-3 mt-12"
-          >
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className="relative group"
-              >
-                <span className={`block w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? 'bg-primary scale-125' : 'bg-background/20 hover:bg-background/40'
-                }`} />
-                {index === activeIndex && (
-                  <motion.span 
-                    className="absolute inset-0 rounded-full border border-primary"
-                    initial={{ scale: 1, opacity: 1 }}
-                    animate={{ scale: 2, opacity: 0 }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                )}
-              </button>
-            ))}
-          </motion.div>
+                {/* Navigation arrows */}
+                <div className="flex items-center gap-3">
+                  <motion.button
+                    onClick={handlePrev}
+                    className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </motion.button>
+                  <motion.button
+                    onClick={handleNext}
+                    className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Progress dots */}
+            <div className="flex justify-center gap-2 mt-8">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  className="relative group p-1"
+                >
+                  <span className={`block w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === activeIndex 
+                      ? 'bg-primary w-8' 
+                      : 'bg-border hover:bg-muted-foreground'
+                  }`} />
+                  {index === activeIndex && isAutoPlaying && (
+                    <motion.span 
+                      className="absolute inset-0 rounded-full border border-primary/50"
+                      initial={{ scale: 1, opacity: 1 }}
+                      animate={{ scale: 1.5, opacity: 0 }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Auto-play indicator */}
+            <motion.p 
+              className="text-center text-xs text-muted-foreground mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+            >
+              {isAutoPlaying ? 'Auto-scrolling' : 'Paused'} · {activeIndex + 1} of {testimonials.length}
+            </motion.p>
+          </div>
         </div>
       </div>
     </section>
