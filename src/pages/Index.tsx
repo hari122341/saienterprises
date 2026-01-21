@@ -19,7 +19,7 @@ const sections = [
   { id: 'offerings', label: 'Offerings' },
   { id: 'services', label: 'Services' },
   { id: 'partners', label: 'Partners' },
-  { id: 'global', label: 'Global' },
+  { id: 'presence', label: 'Presence' },
   { id: 'testimonials', label: 'Testimonials' },
   { id: 'why-us', label: 'Why Us' },
   { id: 'contact', label: 'Contact' },
@@ -42,7 +42,7 @@ const Index = () => {
           <div id="offerings"><OfferingsSection /></div>
           <div id="services"><ServicesSection /></div>
           <div id="partners"><BrandPartnersSection /></div>
-          <div id="global"><GlobalPresenceSection /></div>
+          <div id="presence"><GlobalPresenceSection /></div>
           <div id="testimonials"><TestimonialsSection /></div>
           <div id="why-us"><WhySaiSection /></div>
           <div id="contact"><ContactSection /></div>
