@@ -49,8 +49,11 @@ const BrandsPage = () => {
                 <h3 className="text-xl sm:text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors duration-300 font-serif">
                   {brand.name}
                 </h3>
-                <div className="flex items-center gap-4 sm:gap-6">
-                  <span className="text-xs sm:text-sm text-muted-foreground">{brand.country}</span>
+                <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/30 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary/60" />
+                    {brand.country}
+                  </span>
                   {brand.specialty && (
                     <>
                       <span className="text-muted-foreground/30 hidden sm:block">·</span>
