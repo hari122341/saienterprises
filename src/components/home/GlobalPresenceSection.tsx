@@ -1,218 +1,248 @@
 import { motion } from 'framer-motion';
+import { MapPin } from 'lucide-react';
 import { companyInfo } from '@/data/products';
 
 const GlobalPresenceSection = () => {
-  const allLocations = [
+  const locations = [
     { 
       city: companyInfo.locations.headquarters.city, 
       region: companyInfo.locations.headquarters.state,
       country: 'India',
-      type: 'Head Office',
       isHQ: true,
-      coordinates: { x: 72, y: 45 }
+      lat: 17.385,
+      lng: 78.486
     },
-    ...companyInfo.locations.branches.map((b, i) => ({ 
-      city: b.city, 
-      region: b.state || 'India',
-      country: 'India',
-      type: 'Branch',
-      isHQ: false,
-      coordinates: { x: 68 + i * 4, y: 38 + i * 8 }
-    })),
+    { city: 'New Delhi', region: 'Delhi', country: 'India', isHQ: false, lat: 28.613, lng: 77.209 },
+    { city: 'Pune', region: 'Maharashtra', country: 'India', isHQ: false, lat: 18.520, lng: 73.856 },
+    { city: 'Vijayawada', region: 'Andhra Pradesh', country: 'India', isHQ: false, lat: 16.506, lng: 80.648 },
     { 
       city: companyInfo.locations.overseas.city, 
       region: companyInfo.locations.overseas.country,
       country: 'Kenya',
-      type: 'Overseas',
       isHQ: false,
-      coordinates: { x: 55, y: 52 }
+      lat: -1.286,
+      lng: 36.817
     },
   ];
 
-  return (
-    <section className="relative bg-primary text-primary-foreground overflow-hidden">
-      {/* Decorative map grid */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
-          backgroundSize: '24px 24px'
-        }} />
-      </div>
+  // Convert lat/lng to SVG coordinates (simple mercator-like projection)
+  const toSvgCoords = (lat: number, lng: number) => {
+    // Focusing on India-Africa region
+    const x = ((lng - 30) / 70) * 100; // 30-100 degrees longitude
+    const y = ((35 - lat) / 50) * 100; // 35 to -15 degrees latitude
+    return { x: Math.max(5, Math.min(95, x)), y: Math.max(5, Math.min(95, y)) };
+  };
 
-      <div className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 max-w-7xl mx-auto">
-          
-          {/* Left: Content */}
+  return (
+    <section className="py-24 md:py-32 bg-secondary/30">
+      <div className="px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8 }}
+            className="mb-12 md:mb-16"
           >
-            <span className="inline-block text-[10px] uppercase tracking-[0.3em] text-primary-foreground/60 font-medium mb-6">
+            <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+              <span className="w-8 h-px bg-primary" />
               Global Presence
             </span>
-            
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-primary-foreground leading-[1.1] mb-8">
-              Serving clients across<br />
-              <span className="text-primary-foreground/70">two continents.</span>
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-4">
+              Serving clients across<br />two continents.
             </h2>
-
-            <p className="text-primary-foreground/70 text-lg leading-relaxed mb-12 max-w-lg">
-              From our headquarters in Hyderabad, we've expanded our reach across India and into East Africa, 
-              building lasting partnerships wherever print thrives.
+            <p className="text-muted-foreground max-w-lg text-base md:text-lg leading-relaxed">
+              From our headquarters in Hyderabad, we've expanded across India and into East Africa.
             </p>
+          </motion.div>
 
-            {/* Location Cards - Stacked */}
-            <div className="space-y-4">
-              {allLocations.map((location, index) => (
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+            {/* Map Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-3 relative bg-card border border-border rounded-sm overflow-hidden"
+            >
+              {/* SVG Map */}
+              <svg 
+                viewBox="0 0 100 100" 
+                className="w-full aspect-[4/3]"
+                style={{ background: 'linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--card)) 100%)' }}
+              >
+                {/* Grid pattern */}
+                <defs>
+                  <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="hsl(var(--border))" strokeWidth="0.3" opacity="0.5"/>
+                  </pattern>
+                </defs>
+                <rect width="100" height="100" fill="url(#grid)" />
+
+                {/* Simplified continent outlines */}
+                {/* India outline (simplified) */}
+                <motion.path
+                  d="M 65 25 Q 72 28 75 35 Q 78 42 76 52 Q 72 58 68 55 Q 64 50 62 42 Q 60 35 65 25"
+                  fill="none"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 2, delay: 0.2 }}
+                />
+                
+                {/* Africa outline (simplified - East Africa focus) */}
+                <motion.path
+                  d="M 15 35 Q 25 30 35 38 Q 40 50 35 65 Q 25 75 20 70 Q 12 60 15 35"
+                  fill="none"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 2, delay: 0.4 }}
+                />
+
+                {/* Connection lines between locations */}
+                {locations.filter(l => !l.isHQ).map((location, index) => {
+                  const hq = locations.find(l => l.isHQ)!;
+                  const from = toSvgCoords(hq.lat, hq.lng);
+                  const to = toSvgCoords(location.lat, location.lng);
+                  
+                  return (
+                    <motion.path
+                      key={location.city}
+                      d={`M ${from.x} ${from.y} Q ${(from.x + to.x) / 2} ${Math.min(from.y, to.y) - 10} ${to.x} ${to.y}`}
+                      fill="none"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth="0.3"
+                      strokeDasharray="2,2"
+                      opacity="0.4"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.6 + index * 0.15 }}
+                    />
+                  );
+                })}
+
+                {/* Location markers */}
+                {locations.map((location, index) => {
+                  const coords = toSvgCoords(location.lat, location.lng);
+                  
+                  return (
+                    <g key={location.city}>
+                      {/* Pulse ring for HQ */}
+                      {location.isHQ && (
+                        <motion.circle
+                          cx={coords.x}
+                          cy={coords.y}
+                          r="4"
+                          fill="none"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="0.5"
+                          initial={{ r: 2, opacity: 0.8 }}
+                          animate={{ r: 8, opacity: 0 }}
+                          transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                        />
+                      )}
+                      
+                      {/* Marker dot */}
+                      <motion.circle
+                        cx={coords.x}
+                        cy={coords.y}
+                        r={location.isHQ ? 2.5 : 1.5}
+                        fill={location.isHQ ? "hsl(var(--primary))" : "hsl(var(--foreground))"}
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.8 + index * 0.1, type: 'spring' }}
+                      />
+
+                      {/* City label */}
+                      <motion.text
+                        x={coords.x}
+                        y={coords.y - 4}
+                        textAnchor="middle"
+                        className="text-[2.5px] fill-foreground font-medium"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
+                      >
+                        {location.city}
+                      </motion.text>
+                    </g>
+                  );
+                })}
+
+                {/* Region labels */}
+                <text x="70" y="15" className="text-[3px] fill-muted-foreground uppercase tracking-widest">India</text>
+                <text x="20" y="80" className="text-[3px] fill-muted-foreground uppercase tracking-widest">Kenya</text>
+              </svg>
+
+              {/* Legend */}
+              <div className="absolute bottom-4 left-4 flex items-center gap-4 text-[10px] text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                  <span>Head Office</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-foreground" />
+                  <span>Branch</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Location Cards */}
+            <div className="lg:col-span-2 space-y-3">
+              {locations.map((location, index) => (
                 <motion.div
                   key={location.city}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className={`
-                    flex items-center justify-between p-5 border transition-colors duration-300
+                    group flex items-center gap-4 p-4 border transition-all duration-300
                     ${location.isHQ 
-                      ? 'border-primary-foreground/30 bg-primary-foreground/5' 
-                      : 'border-primary-foreground/10 hover:border-primary-foreground/20'
+                      ? 'bg-primary text-primary-foreground border-primary' 
+                      : 'bg-card border-border hover:border-primary/30'
                     }
                   `}
                 >
-                  <div className="flex items-center gap-5">
-                    {/* Ping dot */}
-                    <div className="relative">
-                      <div className={`w-3 h-3 rounded-full ${location.isHQ ? 'bg-primary-foreground' : 'bg-primary-foreground/40'}`} />
-                      {location.isHQ && (
-                        <motion.div
-                          animate={{ scale: [1, 2, 1], opacity: [1, 0, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                          className="absolute inset-0 w-3 h-3 rounded-full bg-primary-foreground"
-                        />
-                      )}
-                    </div>
-
-                    <div>
-                      <h4 className="font-serif text-xl text-primary-foreground">
-                        {location.city}
-                      </h4>
-                      <span className="text-xs text-primary-foreground/50">
-                        {location.region}
-                      </span>
-                    </div>
+                  <div className={`
+                    w-10 h-10 rounded-full flex items-center justify-center shrink-0
+                    ${location.isHQ 
+                      ? 'bg-primary-foreground/10' 
+                      : 'bg-secondary group-hover:bg-primary/10'
+                    }
+                  `}>
+                    <MapPin className={`w-4 h-4 ${location.isHQ ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-primary'}`} />
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <h4 className={`font-serif text-lg truncate ${location.isHQ ? 'text-primary-foreground' : 'text-foreground'}`}>
+                      {location.city}
+                    </h4>
+                    <p className={`text-xs truncate ${location.isHQ ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+                      {location.region}, {location.country}
+                    </p>
                   </div>
 
                   {location.isHQ && (
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/70 border border-primary-foreground/20 px-3 py-1">
+                    <span className="text-[9px] uppercase tracking-wider text-primary-foreground/80 bg-primary-foreground/10 px-2 py-1 shrink-0">
                       HQ
                     </span>
                   )}
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-
-          {/* Right: Visual Map Representation */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative flex items-center justify-center min-h-[400px] lg:min-h-[500px]"
-          >
-            {/* Abstract map container */}
-            <div className="relative w-full max-w-md aspect-square">
-              {/* Connection lines */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                {/* India to Kenya arc */}
-                <motion.path
-                  d="M 72 45 Q 60 40 55 52"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.3"
-                  className="text-primary-foreground/20"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.5, delay: 0.5 }}
-                />
-                {/* Internal India connections */}
-                <motion.path
-                  d="M 72 45 L 68 38 L 72 46 L 76 54"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.2"
-                  className="text-primary-foreground/15"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.8 }}
-                />
-              </svg>
-
-              {/* Location points */}
-              {allLocations.map((location, index) => (
-                <motion.div
-                  key={location.city}
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: 0.3 + index * 0.15,
-                    type: 'spring',
-                    stiffness: 200
-                  }}
-                  className="absolute"
-                  style={{
-                    left: `${location.coordinates.x}%`,
-                    top: `${location.coordinates.y}%`,
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                >
-                  <div className="relative group cursor-default">
-                    {/* Outer glow for HQ */}
-                    {location.isHQ && (
-                      <motion.div
-                        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                        className="absolute inset-0 w-8 h-8 -m-2 rounded-full bg-primary-foreground/20"
-                      />
-                    )}
-                    
-                    {/* Point */}
-                    <div className={`
-                      w-4 h-4 rounded-full border-2 transition-transform duration-300 group-hover:scale-150
-                      ${location.isHQ 
-                        ? 'bg-primary-foreground border-primary-foreground' 
-                        : 'bg-transparent border-primary-foreground/40 group-hover:border-primary-foreground'
-                      }
-                    `} />
-
-                    {/* Label */}
-                    <div className="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="text-xs font-medium text-primary-foreground bg-primary px-2 py-1">
-                        {location.city}
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* Region labels */}
-              <div className="absolute right-4 top-1/4 text-right">
-                <span className="text-xs uppercase tracking-[0.2em] text-primary-foreground/30">
-                  India
-                </span>
-              </div>
-              <div className="absolute left-1/4 bottom-1/3">
-                <span className="text-xs uppercase tracking-[0.2em] text-primary-foreground/30">
-                  Kenya
-                </span>
-              </div>
-            </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

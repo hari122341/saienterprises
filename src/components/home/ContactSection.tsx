@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Phone, Mail, MapPin } from 'lucide-react';
+import { Send, Phone, Mail, MapPin, Facebook } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { companyInfo } from '@/data/products';
 import { z } from 'zod';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
   company: z.string().trim().max(100).optional(),
-  email: z.string().trim().email("Invalid email").max(255),
+  email: z.string().trim().email("Please enter a valid email").max(255),
   message: z.string().trim().min(1, "Message is required").max(2000),
 });
 
@@ -21,16 +21,18 @@ const ContactSection = () => {
     message: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
       contactSchema.parse(formData);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "Enquiry Received",
-        description: "We'll get back to you within 24-48 business hours.",
+        title: "Enquiry Sent",
+        description: "We'll respond within 24-48 business hours.",
       });
       setFormData({ name: '', company: '', email: '', message: '' });
       setErrors({});
@@ -44,6 +46,8 @@ const ContactSection = () => {
         });
         setErrors(fieldErrors);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -56,241 +60,237 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="relative bg-foreground text-background overflow-hidden">
-      {/* Decorative gradient */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent pointer-events-none" />
-      
-      <div className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 max-w-7xl mx-auto">
-          
-          {/* Left: Form */}
+    <section className="py-24 md:py-32 bg-secondary/30">
+      <div className="px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12 md:mb-16"
           >
-            <span className="inline-block text-[10px] uppercase tracking-[0.3em] text-background/50 font-medium mb-6">
-              Get in Touch
+            <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+              <span className="w-8 h-px bg-primary" />
+              Contact Us
+              <span className="w-8 h-px bg-primary" />
             </span>
-            
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-background leading-[1.1] mb-4">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-4">
               Let's discuss your requirements.
             </h2>
-            
-            <p className="text-background/60 mb-12">
+            <p className="text-muted-foreground max-w-lg mx-auto">
               We usually respond within 24–48 business hours.
             </p>
+          </motion.div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Name & Company Row */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {[
-                  { name: 'name', label: 'Name', required: true, placeholder: 'Your name' },
-                  { name: 'company', label: 'Company', required: false, placeholder: 'Company name' },
-                ].map((field) => (
-                  <div key={field.name} className="relative">
-                    <label 
-                      className={`
-                        absolute left-0 transition-all duration-300 pointer-events-none
-                        ${focusedField === field.name || formData[field.name as keyof typeof formData]
-                          ? '-top-5 text-xs text-background/50'
-                          : 'top-3 text-background/40'
-                        }
-                      `}
-                    >
-                      {field.label} {field.required && '*'}
-                    </label>
-                    <input
-                      type="text"
-                      name={field.name}
-                      value={formData[field.name as keyof typeof formData]}
-                      onChange={handleChange}
-                      onFocus={() => setFocusedField(field.name)}
-                      onBlur={() => setFocusedField(null)}
-                      className={`
-                        w-full py-3 bg-transparent border-0 border-b-2 text-background placeholder:text-transparent
-                        focus:outline-none focus:ring-0 transition-colors duration-300
-                        ${errors[field.name] 
-                          ? 'border-red-400' 
-                          : 'border-background/20 focus:border-primary'
-                        }
-                      `}
-                    />
-                    {errors[field.name] && (
-                      <span className="absolute -bottom-5 left-0 text-xs text-red-400">
-                        {errors[field.name]}
-                      </span>
-                    )}
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+            {/* Contact Info Cards */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-1 space-y-4"
+            >
+              {/* Phone */}
+              <div className="p-6 bg-card border border-border hover:border-primary/30 transition-colors group">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
+                    <Phone className="w-4 h-4 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
-                ))}
+                  <div>
+                    <h4 className="text-sm font-medium text-foreground mb-2">Call Us</h4>
+                    <div className="space-y-1">
+                      {companyInfo.phones.map(phone => (
+                        <a 
+                          key={phone}
+                          href={`tel:${phone.replace(/\s/g, '')}`}
+                          className="block text-muted-foreground hover:text-primary transition-colors text-sm"
+                        >
+                          {phone}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Email */}
-              <div className="relative">
-                <label 
-                  className={`
-                    absolute left-0 transition-all duration-300 pointer-events-none
-                    ${focusedField === 'email' || formData.email
-                      ? '-top-5 text-xs text-background/50'
-                      : 'top-3 text-background/40'
-                    }
-                  `}
-                >
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  onFocus={() => setFocusedField('email')}
-                  onBlur={() => setFocusedField(null)}
-                  className={`
-                    w-full py-3 bg-transparent border-0 border-b-2 text-background
-                    focus:outline-none focus:ring-0 transition-colors duration-300
-                    ${errors.email 
-                      ? 'border-red-400' 
-                      : 'border-background/20 focus:border-primary'
-                    }
-                  `}
-                />
-                {errors.email && (
-                  <span className="absolute -bottom-5 left-0 text-xs text-red-400">
-                    {errors.email}
-                  </span>
-                )}
-              </div>
-
-              {/* Message */}
-              <div className="relative">
-                <label 
-                  className={`
-                    absolute left-0 transition-all duration-300 pointer-events-none
-                    ${focusedField === 'message' || formData.message
-                      ? '-top-5 text-xs text-background/50'
-                      : 'top-3 text-background/40'
-                    }
-                  `}
-                >
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
-                  rows={4}
-                  className={`
-                    w-full py-3 bg-transparent border-0 border-b-2 text-background resize-none
-                    focus:outline-none focus:ring-0 transition-colors duration-300
-                    ${errors.message 
-                      ? 'border-red-400' 
-                      : 'border-background/20 focus:border-primary'
-                    }
-                  `}
-                />
-                {errors.message && (
-                  <span className="absolute -bottom-5 left-0 text-xs text-red-400">
-                    {errors.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Submit */}
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group flex items-center gap-4 mt-8"
-              >
-                <span className="text-background font-medium">Send Enquiry</span>
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center group-hover:bg-primary/90 transition-colors">
-                  <ArrowRight className="w-5 h-5 text-primary-foreground transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              </motion.button>
-            </form>
-          </motion.div>
-
-          {/* Right: Contact Info Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-6"
-          >
-            {/* Phone Card */}
-            <div className="p-8 md:p-10 border border-background/10 hover:border-background/20 transition-colors group">
-              <div className="flex items-start gap-6">
-                <div className="w-12 h-12 rounded-full bg-background/5 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                  <Phone className="w-5 h-5 text-background/60 group-hover:text-primary transition-colors" />
-                </div>
-                <div>
-                  <span className="text-xs uppercase tracking-[0.2em] text-background/40 block mb-4">
-                    Call Us
-                  </span>
-                  <div className="space-y-2">
-                    {companyInfo.phones.map((phone) => (
-                      <a
-                        key={phone}
-                        href={`tel:${phone.replace(/\s/g, '')}`}
-                        className="block font-serif text-xl md:text-2xl text-background hover:text-primary transition-colors"
-                      >
-                        {phone}
-                      </a>
-                    ))}
+              <div className="p-6 bg-card border border-border hover:border-primary/30 transition-colors group">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
+                    <Mail className="w-4 h-4 text-primary group-hover:text-primary-foreground transition-colors" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-foreground mb-2">Email Us</h4>
+                    <div className="space-y-1">
+                      {companyInfo.emails.map(email => (
+                        <a 
+                          key={email}
+                          href={`mailto:${email}`}
+                          className="block text-muted-foreground hover:text-primary transition-colors text-sm break-all"
+                        >
+                          {email}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Email Card */}
-            <div className="p-8 md:p-10 border border-background/10 hover:border-background/20 transition-colors group">
-              <div className="flex items-start gap-6">
-                <div className="w-12 h-12 rounded-full bg-background/5 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                  <Mail className="w-5 h-5 text-background/60 group-hover:text-primary transition-colors" />
-                </div>
-                <div>
-                  <span className="text-xs uppercase tracking-[0.2em] text-background/40 block mb-4">
-                    Mail Us
-                  </span>
-                  <div className="space-y-2">
-                    {companyInfo.emails.map((email) => (
-                      <a
-                        key={email}
-                        href={`mailto:${email}`}
-                        className="block text-lg text-background hover:text-primary transition-colors"
-                      >
-                        {email}
-                      </a>
-                    ))}
+              {/* Location */}
+              <div className="p-6 bg-primary text-primary-foreground">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-primary-foreground" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-primary-foreground mb-2">Head Office</h4>
+                    <p className="font-serif text-lg text-primary-foreground">
+                      {companyInfo.locations.headquarters.city}
+                    </p>
+                    <p className="text-primary-foreground/70 text-sm">
+                      {companyInfo.locations.headquarters.state}, India
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Head Office Card */}
-            <div className="p-8 md:p-10 bg-primary text-primary-foreground group">
-              <div className="flex items-start gap-6">
-                <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-primary-foreground/80" />
-                </div>
-                <div>
-                  <span className="text-xs uppercase tracking-[0.2em] text-primary-foreground/60 block mb-4">
-                    Head Office
-                  </span>
-                  <h4 className="font-serif text-2xl md:text-3xl text-primary-foreground mb-2">
-                    {companyInfo.locations.headquarters.city}
-                  </h4>
-                  <p className="text-primary-foreground/70">
-                    {companyInfo.locations.headquarters.state}, {companyInfo.locations.headquarters.country}
-                  </p>
+              {/* Social */}
+              <div className="p-6 bg-card border border-border">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Facebook className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-foreground mb-1">Follow Us</h4>
+                    <a 
+                      href={`https://${companyInfo.facebook}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      Facebook
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="lg:col-span-2"
+            >
+              <form onSubmit={handleSubmit} className="bg-card border border-border p-8 md:p-10">
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  {/* Name */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                      Name <span className="text-primary">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className={`
+                        w-full px-4 py-3 bg-background border text-foreground
+                        focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
+                        transition-colors placeholder:text-muted-foreground/50
+                        ${errors.name ? 'border-destructive' : 'border-border'}
+                      `}
+                      placeholder="Your name"
+                    />
+                    {errors.name && (
+                      <p className="text-xs text-destructive mt-1">{errors.name}</p>
+                    )}
+                  </div>
+
+                  {/* Company */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                      Company
+                    </label>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors placeholder:text-muted-foreground/50"
+                      placeholder="Company name"
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="mb-6">
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                    Email <span className="text-primary">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`
+                      w-full px-4 py-3 bg-background border text-foreground
+                      focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
+                      transition-colors placeholder:text-muted-foreground/50
+                      ${errors.email ? 'border-destructive' : 'border-border'}
+                    `}
+                    placeholder="your@email.com"
+                  />
+                  {errors.email && (
+                    <p className="text-xs text-destructive mt-1">{errors.email}</p>
+                  )}
+                </div>
+
+                {/* Message */}
+                <div className="mb-8">
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                    Message <span className="text-primary">*</span>
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    className={`
+                      w-full px-4 py-3 bg-background border text-foreground resize-none
+                      focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
+                      transition-colors placeholder:text-muted-foreground/50
+                      ${errors.message ? 'border-destructive' : 'border-border'}
+                    `}
+                    placeholder="Tell us about your machinery requirements..."
+                  />
+                  {errors.message && (
+                    <p className="text-xs text-destructive mt-1">{errors.message}</p>
+                  )}
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isSubmitting ? (
+                    <span className="text-sm font-medium">Sending...</span>
+                  ) : (
+                    <>
+                      <span className="text-sm font-medium">Send Enquiry</span>
+                      <Send className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,38 +1,45 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Package, Wrench, HeadphonesIcon, Award } from 'lucide-react';
 import InquiryModal from '@/components/InquiryModal';
 
 const services = [
   {
+    icon: Package,
     title: "Trading & Exporting",
-    description: "We supply a complete range of Pre-Press, Press, Post-Press, and allied graphic machinery, serving both national and international print & publishing industries with reliable sourcing and guidance.",
+    shortTitle: "Trading",
+    description: "Complete range of Pre-Press, Press, Post-Press, and allied graphic machinery for national and international markets.",
     highlight: false,
   },
   {
+    icon: Wrench,
     title: "Modernization",
-    description: "We help modernize existing printing units — from baby offset machines to advanced multi-color presses, enabling higher efficiency, consistency, and production value.",
+    shortTitle: "Modernization",
+    description: "Upgrading existing printing units — from baby offset to advanced multi-color presses for higher efficiency.",
     highlight: false,
   },
   {
+    icon: HeadphonesIcon,
     title: "Service & Support",
-    description: "Our trained and experienced service team ensures continuous technical support, maintenance, and long-term reliability for every machine we supply.",
+    shortTitle: "Service",
+    description: "Trained service team ensuring continuous technical support, maintenance, and long-term reliability.",
     highlight: false,
   },
   {
+    icon: Award,
     title: "Sole Agent – HPM (India)",
-    description: "We are the exclusive sole agent in India for HPM paper cutting and packaging machines, offering authentic equipment backed by expert support.",
+    shortTitle: "HPM India",
+    description: "Exclusive sole agent in India for HPM paper cutting and packaging machines with expert support.",
     highlight: true,
-    modalService: "HPM Machines (India)",
   },
 ];
 
 const ServicesSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string>('General Inquiry');
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const openInquiry = (serviceTitle: string) => {
-    // Map service titles to modal options
     const serviceMap: Record<string, string> = {
       "Trading & Exporting": "Trading & Exporting",
       "Modernization": "Modernization",
@@ -45,122 +52,138 @@ const ServicesSection = () => {
 
   return (
     <>
-      <section className="py-32 md:py-40 bg-background">
-        <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          {/* Section Header */}
+      <section className="py-24 md:py-32 bg-background">
+        <div className="px-6 md:px-12 lg:px-20">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-20 md:mb-28"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-7xl mx-auto mb-16 md:mb-20"
           >
-            <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground font-medium">
-              Our Services
-            </span>
-            <h2 className="mt-4 font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight max-w-2xl">
-              What we do for our clients
-            </h2>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+                  <span className="w-8 h-px bg-primary" />
+                  Our Services
+                </span>
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight">
+                  What we do for<br />our clients
+                </h2>
+              </div>
+              <p className="text-muted-foreground max-w-md text-base md:text-lg leading-relaxed">
+                Four core capabilities that have driven our success for over two decades.
+              </p>
+            </div>
           </motion.div>
 
-          {/* Services Grid - Asymmetric Editorial Layout */}
-          <div className="space-y-16 md:space-y-24">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: index * 0.1,
-                  ease: [0.16, 1, 0.3, 1] 
-                }}
-                className={`group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start ${
-                  index % 2 === 1 ? 'md:text-right' : ''
-                }`}
-              >
-                {/* Number */}
-                <div className={`md:col-span-1 ${index % 2 === 1 ? 'md:order-last' : ''}`}>
-                  <span className="text-xs text-muted-foreground/50 font-mono">
-                    0{index + 1}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <div className={`md:col-span-4 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                  <button
+          {/* Services Grid - Card-based layout */}
+          <div className="max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                const isHovered = hoveredIndex === index;
+                
+                return (
+                  <motion.div
+                    key={service.title}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
                     onClick={() => openInquiry(service.title)}
-                    className={`text-left font-serif text-2xl md:text-3xl transition-colors duration-300 ${
-                      service.highlight 
-                        ? 'text-primary hover:text-primary/80' 
-                        : 'text-foreground group-hover:text-primary'
-                    }`}
+                    className={`
+                      group relative cursor-pointer p-8 md:p-10 border transition-all duration-500
+                      ${service.highlight 
+                        ? 'bg-primary/5 border-primary/20 hover:bg-primary/10' 
+                        : 'bg-card border-border hover:border-primary/30 hover:bg-secondary/50'
+                      }
+                    `}
                   >
-                    {service.title}
-                  </button>
-                  {service.highlight && (
-                    <span className="inline-block mt-3 text-[10px] uppercase tracking-[0.2em] text-primary/70 border border-primary/20 px-3 py-1">
-                      Exclusive
+                    {/* Number badge */}
+                    <span className="absolute top-6 right-6 text-xs font-mono text-muted-foreground/40">
+                      0{index + 1}
                     </span>
-                  )}
-                </div>
 
-                {/* Description */}
-                <div className={`md:col-span-6 ${index % 2 === 1 ? 'md:order-1 md:text-left' : ''}`}>
-                  <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                    {service.description}
-                  </p>
-                  <button
-                    onClick={() => openInquiry(service.title)}
-                    className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 group/btn"
-                  >
-                    <span>Inquire</span>
-                    <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                  </button>
-                </div>
+                    {/* Icon */}
+                    <div className={`
+                      w-12 h-12 rounded-full flex items-center justify-center mb-6 transition-colors duration-300
+                      ${service.highlight 
+                        ? 'bg-primary/10 text-primary' 
+                        : 'bg-secondary text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary'
+                      }
+                    `}>
+                      <Icon className="w-5 h-5" />
+                    </div>
 
-                {/* Spacer */}
-                <div className="md:col-span-1" />
-              </motion.div>
-            ))}
-          </div>
+                    {/* Content */}
+                    <div className="mb-6">
+                      <h3 className={`
+                        font-serif text-xl md:text-2xl mb-3 transition-colors duration-300
+                        ${service.highlight ? 'text-primary' : 'text-foreground group-hover:text-primary'}
+                      `}>
+                        {service.title}
+                      </h3>
+                      {service.highlight && (
+                        <span className="inline-block mb-3 text-[9px] uppercase tracking-[0.2em] text-primary bg-primary/10 px-2 py-1">
+                          Exclusive
+                        </span>
+                      )}
+                      <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
 
-          {/* Separator */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-24 md:mt-32 h-px bg-border origin-left"
-          />
+                    {/* CTA */}
+                    <div className={`
+                      flex items-center gap-2 text-sm font-medium transition-all duration-300
+                      ${isHovered ? 'text-primary' : 'text-muted-foreground'}
+                    `}>
+                      <span>Learn more</span>
+                      <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`} />
+                    </div>
 
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-16 md:mt-20 flex flex-col md:flex-row md:items-center md:justify-between gap-8"
-          >
-            <p className="text-muted-foreground text-lg md:text-xl max-w-md leading-relaxed">
-              Looking for the right machinery or upgrade guidance?
-            </p>
-            <button
-              onClick={() => {
-                setSelectedService('General Inquiry');
-                setIsModalOpen(true);
-              }}
-              className="group inline-flex items-center gap-3 text-foreground hover:text-primary transition-colors duration-300"
+                    {/* Bottom accent line */}
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: isHovered ? 1 : 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
+                    />
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Bottom CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-12 md:mt-16 pt-8 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
             >
-              <span className="text-base font-medium">Talk to our team</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-          </motion.div>
+              <p className="font-serif text-lg md:text-xl text-muted-foreground italic">
+                Looking for the right machinery or upgrade guidance?
+              </p>
+              <button
+                onClick={() => {
+                  setSelectedService('General Inquiry');
+                  setIsModalOpen(true);
+                }}
+                className="group inline-flex items-center gap-3 px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                <span className="text-sm font-medium">Talk to our team</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Inquiry Modal */}
       <InquiryModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
