@@ -62,7 +62,7 @@ const OfferingsSection = () => {
           </motion.div>
 
           {/* Category Cards Grid - Text based, no icons */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
             {productCategories.map((category, index) => {
               const isActive = activeIndex === index;
               
@@ -76,52 +76,52 @@ const OfferingsSection = () => {
                 >
                   <Link
                     to={`/machinery/${category.slug}`}
-                    className={`group relative block p-6 sm:p-8 h-full min-h-[260px] sm:min-h-[300px] transition-all duration-500 ${
+                    className={`group relative block p-5 sm:p-6 md:p-8 h-full min-h-[240px] sm:min-h-[280px] md:min-h-[300px] transition-all duration-500 overflow-hidden ${
                       isActive 
                         ? 'bg-primary' 
                         : 'bg-background/5 hover:bg-background/10 border border-background/10'
                     }`}
                   >
                     {/* Large Number */}
-                    <span className={`absolute top-4 right-4 text-6xl sm:text-7xl font-serif transition-colors duration-300 ${
+                    <span className={`absolute top-3 right-3 sm:top-4 sm:right-4 text-5xl sm:text-6xl md:text-7xl font-serif transition-colors duration-300 ${
                       isActive ? 'text-primary-foreground/10' : 'text-background/5'
                     }`}>
                       0{index + 1}
                     </span>
 
                     {/* Content */}
-                    <div className="relative z-10 flex flex-col h-full pt-12 sm:pt-16">
-                      <h3 className={`font-serif text-2xl sm:text-3xl mb-3 transition-colors duration-300 ${
+                    <div className="relative z-10 flex flex-col h-full pt-10 sm:pt-12 md:pt-16">
+                      <h3 className={`font-serif text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 transition-colors duration-300 ${
                         isActive ? 'text-primary-foreground' : 'text-background'
                       }`}>
                         {category.name}
                       </h3>
                       
-                      <p className={`text-sm leading-relaxed mb-6 line-clamp-3 transition-colors duration-300 ${
+                      <p className={`text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 line-clamp-3 transition-colors duration-300 ${
                         isActive ? 'text-primary-foreground/70' : 'text-background/50'
                       }`}>
                         {category.description}
                       </p>
 
                       {/* Products count */}
-                      <div className={`mt-auto flex items-center justify-between pt-4 border-t transition-colors duration-300 ${
+                      <div className={`mt-auto flex items-center justify-between pt-3 sm:pt-4 border-t transition-colors duration-300 ${
                         isActive ? 'border-primary-foreground/20' : 'border-background/10'
                       }`}>
-                        <span className={`text-xs uppercase tracking-wider transition-colors duration-300 ${
+                        <span className={`text-[10px] sm:text-xs uppercase tracking-wider transition-colors duration-300 ${
                           isActive ? 'text-primary-foreground/60' : 'text-background/40'
                         }`}>
                           {category.products.length} Products
                         </span>
                         
                         <motion.div 
-                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                             isActive 
                               ? 'bg-primary-foreground text-primary' 
                               : 'bg-background/10 text-background/50 group-hover:bg-primary group-hover:text-primary-foreground'
                           }`}
                           whileHover={{ scale: 1.1 }}
                         >
-                          <ArrowUpRight className="w-4 h-4" />
+                          <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4" />
                         </motion.div>
                       </div>
                     </div>

@@ -127,8 +127,8 @@ const MachineryHub = () => {
         </section>
 
         {/* Categories Grid - Image Cards */}
-        <section className="py-16 sm:py-24 px-6 sm:px-8 md:px-16 lg:px-24">
-          <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-4 sm:gap-6">
+        <section className="py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-16 lg:px-24">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             {categories.map((category, index) => {
               const count = getCategoryCount(category.id);
               
@@ -142,7 +142,7 @@ const MachineryHub = () => {
                 >
                   <Link 
                     to={`/machinery/${category.id}`}
-                    className="group block relative overflow-hidden aspect-[4/3] sm:aspect-[3/2]"
+                    className="group block relative overflow-hidden aspect-[4/3] sm:aspect-[16/10]"
                   >
                     {/* Background Image */}
                     <div className="absolute inset-0">
@@ -155,10 +155,10 @@ const MachineryHub = () => {
                     </div>
                     
                     {/* Content */}
-                    <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
+                    <div className="absolute inset-0 p-5 sm:p-6 md:p-8 flex flex-col justify-end">
                       {/* Number */}
                       <motion.span 
-                        className="absolute top-6 right-6 text-6xl sm:text-7xl font-serif text-background/10 group-hover:text-primary/30 transition-colors duration-500"
+                        className="absolute top-5 right-5 sm:top-6 sm:right-6 text-5xl sm:text-6xl md:text-7xl font-serif text-background/10 group-hover:text-primary/30 transition-colors duration-500"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
@@ -177,22 +177,22 @@ const MachineryHub = () => {
                       />
 
                       {/* Title */}
-                      <h2 className="font-serif text-3xl sm:text-4xl text-background mb-2 group-hover:text-primary transition-colors duration-300">
+                      <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-background mb-1.5 sm:mb-2 group-hover:text-primary transition-colors duration-300">
                         {category.name}
                       </h2>
                       
                       {/* Description */}
-                      <p className="text-background/70 text-sm sm:text-base mb-4 max-w-md">
+                      <p className="text-background/70 text-xs sm:text-sm md:text-base mb-3 sm:mb-4 max-w-md line-clamp-2">
                         {category.description}
                       </p>
                       
                       {/* Footer */}
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-background/50">
+                        <span className="text-[10px] sm:text-xs text-background/50">
                           {count} machines
                         </span>
                         <motion.div 
-                          className="flex items-center gap-2 text-background group-hover:text-primary transition-colors"
+                          className="flex items-center gap-1.5 sm:gap-2 text-background group-hover:text-primary transition-colors"
                           whileHover={{ x: 5 }}
                         >
                           <span className="text-xs font-medium">Explore</span>
