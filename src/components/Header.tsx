@@ -76,7 +76,7 @@ const Header = () => {
                 }`}
                 whileHover={{ x: 2 }}
               >
-                Sai<span className="font-light">enterprises</span>
+                Sai <span className="font-light">Enterprises</span>
               </motion.span>
             </Link>
 
