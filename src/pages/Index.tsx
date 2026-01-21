@@ -4,6 +4,7 @@ import PageTransition from '@/components/PageTransition';
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
 import OfferingsSection from '@/components/home/OfferingsSection';
+import ServicesSection from '@/components/home/ServicesSection';
 import BrandPartnersSection from '@/components/home/BrandPartnersSection';
 import GlobalPresenceSection from '@/components/home/GlobalPresenceSection';
 import WhySaiSection from '@/components/home/WhySaiSection';
@@ -24,16 +25,19 @@ const Index = () => {
         {/* 3️⃣ WHAT WE OFFER - Core Domains */}
         <OfferingsSection />
 
-        {/* 4️⃣ OUR BRAND PARTNERS - Premium Wall of Trust */}
+        {/* 4️⃣ OUR SERVICES - Capabilities & Authority */}
+        <ServicesSection />
+
+        {/* 5️⃣ OUR BRAND PARTNERS - Premium Wall of Trust */}
         <BrandPartnersSection />
 
-        {/* 5️⃣ GLOBAL PRESENCE - Map Section */}
+        {/* 6️⃣ GLOBAL PRESENCE - Map Section */}
         <GlobalPresenceSection />
 
-        {/* 6️⃣ WHY SAI ENTERPRISES - Trust Highlights */}
+        {/* 7️⃣ WHY SAI ENTERPRISES - Trust Highlights */}
         <WhySaiSection />
 
-        {/* 7️⃣ CONTACT US - Form */}
+        {/* 8️⃣ CONTACT US - Form */}
         <ContactSection />
       </main>
 
