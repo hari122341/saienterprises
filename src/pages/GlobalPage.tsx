@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
 import PageTransition from '@/components/PageTransition';
-import brochureHero from '@/assets/brochure-hero.jpg';
 
 const locations = {
   india: [
@@ -26,26 +25,20 @@ const GlobalPage = () => {
       <Header />
       
       <main>
-        {/* Hero with Image */}
-        <section className="relative min-h-[50vh] sm:min-h-[60vh] flex items-end overflow-hidden">
-          {/* Background Image */}
-          <motion.div 
-            className="absolute inset-0"
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          >
-            <img 
-              src={brochureHero} 
-              alt="" 
-              className="w-full h-full object-cover"
-              style={{ filter: 'saturate(0.6) brightness(0.8) contrast(1.05)' }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-          </motion.div>
+        {/* Hero - Text only */}
+        <section className="relative min-h-[40vh] sm:min-h-[50vh] flex items-end bg-secondary/30">
+          {/* Subtle grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage:
+                "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          />
 
           {/* Content */}
-          <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16 md:pb-24">
+          <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16 md:pb-24 pt-28 sm:pt-36 md:pt-44">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

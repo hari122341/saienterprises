@@ -1,71 +1,24 @@
-import type { RefObject } from "react";
 import { motion } from "framer-motion";
-
-import aboutLocations from "@/assets/about-locations.jpg";
-import { useParallaxScroll } from "@/hooks/useParallaxScroll";
 
 type AboutHeroProps = {
   experience: string;
 };
 
 const AboutHero = ({ experience }: AboutHeroProps) => {
-  const { ref, y, scale, opacity } = useParallaxScroll({ speed: 0.2 });
-
   return (
-    <section
-      ref={ref as unknown as RefObject<HTMLElement>}
-      className="relative min-h-[60vh] sm:min-h-[70vh] flex items-end overflow-hidden"
-    >
-      {/* Background */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ scale: 1.05 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        style={{ y, scale, opacity }}
-      >
-        <img
-          src={aboutLocations}
-          alt="Sai Enterprises locations and service presence"
-          className="w-full h-full object-cover"
-          style={{
-            filter:
-              "saturate(0.80) brightness(0.74) contrast(1.02) hue-rotate(-10deg) blur(0.6px)",
-          }}
-          decoding="async"
-        />
-
-        {/* Editorial overlays (cool grade + vignette + grain + subtle technical grid) */}
-        {/* Header readability shield (keeps navbar crisp regardless of photo) */}
-        <div className="absolute inset-x-0 top-0 h-32 sm:h-40 md:h-48 bg-gradient-to-b from-background/98 via-background/80 to-transparent backdrop-blur-sm" />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30" />
-
-        {/* Soft grain (no external assets) */}
-        <div
-          className="absolute inset-0 opacity-[0.10] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 30%, hsl(var(--foreground)/0.14) 0, transparent 45%), radial-gradient(circle at 70% 40%, hsl(var(--foreground)/0.10) 0, transparent 42%), radial-gradient(circle at 45% 75%, hsl(var(--foreground)/0.12) 0, transparent 48%)",
-            backgroundSize: "180px 180px",
-            filter: "blur(0.2px)",
-          }}
-        />
-
-        <div
-          className="absolute inset-0 opacity-[0.18]"
-          style={{
-            backgroundImage:
-              "linear-gradient(hsl(var(--border)/0.8) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)/0.8) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-            maskImage: "radial-gradient(circle at 50% 35%, black 0%, transparent 65%)",
-          }}
-        />
-      </motion.div>
+    <section className="relative min-h-[40vh] sm:min-h-[50vh] flex items-end bg-secondary/30">
+      {/* Subtle grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
       {/* Content */}
-      <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16 md:pb-24">
+      <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16 md:pb-24 pt-28 sm:pt-36 md:pt-44">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
