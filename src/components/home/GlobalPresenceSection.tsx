@@ -1,13 +1,13 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { MapPin, Building2, Globe } from 'lucide-react';
+import { Building2, Globe } from 'lucide-react';
 import { companyInfo } from '@/data/products';
 
 const GlobalPresenceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
-  const locations = [
+  const mainLocations = [
     { 
       city: companyInfo.locations.headquarters.city, 
       country: 'India',
@@ -15,40 +15,17 @@ const GlobalPresenceSection = () => {
       icon: Building2,
     },
     { 
-      city: 'New Delhi', 
-      country: 'India',
-      type: 'Branch',
-      icon: MapPin,
-    },
-    { 
-      city: 'Pune', 
-      country: 'India',
-      type: 'Branch',
-      icon: MapPin,
-    },
-    { 
-      city: 'Vijayawada', 
-      country: 'India',
-      type: 'Branch',
-      icon: MapPin,
-    },
-    { 
       city: companyInfo.locations.overseas.city, 
       country: 'Kenya',
-      type: 'International',
+      type: 'International Office',
       icon: Globe,
     },
   ];
 
-  const stats = [
-    { value: '5', label: 'Offices', suffix: '' },
-    { value: '2', label: 'Continents', suffix: '' },
-    { value: '500', label: 'Clients', suffix: '+' },
-    { value: '24', label: 'Years', suffix: '+' },
-  ];
+  const branches = ['New Delhi', 'Pune', 'Vijayawada'];
 
   return (
-    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-foreground overflow-hidden">
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div 
@@ -61,13 +38,13 @@ const GlobalPresenceSection = () => {
       </div>
 
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
+            className="text-center mb-12 sm:mb-16"
           >
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
@@ -88,93 +65,46 @@ const GlobalPresenceSection = () => {
             </h2>
           </motion.div>
 
-          {/* Stats Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-16 sm:mb-20"
-          >
-            {stats.map((stat, i) => (
-              <motion.div 
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.3 + i * 0.1 }}
-                className="text-center p-6 sm:p-8 bg-background/5 border border-background/10"
-              >
-                <span className="block font-serif text-4xl sm:text-5xl md:text-6xl text-background">
-                  {stat.value}<span className="text-primary">{stat.suffix}</span>
-                </span>
-                <span className="block text-[10px] sm:text-xs uppercase tracking-[0.2em] text-background/50 mt-2">
-                  {stat.label}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Locations Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-            {locations.map((location, index) => {
+          {/* Main Locations - Compact cards */}
+          <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
+            {mainLocations.map((location, index) => {
               const Icon = location.icon;
-              const isHeadquarters = location.type === 'Headquarters';
-              const isInternational = location.type === 'International';
+              const isHQ = location.type === 'Headquarters';
               
               return (
                 <motion.div
                   key={location.city}
                   initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                  className={`group relative p-6 sm:p-8 transition-all duration-300 ${
-                    isHeadquarters 
-                      ? 'bg-primary text-primary-foreground sm:col-span-2 lg:col-span-1' 
-                      : isInternational
-                        ? 'bg-background/10 border border-primary/30'
-                        : 'bg-background/5 border border-background/10 hover:border-background/20'
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className={`relative p-6 sm:p-8 ${
+                    isHQ ? 'bg-primary text-primary-foreground' : 'bg-background/10 border border-primary/30'
                   }`}
                 >
-                  {/* Icon */}
-                  <motion.div 
-                    className={`w-10 h-10 rounded-full flex items-center justify-center mb-4 ${
-                      isHeadquarters 
-                        ? 'bg-primary-foreground/10' 
-                        : 'bg-primary/10'
-                    }`}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <Icon className={`w-4 h-4 ${
-                      isHeadquarters ? 'text-primary-foreground' : 'text-primary'
-                    }`} />
-                  </motion.div>
-
-                  {/* Type badge */}
-                  <span className={`inline-block text-[8px] uppercase tracking-[0.2em] px-2 py-1 rounded-full mb-3 ${
-                    isHeadquarters 
-                      ? 'bg-primary-foreground/10 text-primary-foreground' 
-                      : isInternational
-                        ? 'bg-primary/10 text-primary'
-                        : 'bg-background/10 text-background/60'
-                  }`}>
-                    {location.type}
-                  </span>
-
-                  {/* City */}
-                  <h3 className={`font-serif text-xl sm:text-2xl mb-1 ${
-                    isHeadquarters ? 'text-primary-foreground' : 'text-background'
-                  }`}>
-                    {location.city}
-                  </h3>
-
-                  {/* Country */}
-                  <p className={`text-sm ${
-                    isHeadquarters ? 'text-primary-foreground/60' : 'text-background/50'
-                  }`}>
-                    {location.country}
-                  </p>
-
-                  {/* Pulse for HQ */}
-                  {isHeadquarters && (
+                  <div className="flex items-start gap-4">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                      isHQ ? 'bg-primary-foreground/10' : 'bg-primary/10'
+                    }`}>
+                      <Icon className={`w-4 h-4 ${isHQ ? 'text-primary-foreground' : 'text-primary'}`} />
+                    </div>
+                    <div>
+                      <span className={`inline-block text-[8px] uppercase tracking-[0.2em] px-2 py-1 rounded-full mb-2 ${
+                        isHQ ? 'bg-primary-foreground/10 text-primary-foreground' : 'bg-primary/10 text-primary'
+                      }`}>
+                        {location.type}
+                      </span>
+                      <h3 className={`font-serif text-2xl sm:text-3xl mb-1 ${
+                        isHQ ? 'text-primary-foreground' : 'text-background'
+                      }`}>
+                        {location.city}
+                      </h3>
+                      <p className={`text-sm ${isHQ ? 'text-primary-foreground/60' : 'text-background/50'}`}>
+                        {location.country}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {isHQ && (
                     <motion.div
                       className="absolute top-4 right-4 w-2 h-2 rounded-full bg-primary-foreground"
                       animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
@@ -185,6 +115,22 @@ const GlobalPresenceSection = () => {
               );
             })}
           </div>
+
+          {/* Branch Offices - Simple inline */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4"
+          >
+            <span className="text-[10px] uppercase tracking-[0.2em] text-background/40">Branches:</span>
+            {branches.map((city, i) => (
+              <span key={city} className="flex items-center gap-3 sm:gap-4">
+                <span className="text-background/70 text-sm sm:text-base">{city}</span>
+                {i < branches.length - 1 && <span className="text-background/20">·</span>}
+              </span>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

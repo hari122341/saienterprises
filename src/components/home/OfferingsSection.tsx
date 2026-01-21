@@ -1,15 +1,8 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { ArrowUpRight, Layers, Printer, Scissors, Box } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { productCategories } from '@/data/products';
-
-const categoryIcons = {
-  'pre-press': Layers,
-  'press': Printer,
-  'post-press': Scissors,
-  'corrugation': Box,
-};
 
 const OfferingsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,14 +31,6 @@ const OfferingsSection = () => {
           opacity: [0.1, 0.15, 0.1]
         }}
         transition={{ duration: 8, repeat: Infinity }}
-      />
-      <motion.div 
-        className="absolute bottom-1/3 left-1/4 w-64 h-64 rounded-full bg-primary/5 blur-[80px] pointer-events-none"
-        animate={{ 
-          scale: [1.2, 1, 1.2],
-          opacity: [0.05, 0.1, 0.05]
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
       />
 
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
@@ -76,10 +61,9 @@ const OfferingsSection = () => {
             </h2>
           </motion.div>
 
-          {/* Category Cards Grid */}
+          {/* Category Cards Grid - Text based, no icons */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {productCategories.map((category, index) => {
-              const Icon = categoryIcons[category.slug as keyof typeof categoryIcons] || Box;
               const isActive = activeIndex === index;
               
               return (
@@ -92,64 +76,55 @@ const OfferingsSection = () => {
                 >
                   <Link
                     to={`/machinery/${category.slug}`}
-                    className={`group relative block p-6 sm:p-8 h-full min-h-[280px] sm:min-h-[320px] transition-all duration-500 ${
+                    className={`group relative block p-6 sm:p-8 h-full min-h-[260px] sm:min-h-[300px] transition-all duration-500 ${
                       isActive 
                         ? 'bg-primary' 
                         : 'bg-background/5 hover:bg-background/10 border border-background/10'
                     }`}
                   >
-                    {/* Number */}
-                    <span className={`absolute top-4 right-4 text-5xl sm:text-6xl font-serif transition-colors duration-300 ${
+                    {/* Large Number */}
+                    <span className={`absolute top-4 right-4 text-6xl sm:text-7xl font-serif transition-colors duration-300 ${
                       isActive ? 'text-primary-foreground/10' : 'text-background/5'
                     }`}>
                       0{index + 1}
                     </span>
 
-                    {/* Icon */}
-                    <motion.div 
-                      className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 transition-all duration-300 ${
-                        isActive 
-                          ? 'bg-primary-foreground/10' 
-                          : 'bg-primary/10'
-                      }`}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                    >
-                      <Icon className={`w-6 h-6 transition-colors duration-300 ${
-                        isActive ? 'text-primary-foreground' : 'text-primary'
-                      }`} />
-                    </motion.div>
-
                     {/* Content */}
-                    <h3 className={`font-serif text-2xl sm:text-3xl mb-3 transition-colors duration-300 ${
-                      isActive ? 'text-primary-foreground' : 'text-background'
-                    }`}>
-                      {category.name}
-                    </h3>
-                    
-                    <p className={`text-sm leading-relaxed mb-6 line-clamp-3 transition-colors duration-300 ${
-                      isActive ? 'text-primary-foreground/70' : 'text-background/50'
-                    }`}>
-                      {category.description}
-                    </p>
+                    <div className="relative z-10 flex flex-col h-full pt-12 sm:pt-16">
+                      <h3 className={`font-serif text-2xl sm:text-3xl mb-3 transition-colors duration-300 ${
+                        isActive ? 'text-primary-foreground' : 'text-background'
+                      }`}>
+                        {category.name}
+                      </h3>
+                      
+                      <p className={`text-sm leading-relaxed mb-6 line-clamp-3 transition-colors duration-300 ${
+                        isActive ? 'text-primary-foreground/70' : 'text-background/50'
+                      }`}>
+                        {category.description}
+                      </p>
 
-                    {/* Products count */}
-                    <div className={`flex items-center gap-2 text-xs uppercase tracking-wider transition-colors duration-300 ${
-                      isActive ? 'text-primary-foreground/60' : 'text-background/40'
-                    }`}>
-                      <span>{category.products.length} Products</span>
+                      {/* Products count */}
+                      <div className={`mt-auto flex items-center justify-between pt-4 border-t transition-colors duration-300 ${
+                        isActive ? 'border-primary-foreground/20' : 'border-background/10'
+                      }`}>
+                        <span className={`text-xs uppercase tracking-wider transition-colors duration-300 ${
+                          isActive ? 'text-primary-foreground/60' : 'text-background/40'
+                        }`}>
+                          {category.products.length} Products
+                        </span>
+                        
+                        <motion.div 
+                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                            isActive 
+                              ? 'bg-primary-foreground text-primary' 
+                              : 'bg-background/10 text-background/50 group-hover:bg-primary group-hover:text-primary-foreground'
+                          }`}
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <ArrowUpRight className="w-4 h-4" />
+                        </motion.div>
+                      </div>
                     </div>
-
-                    {/* Arrow */}
-                    <motion.div 
-                      className={`absolute bottom-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        isActive 
-                          ? 'bg-primary-foreground text-primary' 
-                          : 'bg-background/10 text-background/50 group-hover:bg-primary group-hover:text-primary-foreground'
-                      }`}
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <ArrowUpRight className="w-4 h-4" />
-                    </motion.div>
 
                     {/* Bottom accent line */}
                     <motion.div

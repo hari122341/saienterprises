@@ -137,30 +137,6 @@ const HeroSection = () => {
               <span className="text-sm font-semibold tracking-wide">Contact Us</span>
             </Link>
           </motion.div>
-
-          {/* Trust indicators */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="flex flex-wrap gap-6 sm:gap-10 mt-12 md:mt-16 pt-8 border-t border-background/10"
-          >
-            {[
-              { value: '500+', label: 'Clients Served' },
-              { value: '24+', label: 'Years Experience' },
-              { value: '5', label: 'Office Locations' },
-            ].map((stat, i) => (
-              <motion.div 
-                key={stat.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.1 + i * 0.1 }}
-              >
-                <span className="block font-serif text-2xl sm:text-3xl text-background">{stat.value}</span>
-                <span className="text-[10px] uppercase tracking-[0.15em] text-background/50">{stat.label}</span>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </motion.div>
 
