@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import PremiumLoader from '@/components/PremiumLoader';
+import SectionNav from '@/components/SectionNav';
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
 import OfferingsSection from '@/components/home/OfferingsSection';
@@ -11,6 +12,16 @@ import BrandPartnersSection from '@/components/home/BrandPartnersSection';
 import GlobalPresenceSection from '@/components/home/GlobalPresenceSection';
 import WhySaiSection from '@/components/home/WhySaiSection';
 import ContactSection from '@/components/home/ContactSection';
+
+const sections = [
+  { id: 'about', label: 'About' },
+  { id: 'offerings', label: 'Offerings' },
+  { id: 'services', label: 'Services' },
+  { id: 'partners', label: 'Partners' },
+  { id: 'global', label: 'Global' },
+  { id: 'why-us', label: 'Why Us' },
+  { id: 'contact', label: 'Contact' },
+];
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,31 +32,17 @@ const Index = () => {
       
       <PageTransition>
         <Header />
+        <SectionNav sections={sections} />
         
         <main>
-          {/* 1️⃣ HERO - Identity & Confidence */}
           <HeroSection />
-
-          {/* 2️⃣ ABOUT - Short Intro */}
-          <AboutSection />
-
-          {/* 3️⃣ WHAT WE OFFER - Core Domains */}
-          <OfferingsSection />
-
-          {/* 4️⃣ OUR SERVICES - Capabilities & Authority */}
-          <ServicesSection />
-
-          {/* 5️⃣ OUR BRAND PARTNERS - Premium Wall of Trust */}
-          <BrandPartnersSection />
-
-          {/* 6️⃣ GLOBAL PRESENCE - Map Section */}
-          <GlobalPresenceSection />
-
-          {/* 7️⃣ WHY SAI ENTERPRISES - Trust Highlights */}
-          <WhySaiSection />
-
-          {/* 8️⃣ CONTACT US - Form */}
-          <ContactSection />
+          <div id="about"><AboutSection /></div>
+          <div id="offerings"><OfferingsSection /></div>
+          <div id="services"><ServicesSection /></div>
+          <div id="partners"><BrandPartnersSection /></div>
+          <div id="global"><GlobalPresenceSection /></div>
+          <div id="why-us"><WhySaiSection /></div>
+          <div id="contact"><ContactSection /></div>
         </main>
 
         <Footer />

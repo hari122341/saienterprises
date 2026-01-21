@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowDown } from 'lucide-react';
-import saiLogo from '@/assets/sai-logo.png';
 import heroImage from '@/assets/hero-industrial.jpg';
 
 const HeroSection = () => {
@@ -15,8 +14,16 @@ const HeroSection = () => {
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const contentY = useTransform(scrollY, [0, 400], [0, -60]);
 
+  const stats = [
+    { value: '24+', label: 'Years' },
+    { value: '500+', label: 'Clients' },
+    { value: '2', label: 'Continents' },
+    { value: '8+', label: 'Brands' },
+  ];
+
   return (
     <section 
+      id="hero"
       ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden bg-background"
     >
@@ -30,164 +37,136 @@ const HeroSection = () => {
           alt="" 
           className="w-full h-[120%] object-cover"
           style={{ 
-            filter: 'saturate(0.5) brightness(0.85) contrast(1.1)',
+            filter: 'saturate(0.6) brightness(0.9) contrast(1.05)',
           }}
         />
-        {/* Brand-colored overlay */}
-        <div className="absolute inset-0 bg-primary/10" />
+        {/* Primary color overlay for brand consistency */}
+        <div className="absolute inset-0 bg-primary/5" />
       </motion.div>
 
-      {/* Gradient overlays for readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/40" />
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30" />
 
       {/* Main content */}
       <motion.div 
-        className="relative z-10 w-full px-6 md:px-12 lg:px-20 py-32"
+        className="relative z-10 w-full px-6 md:px-12 lg:px-20"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            {/* Left - Main Content */}
-            <div className="lg:col-span-7">
-              {/* Logo + Brand */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex items-center gap-4 mb-10"
-              >
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-primary/20 bg-background shadow-lg">
-                  <img src={saiLogo} alt="Sai Enterprises" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-medium">
-                    Est. 2000
-                  </span>
-                  <h2 className="font-serif text-xl text-foreground">Sai Enterprises</h2>
-                </div>
-              </motion.div>
-
-              {/* Main Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[1.05] mb-8"
-              >
-                We believe in<br />
-                <span className="text-primary">long-term</span><br />
-                relationships.
-              </motion.h1>
-
-              {/* Subheadline */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-muted-foreground text-lg md:text-xl max-w-lg leading-relaxed mb-10"
-              >
-                Graphic Machinery Suppliers with 24+ years of industry experience. 
-                Trusted by printers across India and East Africa.
-              </motion.p>
-
-              {/* CTAs */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <Link
-                  to="/machinery"
-                  className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                >
-                  <span className="text-sm font-medium">Explore Machinery</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  to="/contact"
-                  className="group inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground hover:border-primary hover:text-primary transition-colors"
-                >
-                  <span className="text-sm font-medium">Contact Us</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
-            </div>
-
-            {/* Right - Stats Card */}
+          <div className="max-w-3xl">
+            {/* Micro label */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-5"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mb-8"
             >
-              <div className="bg-card/80 backdrop-blur-sm border border-border p-8 md:p-10">
-                <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">
-                  Trusted By Industry Leaders
-                </h3>
+              <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">
+                Since 2000 • India & East Africa
+              </span>
+            </motion.div>
 
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                  {[
-                    { value: '24+', label: 'Years Experience' },
-                    { value: '500+', label: 'Clients Served' },
-                    { value: '2', label: 'Continents' },
-                    { value: '8+', label: 'Brand Partners' },
-                  ].map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                      className="text-center p-4 bg-secondary/50"
-                    >
-                      <div className="font-serif text-2xl md:text-3xl text-primary mb-1">
-                        {stat.value}
-                      </div>
-                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        {stat.label}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[1.05] mb-8"
+            >
+              We believe in<br />
+              <span className="text-primary">long-term</span><br />
+              relationships.
+            </motion.h1>
 
-                {/* Brand partners hint */}
-                <div className="pt-6 border-t border-border">
-                  <p className="text-xs text-muted-foreground mb-3">Brand Partners</p>
-                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-foreground/70">
-                    <span>Heidelberg</span>
-                    <span className="text-muted-foreground/30">•</span>
-                    <span>Komori</span>
-                    <span className="text-muted-foreground/30">•</span>
-                    <span>Manroland</span>
-                    <span className="text-muted-foreground/30">•</span>
-                    <span className="text-primary">+5 more</span>
+            {/* Subheadline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-muted-foreground text-lg md:text-xl max-w-xl leading-relaxed mb-10"
+            >
+              Premium graphic machinery suppliers. Trusted by printers for 
+              quality pre-press, post-press, and corrugation solutions.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 mb-16"
+            >
+              <Link
+                to="/machinery"
+                className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
+              >
+                <span className="text-sm font-medium">Explore Machinery</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/contact"
+                className="group inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300"
+              >
+                <span className="text-sm font-medium">Get in Touch</span>
+              </Link>
+            </motion.div>
+
+            {/* Stats Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex gap-8 md:gap-12"
+            >
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="font-serif text-3xl md:text-4xl text-foreground mb-1">
+                    {stat.value}
                   </div>
-                </div>
-              </div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground font-medium">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Bottom bar with brand partners hint */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+        transition={{ duration: 0.6, delay: 1 }}
+        className="absolute bottom-0 left-0 right-0 border-t border-border/30 bg-background/80 backdrop-blur-sm"
       >
-        <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          Scroll to explore
-        </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="w-4 h-4 text-muted-foreground" />
-        </motion.div>
+        <div className="px-6 md:px-12 lg:px-20 py-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            {/* Partner names */}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="font-medium">Trusted Brands:</span>
+              <span className="hidden sm:inline">Heidelberg • Komori • Manroland • Bobst • HPM</span>
+              <span className="sm:hidden">Heidelberg • Komori • +6</span>
+            </div>
+            
+            {/* Scroll indicator */}
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="flex items-center gap-2 text-muted-foreground"
+            >
+              <span className="text-[10px] uppercase tracking-wider hidden sm:inline">Scroll</span>
+              <ArrowDown className="w-4 h-4" />
+            </motion.div>
+          </div>
+        </div>
       </motion.div>
     </section>
   );
