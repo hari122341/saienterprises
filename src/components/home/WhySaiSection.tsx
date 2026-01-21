@@ -23,7 +23,6 @@ const WhySaiSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
-      {/* Parallax decorative line */}
       <motion.div 
         className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent pointer-events-none"
         style={{ scaleY: lineScale }}
@@ -31,24 +30,28 @@ const WhySaiSection = () => {
 
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
-          {/* Header - Left aligned */}
+          {/* Header - Centered */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-16 sm:mb-20 max-w-2xl"
+            className="text-center mb-16 sm:mb-20"
           >
-            <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+            <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
                 className="w-8 h-px bg-primary"
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
               />
               Why Us
+              <motion.span 
+                className="w-8 h-px bg-primary"
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+              />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-              Trust built over<br />
-              <span className="text-primary italic">two decades.</span>
+              Trust built over <span className="text-primary italic">two decades.</span>
             </h2>
           </motion.div>
 
@@ -60,7 +63,7 @@ const WhySaiSection = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-background p-6 sm:p-8 md:p-10 group hover:bg-secondary/30 transition-colors duration-500"
+                className="bg-background p-6 sm:p-8 md:p-10 group hover:bg-secondary/30 transition-colors duration-500 text-center"
               >
                 <motion.span 
                   className="block font-serif text-4xl sm:text-5xl md:text-6xl text-primary mb-4"
@@ -74,20 +77,19 @@ const WhySaiSection = () => {
             ))}
           </div>
 
-          {/* CTA */}
+          {/* CTA - Centered */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="max-w-xl"
+            className="max-w-xl mx-auto text-center"
           >
             <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-6 leading-relaxed">
               We don't just sell machinery.<br />
               We build <span className="text-primary">partnerships.</span>
             </h3>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Every client relationship begins with understanding your needs. We provide expert guidance, 
-              genuine products, and unwavering support at every step.
+              Every client relationship begins with understanding your needs.
             </p>
             <Link
               to="/contact"

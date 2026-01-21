@@ -53,12 +53,12 @@ const ServicesSection = () => {
 
         <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
           <div className="max-w-7xl mx-auto">
-            {/* Header - Left aligned */}
+            {/* Header - Centered */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
-              className="mb-12 sm:mb-16 max-w-2xl"
+              className="text-center mb-12 sm:mb-16"
             >
               <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                 <motion.span 
@@ -67,11 +67,16 @@ const ServicesSection = () => {
                   animate={isInView ? { scaleX: 1 } : {}}
                 />
                 Services
+                <motion.span 
+                  className="w-8 h-px bg-primary"
+                  initial={{ scaleX: 0 }}
+                  animate={isInView ? { scaleX: 1 } : {}}
+                />
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mb-4">
                 What we <span className="text-primary italic">do.</span>
               </h2>
-              <p className="text-muted-foreground text-base sm:text-lg">
+              <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto">
                 Core capabilities driving success for over two decades.
               </p>
             </motion.div>
