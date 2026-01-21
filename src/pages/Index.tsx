@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
+import PremiumLoader from '@/components/PremiumLoader';
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
 import OfferingsSection from '@/components/home/OfferingsSection';
@@ -11,38 +13,44 @@ import WhySaiSection from '@/components/home/WhySaiSection';
 import ContactSection from '@/components/home/ContactSection';
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <PageTransition>
-      <Header />
+    <>
+      {isLoading && <PremiumLoader onComplete={() => setIsLoading(false)} />}
       
-      <main>
-        {/* 1️⃣ HERO - Identity & Confidence */}
-        <HeroSection />
+      <PageTransition>
+        <Header />
+        
+        <main>
+          {/* 1️⃣ HERO - Identity & Confidence */}
+          <HeroSection />
 
-        {/* 2️⃣ ABOUT - Short Intro */}
-        <AboutSection />
+          {/* 2️⃣ ABOUT - Short Intro */}
+          <AboutSection />
 
-        {/* 3️⃣ WHAT WE OFFER - Core Domains */}
-        <OfferingsSection />
+          {/* 3️⃣ WHAT WE OFFER - Core Domains */}
+          <OfferingsSection />
 
-        {/* 4️⃣ OUR SERVICES - Capabilities & Authority */}
-        <ServicesSection />
+          {/* 4️⃣ OUR SERVICES - Capabilities & Authority */}
+          <ServicesSection />
 
-        {/* 5️⃣ OUR BRAND PARTNERS - Premium Wall of Trust */}
-        <BrandPartnersSection />
+          {/* 5️⃣ OUR BRAND PARTNERS - Premium Wall of Trust */}
+          <BrandPartnersSection />
 
-        {/* 6️⃣ GLOBAL PRESENCE - Map Section */}
-        <GlobalPresenceSection />
+          {/* 6️⃣ GLOBAL PRESENCE - Map Section */}
+          <GlobalPresenceSection />
 
-        {/* 7️⃣ WHY SAI ENTERPRISES - Trust Highlights */}
-        <WhySaiSection />
+          {/* 7️⃣ WHY SAI ENTERPRISES - Trust Highlights */}
+          <WhySaiSection />
 
-        {/* 8️⃣ CONTACT US - Form */}
-        <ContactSection />
-      </main>
+          {/* 8️⃣ CONTACT US - Form */}
+          <ContactSection />
+        </main>
 
-      <Footer />
-    </PageTransition>
+        <Footer />
+      </PageTransition>
+    </>
   );
 };
 
