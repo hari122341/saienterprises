@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
+import saiLogo from '@/assets/sai-logo.png';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,7 +21,20 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
+    { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Machinery', href: '/machinery' },
     { name: 'Brands', href: '/brands' },
@@ -29,6 +43,7 @@ const Header = () => {
   ];
 
   const isActive = (href: string) => {
+    if (href === '/') return location.pathname === '/';
     if (href === '/machinery') {
       return location.pathname.startsWith('/machinery');
     }
@@ -37,34 +52,43 @@ const Header = () => {
 
   return (
     <>
-      {/* Thin, editorial navigation */}
+      {/* Thin, caption-style navigation */}
       <motion.header
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'bg-background/90 backdrop-blur-sm border-b border-border' 
+            ? 'bg-background/95 backdrop-blur-sm border-b border-border/50' 
             : 'bg-transparent'
         }`}
       >
-        <div className="container-wide">
-          <div className="flex items-center justify-between h-14">
-            {/* Logo - small, confident */}
+        <div className="px-6 md:px-10 lg:px-16">
+          <div className="flex items-center justify-between h-12 md:h-14">
+            {/* Logo + Text */}
             <Link 
               to="/" 
-              className="text-sm font-medium tracking-wide text-foreground hover:text-muted-foreground transition-colors"
+              className="flex items-center gap-3 group"
             >
-              Sai Enterprises
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-border/30 shadow-sm">
+                <img 
+                  src={saiLogo} 
+                  alt="Sai Enterprises" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="text-sm font-light tracking-wide text-foreground group-hover:text-muted-foreground transition-colors">
+                Sai Enterprises
+              </span>
             </Link>
 
-            {/* Desktop Navigation - light weight, spaced */}
-            <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
+            {/* Desktop Navigation - light weight, generous spacing */}
+            <nav className="hidden md:flex items-center gap-10">
+              {navLinks.slice(1).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`text-sm font-light tracking-wide transition-colors ${
+                  className={`text-[13px] font-light tracking-wide transition-colors duration-300 ${
                     isActive(link.href)
                       ? 'text-foreground'
                       : 'text-muted-foreground hover:text-foreground'
@@ -75,49 +99,76 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - minimal */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 -mr-2 text-foreground"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
       </motion.header>
 
-      {/* Mobile Menu - full screen, minimal */}
+      {/* Mobile Menu - Full screen premium overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background md:hidden"
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-40 md:hidden"
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    to={link.href}
-                    className={`text-3xl font-light tracking-wide transition-colors ${
-                      isActive(link.href)
-                        ? 'text-foreground'
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+            {/* Background with brand color */}
+            <div className="absolute inset-0 bg-primary" />
+            
+            {/* Content */}
+            <div className="relative h-full flex flex-col justify-center px-8">
+              {/* Navigation Links - Large editorial typography */}
+              <nav className="space-y-8">
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + index * 0.08, duration: 0.5 }}
                   >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      to={link.href}
+                      className={`block text-4xl font-light tracking-wide transition-opacity duration-300 ${
+                        isActive(link.href)
+                          ? 'text-primary-foreground'
+                          : 'text-primary-foreground/70 hover:text-primary-foreground'
+                      }`}
+                      style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+
+              {/* Bottom CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="absolute bottom-12 left-8 right-8"
+              >
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">Get in touch</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
