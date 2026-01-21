@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
+import PageTransition from '@/components/PageTransition';
 import { companyInfo } from '@/data/products';
 import aboutImage from '@/assets/about-locations.jpg';
 
@@ -26,13 +27,7 @@ const services = [
 
 const AboutPage = () => {
   return (
-    <motion.div 
-      className="min-h-screen bg-background"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageTransition>
       <ScrollProgress />
       <Header />
       
@@ -81,7 +76,7 @@ const AboutPage = () => {
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
-              <p className="text-foreground text-xl md:text-2xl leading-relaxed" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+              <p className="text-foreground text-xl md:text-2xl leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                 Sai Enterprises was founded with a simple belief: the printing and packaging 
                 industry deserves a trusted partner who understands their needs and stands 
                 by them through every decision.
@@ -115,7 +110,7 @@ const AboutPage = () => {
                 <div 
                   key={service}
                   className="py-5 border-b border-border text-foreground text-lg"
-                  style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                 >
                   {service}
                 </div>
@@ -142,7 +137,7 @@ const AboutPage = () => {
                 >
                   <span 
                     className="text-xl md:text-2xl text-foreground"
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                   >
                     {location.city}
                   </span>
@@ -181,7 +176,7 @@ const AboutPage = () => {
       </main>
 
       <Footer />
-    </motion.div>
+    </PageTransition>
   );
 };
 

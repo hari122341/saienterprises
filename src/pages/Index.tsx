@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
 import OfferingsSection from '@/components/home/OfferingsSection';
@@ -11,13 +11,7 @@ import ContactSection from '@/components/home/ContactSection';
 
 const Index = () => {
   return (
-    <motion.div 
-      className="min-h-screen bg-background"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageTransition>
       <Header />
       
       <main>
@@ -44,7 +38,7 @@ const Index = () => {
       </main>
 
       <Footer />
-    </motion.div>
+    </PageTransition>
   );
 };
 
