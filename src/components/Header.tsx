@@ -114,7 +114,7 @@ const Header = () => {
         </div>
       </motion.header>
 
-      {/* Clean Mobile Menu */}
+      {/* Minimal Centered Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -123,55 +123,67 @@ const Header = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 md:hidden"
           >
-            {/* Backdrop */}
+            {/* Backdrop with blur */}
             <motion.div 
-              className="absolute inset-0 bg-background"
+              className="absolute inset-0 bg-background/95 backdrop-blur-xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
 
-            {/* Content */}
-            <div className="relative h-full flex flex-col px-6 pt-20 pb-8">
-              {/* Navigation Links */}
-              <nav className="flex-1 flex flex-col justify-center -mt-16">
-                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ delay: i * 0.05, duration: 0.3 }}
-                  >
-                    <Link
-                      to={link.href}
-                      className={`block py-3 border-b border-border/50 ${
-                        location.pathname === link.href ? '' : ''
-                      }`}
+            {/* Content - Centered */}
+            <div className="relative h-full flex flex-col items-center justify-center px-6">
+              {/* Navigation Links - Centered */}
+              <nav className="flex flex-col items-center gap-2">
+                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
+                  const active = location.pathname === link.href || 
+                    (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
+                  
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 15 }}
+                      transition={{ delay: i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <span className={`font-serif text-2xl transition-colors ${
-                        location.pathname === link.href 
-                          ? 'text-primary' 
-                          : 'text-foreground'
-                      }`}>
-                        {link.name}
-                      </span>
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        to={link.href}
+                        className="relative block py-3 px-8 text-center group"
+                      >
+                        {/* Active indicator */}
+                        {active && (
+                          <motion.div
+                            layoutId="mobile-active"
+                            className="absolute inset-0 bg-primary/10 rounded-xl border border-primary/20"
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                        
+                        <span className={`relative font-serif text-3xl transition-colors ${
+                          active 
+                            ? 'text-primary' 
+                            : 'text-foreground/70 group-hover:text-foreground'
+                        }`}>
+                          {link.name}
+                        </span>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </nav>
 
-              {/* Footer Info */}
+              {/* Subtle footer */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="pt-6 border-t border-border"
+                transition={{ delay: 0.4 }}
+                className="absolute bottom-12 left-0 right-0 flex flex-col items-center"
               >
-                <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2">Email</p>
-                <a href="mailto:msrao@saienterprises.info" className="text-foreground text-sm">
-                  msrao@saienterprises.info
-                </a>
+                <div className="w-8 h-px bg-border mb-4" />
+                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Since 2000
+                </span>
               </motion.div>
             </div>
           </motion.div>

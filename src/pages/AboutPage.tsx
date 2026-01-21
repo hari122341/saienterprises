@@ -1,6 +1,6 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -9,31 +9,34 @@ import PageTransition from '@/components/PageTransition';
 import { companyInfo } from '@/data/products';
 
 const milestones = [
-  { year: '2000', title: 'Founded', description: 'Started operations in Hyderabad' },
-  { year: '2005', title: 'Expansion', description: 'Opened Delhi and Pune branches' },
-  { year: '2012', title: 'International', description: 'Established Kenya office' },
-  { year: '2018', title: 'HPM Partnership', description: 'Became sole agent for India' },
-  { year: '2024', title: 'Today', description: '500+ clients across 2 continents' },
+  { year: '2000', title: 'Foundation', description: 'Established in Hyderabad with a vision to serve the printing industry.' },
+  { year: '2005', title: 'National Expansion', description: 'Opened branch offices in New Delhi and Pune.' },
+  { year: '2012', title: 'Going International', description: 'Established our overseas office in Nairobi, Kenya.' },
+  { year: '2018', title: 'HPM Partnership', description: 'Became the sole authorized agent for HPM in India.' },
+  { year: 'Now', title: '24+ Years Strong', description: '500+ satisfied clients across two continents.' },
 ];
 
 const services = [
-  { title: 'Expert Consultancy', description: 'Guidance before every purchase decision' },
-  { title: 'Installation', description: 'Complete setup and commissioning' },
-  { title: 'Technical Support', description: 'Ongoing maintenance and service' },
+  { title: 'Expert Consultancy', description: 'Guidance before every purchase' },
+  { title: 'Installation & Setup', description: 'Complete commissioning support' },
+  { title: 'Technical Support', description: 'Ongoing maintenance services' },
   { title: 'New Machinery', description: 'Latest equipment from top brands' },
   { title: 'Refurbished Options', description: 'Quality pre-owned alternatives' },
-  { title: 'Spare Parts', description: 'Genuine components and consumables' },
+  { title: 'Genuine Spare Parts', description: 'Authentic components always' },
 ];
 
 const AboutPage = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const timelineInView = useInView(timelineRef, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
   
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.5], [1, 0]);
+  const heroY = useTransform(heroProgress, [0, 0.5], [0, 100]);
 
   return (
     <PageTransition>
@@ -42,52 +45,63 @@ const AboutPage = () => {
       
       <main>
         {/* Hero Section */}
-        <section ref={heroRef} className="relative min-h-[70vh] flex items-end bg-secondary/30 overflow-hidden">
+        <section ref={heroRef} className="relative min-h-[70vh] flex items-center justify-center bg-secondary/30 overflow-hidden">
           {/* Grid pattern */}
           <div
-            className="absolute inset-0 opacity-[0.04]"
+            className="absolute inset-0 opacity-[0.03]"
             style={{
               backgroundImage:
                 "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
+              backgroundSize: "60px 60px",
             }}
           />
           
-          {/* Floating decorative elements */}
+          {/* Floating orbs */}
           <motion.div 
-            className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-primary/5 blur-3xl"
-            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-primary/5 blur-3xl"
+            animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-primary/3 blur-3xl"
+            animate={{ scale: [1.1, 1, 1.1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 8, repeat: Infinity, delay: 1 }}
           />
 
           <motion.div 
-            className="relative w-full px-6 sm:px-8 md:px-16 lg:px-24 pb-16 sm:pb-20 md:pb-28 pt-32 sm:pt-40"
+            className="relative text-center px-6 sm:px-8 pt-24 sm:pt-32 pb-20"
             style={{ opacity: heroOpacity, y: heroY }}
           >
-            <motion.div
+            <motion.span
+              className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="w-8 h-px bg-primary" />
+              About Us
+              <span className="w-8 h-px bg-primary" />
+            </motion.span>
+            
+            <motion.h1 
+              className="text-foreground mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-tight max-w-4xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-3xl"
+              transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <motion.span
-                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                <span className="w-8 h-px bg-primary" />
-                About
-              </motion.span>
-              <h1 className="text-foreground mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-tight">
-                We've been here<br />
-                <span className="text-primary italic">long enough.</span>
-              </h1>
-              <p className="text-muted-foreground text-lg sm:text-xl max-w-xl leading-relaxed">
-                {companyInfo.experience} of excellence in graphic and corrugation machinery. 
-                Building long-term relationships across India and East Africa.
-              </p>
-            </motion.div>
+              We've been here<br />
+              <span className="text-primary italic">long enough.</span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-muted-foreground text-lg sm:text-xl max-w-xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              {companyInfo.experience} of excellence in graphic and corrugation machinery. 
+              Building long-term relationships across India and East Africa.
+            </motion.p>
           </motion.div>
         </section>
 
@@ -99,12 +113,13 @@ const AboutPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
+              className="text-center lg:text-left"
             >
               <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6">
                 <span className="w-8 h-px bg-primary" />
                 Our Story
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight mb-6">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mb-6">
                 A belief that became<br />
                 <span className="text-primary italic">a business.</span>
               </h2>
@@ -117,7 +132,7 @@ const AboutPage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-6"
             >
-              <p className="text-foreground text-lg leading-relaxed font-serif">
+              <p className="text-foreground text-lg sm:text-xl leading-relaxed font-serif">
                 Sai Enterprises was founded with a simple belief: the printing and packaging 
                 industry deserves a trusted partner who understands their needs.
               </p>
@@ -134,78 +149,184 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Milestones */}
-        <section className="py-20 sm:py-28 bg-secondary/30">
+        {/* Animated Timeline */}
+        <section ref={timelineRef} className="py-20 sm:py-28 bg-foreground overflow-hidden">
           <div className="px-6 sm:px-8 md:px-16 lg:px-24">
             <div className="max-w-6xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="mb-12 sm:mb-16"
+                className="text-center mb-16 sm:mb-20"
               >
-                <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+                <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                   <span className="w-8 h-px bg-primary" />
-                  Journey
+                  Our Journey
+                  <span className="w-8 h-px bg-primary" />
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl text-foreground">
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background">
                   Key <span className="text-primary italic">milestones.</span>
                 </h2>
               </motion.div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-border">
-                {milestones.map((milestone, index) => (
-                  <motion.div
-                    key={milestone.year}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-background p-6 hover:bg-secondary/50 transition-colors duration-300"
-                  >
-                    <span className="font-serif text-3xl text-primary mb-3 block">{milestone.year}</span>
-                    <h3 className="font-medium text-foreground mb-1">{milestone.title}</h3>
-                    <p className="text-sm text-muted-foreground">{milestone.description}</p>
-                  </motion.div>
-                ))}
+              {/* Timeline */}
+              <div className="relative">
+                {/* Animated line */}
+                <motion.div 
+                  className="absolute left-4 sm:left-1/2 sm:-translate-x-px top-0 bottom-0 w-0.5 bg-background/20"
+                  initial={{ scaleY: 0 }}
+                  animate={timelineInView ? { scaleY: 1 } : {}}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  style={{ originY: 0 }}
+                />
+                <motion.div 
+                  className="absolute left-4 sm:left-1/2 sm:-translate-x-px top-0 w-0.5 bg-primary"
+                  initial={{ height: 0 }}
+                  animate={timelineInView ? { height: "100%" } : {}}
+                  transition={{ duration: 2, ease: "easeOut", delay: 0.3 }}
+                />
+
+                <div className="space-y-12 sm:space-y-16">
+                  {milestones.map((milestone, index) => (
+                    <motion.div
+                      key={milestone.year}
+                      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                      animate={timelineInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ 
+                        duration: 0.6, 
+                        delay: 0.4 + index * 0.2,
+                        ease: [0.16, 1, 0.3, 1]
+                      }}
+                      className={`relative pl-12 sm:pl-0 sm:grid sm:grid-cols-2 sm:gap-12 ${
+                        index % 2 === 0 ? '' : 'sm:direction-rtl'
+                      }`}
+                    >
+                      {/* Dot */}
+                      <motion.div 
+                        className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-0"
+                        initial={{ scale: 0 }}
+                        animate={timelineInView ? { scale: 1 } : {}}
+                        transition={{ 
+                          duration: 0.4, 
+                          delay: 0.6 + index * 0.2,
+                          type: "spring",
+                          stiffness: 300
+                        }}
+                      >
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                          milestone.year === 'Now' 
+                            ? 'bg-primary' 
+                            : 'bg-background/10 border border-background/30'
+                        }`}>
+                          <motion.div 
+                            className={`w-2.5 h-2.5 rounded-full ${
+                              milestone.year === 'Now' 
+                                ? 'bg-primary-foreground' 
+                                : 'bg-primary'
+                            }`}
+                            animate={milestone.year === 'Now' ? { 
+                              scale: [1, 1.5, 1],
+                            } : {}}
+                            transition={{ 
+                              duration: 2, 
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        </div>
+                      </motion.div>
+
+                      {/* Content */}
+                      <div className={`${index % 2 === 0 ? 'sm:text-right sm:pr-16' : 'sm:col-start-2 sm:pl-16 sm:direction-ltr'}`}>
+                        <motion.div
+                          whileHover={{ x: index % 2 === 0 ? -8 : 8 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <span className={`inline-block text-sm font-bold tracking-wider mb-2 ${
+                            milestone.year === 'Now' 
+                              ? 'text-primary' 
+                              : 'text-background/50'
+                          }`}>
+                            {milestone.year}
+                          </span>
+                          <h3 className="font-serif text-xl sm:text-2xl text-background mb-2">
+                            {milestone.title}
+                          </h3>
+                          <p className="text-background/60 text-sm sm:text-base">
+                            {milestone.description}
+                          </p>
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Services */}
+        {/* What We Do - Premium Grid */}
         <section className="py-20 sm:py-28 md:py-36 px-6 sm:px-8 md:px-16 lg:px-24">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mb-12 sm:mb-16"
+              className="text-center mb-16 sm:mb-20"
             >
-              <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+              <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                 <span className="w-8 h-px bg-primary" />
                 What We Do
+                <span className="w-8 h-px bg-primary" />
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-foreground">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground mb-4">
                 Complete <span className="text-primary italic">solutions.</span>
               </h2>
+              <p className="text-muted-foreground max-w-lg mx-auto">
+                End-to-end support for your printing and packaging machinery needs.
+              </p>
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {services.map((service, index) => (
                 <motion.div
                   key={service.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ y: -5 }}
-                  className="p-6 border border-border hover:border-primary/30 transition-all duration-300 group"
+                  transition={{ delay: index * 0.08 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group relative p-6 sm:p-8 bg-secondary/30 border border-border hover:border-primary/30 transition-all duration-500"
                 >
-                  <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{service.description}</p>
+                  {/* Number */}
+                  <span className="absolute top-6 right-6 text-6xl font-serif text-primary/5 group-hover:text-primary/10 transition-colors">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  
+                  <div className="relative">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 + index * 0.05, type: "spring" }}
+                      className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-primary" />
+                    </motion.div>
+                    
+                    <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-primary transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">{service.description}</p>
+                  </div>
+                  
+                  {/* Hover accent */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 h-1 bg-primary"
+                    initial={{ width: 0 }}
+                    whileHover={{ width: '100%' }}
+                    transition={{ duration: 0.3 }}
+                  />
                 </motion.div>
               ))}
             </div>
@@ -213,32 +334,34 @@ const AboutPage = () => {
         </section>
 
         {/* Locations */}
-        <section className="py-20 sm:py-28 bg-foreground">
+        <section className="py-20 sm:py-28 bg-primary">
           <div className="px-6 sm:px-8 md:px-16 lg:px-24">
             <div className="max-w-6xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="mb-12"
+                className="text-center mb-12"
               >
-                <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-                  <span className="w-8 h-px bg-primary" />
+                <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary-foreground/60 font-medium mb-4">
+                  <span className="w-8 h-px bg-primary-foreground/30" />
                   Locations
+                  <span className="w-8 h-px bg-primary-foreground/30" />
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl text-background">
-                  Where we <span className="text-primary italic">operate.</span>
+                <h2 className="font-serif text-3xl sm:text-4xl text-primary-foreground">
+                  Where we <span className="italic">operate.</span>
                 </h2>
               </motion.div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid sm:grid-cols-3 gap-4">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="bg-primary p-6"
+                  whileHover={{ y: -5 }}
+                  className="bg-primary-foreground/10 backdrop-blur-sm p-6 text-center border border-primary-foreground/20"
                 >
-                  <span className="text-[9px] uppercase tracking-[0.15em] text-primary-foreground/50 mb-2 block">
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-primary-foreground/50 block mb-2">
                     Headquarters
                   </span>
                   <h3 className="font-serif text-2xl text-primary-foreground mb-1">Hyderabad</h3>
@@ -250,13 +373,14 @@ const AboutPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
-                  className="bg-background/10 border border-background/20 p-6"
+                  whileHover={{ y: -5 }}
+                  className="bg-primary-foreground/5 p-6 text-center border border-primary-foreground/10"
                 >
-                  <span className="text-[9px] uppercase tracking-[0.15em] text-background/40 mb-2 block">
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-primary-foreground/50 block mb-2">
                     International
                   </span>
-                  <h3 className="font-serif text-2xl text-background mb-1">Nairobi</h3>
-                  <p className="text-background/50 text-sm">Kenya</p>
+                  <h3 className="font-serif text-2xl text-primary-foreground mb-1">Nairobi</h3>
+                  <p className="text-primary-foreground/60 text-sm">Kenya, East Africa</p>
                 </motion.div>
 
                 <motion.div
@@ -264,12 +388,13 @@ const AboutPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  className="bg-background/5 p-6"
+                  whileHover={{ y: -5 }}
+                  className="bg-primary-foreground/5 p-6 text-center border border-primary-foreground/10"
                 >
-                  <span className="text-[9px] uppercase tracking-[0.15em] text-background/40 mb-2 block">
-                    Branches
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-primary-foreground/50 block mb-2">
+                    Branch Offices
                   </span>
-                  <p className="text-background/70 text-sm leading-relaxed">
+                  <p className="text-primary-foreground/70 text-sm leading-relaxed">
                     New Delhi · Pune · Vijayawada
                   </p>
                 </motion.div>
@@ -284,19 +409,19 @@ const AboutPage = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-xl"
+            className="max-w-2xl mx-auto text-center"
           >
-            <h3 className="text-foreground mb-6 text-2xl sm:text-3xl font-serif">
+            <h3 className="text-foreground mb-6 text-3xl sm:text-4xl font-serif">
               Ready to work with us?
             </h3>
-            <p className="text-muted-foreground mb-8">
+            <p className="text-muted-foreground mb-8 text-lg">
               Let's discuss how we can support your printing and packaging needs.
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-3 bg-foreground text-background px-6 py-3 hover:bg-foreground/90 transition-colors group"
+              className="inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 hover:bg-foreground/90 transition-colors group"
             >
-              <span className="text-sm font-medium">Get in touch</span>
+              <span className="font-medium">Get in touch</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>

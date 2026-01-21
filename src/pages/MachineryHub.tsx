@@ -8,30 +8,42 @@ import ScrollProgress from '@/components/ScrollProgress';
 import PageTransition from '@/components/PageTransition';
 import { productCategories } from '@/data/products';
 
+// Category images
+const categoryImages: Record<string, string> = {
+  'pre-press': 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop',
+  'press': 'https://images.unsplash.com/photo-1581092160607-ee22731e3a0f?w=800&h=600&fit=crop',
+  'post-press': 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop',
+  'corrugation': 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop',
+};
+
 const categories = [
   { 
     id: 'pre-press', 
     name: 'Pre-Press',
     description: 'Plate making, exposure and imaging solutions for precision preparation.',
-    color: 'from-cyan-500/20 to-transparent',
+    color: 'from-cyan-500/20 to-cyan-500/5',
+    accent: 'bg-cyan-500',
   },
   { 
     id: 'press', 
     name: 'Press',
     description: 'Offset and digital printing machinery for high-quality production.',
-    color: 'from-primary/20 to-transparent',
+    color: 'from-primary/20 to-primary/5',
+    accent: 'bg-primary',
   },
   { 
     id: 'post-press', 
     name: 'Post-Press',
     description: 'Cutting, binding and finishing solutions for professional output.',
-    color: 'from-emerald-500/20 to-transparent',
+    color: 'from-emerald-500/20 to-emerald-500/5',
+    accent: 'bg-emerald-500',
   },
   { 
     id: 'corrugation', 
     name: 'Corrugation',
     description: 'Heavy-duty packaging machinery for industrial-scale operations.',
-    color: 'from-amber-500/20 to-transparent',
+    color: 'from-amber-500/20 to-amber-500/5',
+    accent: 'bg-amber-500',
   },
 ];
 
@@ -43,6 +55,7 @@ const MachineryHub = () => {
   });
   
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 60]);
 
   const getCategoryCount = (categoryId: string) => {
     const category = productCategories.find(c => c.id === categoryId);
@@ -56,84 +69,130 @@ const MachineryHub = () => {
       
       <main>
         {/* Hero */}
-        <section ref={heroRef} className="relative min-h-[50vh] flex items-end bg-secondary/30 overflow-hidden">
+        <section ref={heroRef} className="relative min-h-[60vh] flex items-center justify-center bg-secondary/30 overflow-hidden">
           <div
-            className="absolute inset-0 opacity-[0.04]"
+            className="absolute inset-0 opacity-[0.03]"
             style={{
               backgroundImage:
                 "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
+              backgroundSize: "60px 60px",
             }}
           />
 
+          {/* Floating orbs */}
           <motion.div 
-            className="relative w-full px-6 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16 pt-28 sm:pt-36"
-            style={{ opacity: heroOpacity }}
+            className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-primary/5 blur-3xl"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 8, repeat: Infinity }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 left-1/3 w-48 h-48 rounded-full bg-primary/3 blur-3xl"
+            animate={{ scale: [1.1, 1, 1.1] }}
+            transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+          />
+
+          <motion.div 
+            className="relative text-center px-6 sm:px-8 pt-24 sm:pt-32"
+            style={{ opacity: heroOpacity, y: heroY }}
           >
-            <motion.div
+            <motion.span
+              className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="w-8 h-px bg-primary" />
+              Machinery
+              <span className="w-8 h-px bg-primary" />
+            </motion.span>
+            
+            <motion.h1 
+              className="text-foreground mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-tight max-w-4xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-3xl"
+              transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6">
-                <span className="w-8 h-px bg-primary" />
-                Machinery
-              </span>
-              <h1 className="text-foreground mb-6 text-4xl sm:text-5xl md:text-6xl font-serif leading-tight">
-                Choose a <span className="text-primary italic">discipline.</span>
-              </h1>
-              <p className="text-muted-foreground text-lg sm:text-xl max-w-xl leading-relaxed">
-                Complete range of printing and packaging machinery solutions.
-              </p>
-            </motion.div>
+              Choose a <span className="text-primary italic">discipline.</span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-muted-foreground text-lg sm:text-xl max-w-xl mx-auto leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              Complete range of printing and packaging machinery solutions.
+            </motion.p>
           </motion.div>
         </section>
 
-        {/* Categories Grid */}
+        {/* Categories Grid - Image Cards */}
         <section className="py-16 sm:py-24 px-6 sm:px-8 md:px-16 lg:px-24">
-          <div className="max-w-6xl mx-auto grid sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-4 sm:gap-6">
             {categories.map((category, index) => {
               const count = getCategoryCount(category.id);
               
               return (
                 <motion.div
                   key={category.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
                   <Link 
                     to={`/machinery/${category.id}`}
-                    className="group block relative overflow-hidden border border-border hover:border-primary/30 transition-all duration-500"
+                    className="group block relative overflow-hidden aspect-[4/3] sm:aspect-[3/2]"
                   >
-                    {/* Gradient accent */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                    {/* Background Image */}
+                    <div className="absolute inset-0">
+                      <img 
+                        src={categoryImages[category.id]}
+                        alt={category.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-foreground/20" />
+                    </div>
                     
-                    <div className="relative p-8 sm:p-10">
+                    {/* Content */}
+                    <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
                       {/* Number */}
-                      <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-8 block">
+                      <motion.span 
+                        className="absolute top-6 right-6 text-6xl sm:text-7xl font-serif text-background/10 group-hover:text-primary/30 transition-colors duration-500"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 + index * 0.1 }}
+                      >
                         0{index + 1}
-                      </span>
+                      </motion.span>
+
+                      {/* Accent line */}
+                      <motion.div 
+                        className={`w-12 h-1 ${category.accent} mb-4`}
+                        initial={{ width: 0 }}
+                        whileInView={{ width: 48 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 + index * 0.1 }}
+                      />
 
                       {/* Title */}
-                      <h2 className="font-serif text-3xl sm:text-4xl text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+                      <h2 className="font-serif text-3xl sm:text-4xl text-background mb-2 group-hover:text-primary transition-colors duration-300">
                         {category.name}
                       </h2>
                       
                       {/* Description */}
-                      <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed">
+                      <p className="text-background/70 text-sm sm:text-base mb-4 max-w-md">
                         {category.description}
                       </p>
                       
                       {/* Footer */}
-                      <div className="flex items-center justify-between pt-6 border-t border-border">
-                        <span className="text-xs text-muted-foreground">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-background/50">
                           {count} machines
                         </span>
                         <motion.div 
-                          className="flex items-center gap-2 text-foreground group-hover:text-primary transition-colors"
+                          className="flex items-center gap-2 text-background group-hover:text-primary transition-colors"
                           whileHover={{ x: 5 }}
                         >
                           <span className="text-xs font-medium">Explore</span>
@@ -141,6 +200,9 @@ const MachineryHub = () => {
                         </motion.div>
                       </div>
                     </div>
+
+                    {/* Hover gradient overlay */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
                   </Link>
                 </motion.div>
               );
@@ -154,11 +216,12 @@ const MachineryHub = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-xl"
+            className="max-w-2xl mx-auto text-center"
           >
-            <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+            <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <span className="w-8 h-px bg-primary" />
               Need Help?
+              <span className="w-8 h-px bg-primary" />
             </span>
             <h3 className="text-foreground mb-6 text-2xl sm:text-3xl font-serif">
               Our team provides expert consultancy for your specific requirements.
