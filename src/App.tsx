@@ -10,13 +10,12 @@ import PremiumLoader from "./components/PremiumLoader";
 import PageSkeleton from "./components/PageSkeleton";
 import Index from "./pages/Index";
 
-// Lazy load pages for better performance with skeleton loading
+// Lazy load pages for better performance
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const MachineryHub = lazy(() => import("./pages/MachineryHub"));
 const MachineryCategory = lazy(() => import("./pages/MachineryCategory"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const BrandsPage = lazy(() => import("./pages/BrandsPage"));
-const GlobalPage = lazy(() => import("./pages/GlobalPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -38,7 +37,6 @@ const AnimatedRoutes = () => {
           <Route path="/machinery/:categorySlug" element={<MachineryCategory />} />
           <Route path="/machinery/:categorySlug/:productId" element={<ProductDetail />} />
           <Route path="/brands" element={<BrandsPage />} />
-          <Route path="/global" element={<GlobalPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
