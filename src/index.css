@@ -174,8 +174,8 @@
   
   /* Caption - refined micro uppercase text */
   .caption {
-    @apply text-[11px] uppercase tracking-[0.15em] font-semibold text-muted-foreground;
-    font-family: 'Inter', system-ui, sans-serif;
+    @apply text-[11px] uppercase tracking-[0.2em] font-semibold text-muted-foreground;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 
   /* Display word - large editorial text */
