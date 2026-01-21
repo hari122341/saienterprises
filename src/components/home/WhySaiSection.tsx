@@ -1,11 +1,19 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const WhySaiSection = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const decoY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const lineScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
 
   const pillars = [
     { number: '24+', label: 'Years of Trust', description: 'Building relationships since 2000' },
@@ -24,8 +32,18 @@ const WhySaiSection = () => {
   ];
 
   return (
-    <section ref={containerRef} className="py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
-      <div className="px-6 sm:px-8 md:px-12 lg:px-20">
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
+      {/* Parallax decorative lines */}
+      <motion.div 
+        className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent pointer-events-none"
+        style={{ scaleY: lineScale }}
+      />
+      <motion.div 
+        className="absolute top-20 right-20 w-40 h-40 border border-primary/10 rounded-full pointer-events-none"
+        style={{ y: decoY }}
+      />
+
+      <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div

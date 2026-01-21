@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 
 // Animated counter component
@@ -24,15 +24,34 @@ const AnimatedCounter = ({ end, duration = 2, suffix = '' }: { end: number; dura
 };
 
 const AboutSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const floatY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
   return (
-    <section className="relative bg-background overflow-hidden">
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-[0.015]">
+    <section ref={sectionRef} className="relative bg-background overflow-hidden">
+      {/* Parallax grid pattern */}
+      <motion.div className="absolute inset-0 opacity-[0.02]" style={{ y: bgY }}>
         <div className="absolute inset-0" style={{
           backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }} />
-      </div>
+      </motion.div>
+
+      {/* Floating decorative shapes */}
+      <motion.div 
+        className="absolute top-20 right-20 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none"
+        style={{ y: floatY }}
+      />
+      <motion.div 
+        className="absolute bottom-40 left-10 w-48 h-48 rounded-full bg-primary/3 blur-2xl pointer-events-none"
+        style={{ y: useTransform(scrollYProgress, [0, 1], [-30, 30]) }}
+      />
 
       <div className="relative px-5 sm:px-8 md:px-12 lg:px-20 py-16 sm:py-20 md:py-28 lg:py-32">
         {/* Bento Grid Layout */}
