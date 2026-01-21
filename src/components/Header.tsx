@@ -43,7 +43,7 @@ const Header = () => {
   const navLinks = [
     { name: 'About', href: '/about', sectionId: 'about' },
     { name: 'Machinery', href: '/machinery', sectionId: null },
-    { name: 'Brands', href: '/brands', sectionId: 'partners' },
+    { name: 'Partners', href: '/partners', sectionId: 'partners' },
     { name: 'Contact', href: '/contact', sectionId: 'contact' },
   ];
 
@@ -85,7 +85,7 @@ const Header = () => {
         className={`fixed top-4 left-4 right-4 z-50 transition-all duration-500 rounded-full ${
           isInHeroSection
             ? 'bg-transparent border-transparent' 
-            : 'bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl shadow-foreground/[0.08]'
+            : 'bg-background/70 backdrop-blur-2xl border border-border/30 shadow-xl shadow-foreground/[0.05]'
         }`}
       >
         <div className="px-4 sm:px-6">

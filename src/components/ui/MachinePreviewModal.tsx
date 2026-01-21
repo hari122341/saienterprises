@@ -76,15 +76,15 @@ const MachinePreviewModal = ({
               <X className="w-5 h-5" />
             </motion.button>
 
-            {/* Navigation arrows */}
+            {/* Navigation arrows - positioned outside modal on desktop, inside on mobile */}
             {hasPrev && onPrev && (
               <motion.button
                 onClick={onPrev}
                 whileHover={{ scale: 1.1, x: -2 }}
                 whileTap={{ scale: 0.9 }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-foreground/90 flex items-center justify-center text-background hover:bg-foreground transition-colors"
+                className="absolute left-2 sm:-left-16 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-foreground/90 sm:bg-background/90 flex items-center justify-center text-background sm:text-foreground hover:bg-foreground sm:hover:bg-background transition-colors shadow-lg"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
             )}
             {hasNext && onNext && (
@@ -92,15 +92,15 @@ const MachinePreviewModal = ({
                 onClick={onNext}
                 whileHover={{ scale: 1.1, x: 2 }}
                 whileTap={{ scale: 0.9 }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-foreground/90 flex items-center justify-center text-background hover:bg-foreground transition-colors"
+                className="absolute right-2 sm:-right-16 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-foreground/90 sm:bg-background/90 flex items-center justify-center text-background sm:text-foreground hover:bg-foreground sm:hover:bg-background transition-colors shadow-lg"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
             )}
 
             <div className="grid md:grid-cols-2 max-h-[90vh] overflow-auto">
               {/* Image Section */}
-              <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[500px] bg-secondary overflow-hidden">
+              <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[400px] bg-secondary overflow-hidden">
                 <motion.img 
                   key={product.id}
                   src={product.image || getCategoryImage(product.category)}
@@ -117,22 +117,22 @@ const MachinePreviewModal = ({
                 
                 {/* Category badge */}
                 <motion.div 
-                  className="absolute top-6 left-6"
+                  className="absolute top-4 left-4"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <span className="px-4 py-2 bg-primary text-primary-foreground text-[10px] uppercase tracking-[0.2em] font-medium rounded-full">
+                  <span className="px-3 py-1.5 bg-primary text-primary-foreground text-[9px] uppercase tracking-[0.15em] font-medium rounded-full">
                     {product.category.replace('-', ' ')}
                   </span>
                 </motion.div>
               </div>
 
               {/* Content Section */}
-              <div className="p-6 sm:p-8 md:p-10 flex flex-col overflow-y-auto">
+              <div className="p-4 sm:p-6 md:p-8 flex flex-col overflow-y-auto">
                 <div className="flex-1">
                   <motion.h2 
-                    className="font-serif text-3xl sm:text-4xl text-foreground mb-4"
+                    className="font-serif text-2xl sm:text-3xl text-foreground mb-3"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
@@ -142,7 +142,7 @@ const MachinePreviewModal = ({
                   
                   {product.description && (
                     <motion.p 
-                      className="text-muted-foreground mb-8 leading-relaxed text-lg"
+                      className="text-muted-foreground mb-5 leading-relaxed text-sm sm:text-base"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.15 }}
@@ -154,20 +154,20 @@ const MachinePreviewModal = ({
                   {/* Specifications */}
                   {product.specifications && Object.keys(product.specifications).length > 0 && (
                     <motion.div 
-                      className="mb-8"
+                      className="mb-5"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <div className="flex items-center gap-2 mb-4">
-                        <Settings className="w-4 h-4 text-primary" />
-                        <h4 className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Settings className="w-3.5 h-3.5 text-primary" />
+                        <h4 className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground font-medium">
                           Specifications
                         </h4>
                       </div>
-                      <div className="space-y-3 bg-secondary/30 p-4 rounded-lg">
+                      <div className="space-y-2 bg-secondary/30 p-3 rounded-lg">
                         {Object.entries(product.specifications).map(([key, value]) => (
-                          <div key={key} className="flex justify-between items-center text-sm">
+                          <div key={key} className="flex justify-between items-center text-xs sm:text-sm">
                             <span className="text-muted-foreground">{key}</span>
                             <span className="text-foreground font-medium">{value}</span>
                           </div>
@@ -179,27 +179,27 @@ const MachinePreviewModal = ({
                   {/* Features */}
                   {product.features && product.features.length > 0 && (
                     <motion.div 
-                      className="mb-8"
+                      className="mb-5"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.25 }}
                     >
-                      <div className="flex items-center gap-2 mb-4">
-                        <Zap className="w-4 h-4 text-primary" />
-                        <h4 className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Zap className="w-3.5 h-3.5 text-primary" />
+                        <h4 className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground font-medium">
                           Key Features
                         </h4>
                       </div>
-                      <ul className="space-y-2">
-                        {product.features.slice(0, 5).map((feature, i) => (
+                      <ul className="space-y-1.5">
+                        {product.features.slice(0, 4).map((feature, i) => (
                           <motion.li 
                             key={i} 
-                            className="text-sm text-foreground flex items-start gap-3"
+                            className="text-xs sm:text-sm text-foreground flex items-start gap-2"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.3 + i * 0.05 }}
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                            <span className="w-1 h-1 rounded-full bg-primary mt-1.5 flex-shrink-0" />
                             {feature}
                           </motion.li>
                         ))}
@@ -214,15 +214,15 @@ const MachinePreviewModal = ({
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                     >
-                      <div className="flex items-center gap-2 mb-4">
-                        <Maximize className="w-4 h-4 text-primary" />
-                        <h4 className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Maximize className="w-3.5 h-3.5 text-primary" />
+                        <h4 className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground font-medium">
                           Available Sizes
                         </h4>
                       </div>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1.5">
                         {product.sizes.map((size, i) => (
-                          <span key={i} className="px-4 py-2 bg-secondary text-sm text-foreground rounded-full border border-border">
+                          <span key={i} className="px-3 py-1.5 bg-secondary text-xs text-foreground rounded-full border border-border">
                             {size}
                           </span>
                         ))}
@@ -233,7 +233,7 @@ const MachinePreviewModal = ({
 
                 {/* CTA */}
                 <motion.div 
-                  className="pt-8 mt-8 border-t border-border"
+                  className="pt-5 mt-4 border-t border-border"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
@@ -244,7 +244,7 @@ const MachinePreviewModal = ({
                   >
                     <Link
                       to={`/machinery/${categorySlug}/${product.id}`}
-                      className="inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 hover:bg-foreground/90 transition-colors group w-full justify-center rounded-full"
+                      className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 hover:bg-foreground/90 transition-colors group w-full justify-center rounded-full text-sm"
                       onClick={onClose}
                     >
                       <span className="font-medium">View Full Details</span>

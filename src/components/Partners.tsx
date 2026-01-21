@@ -37,7 +37,7 @@ const Partners = () => {
         >
           <span className="micro-label text-primary mb-4 block">Trusted Partnerships</span>
           <h2 className="text-foreground mb-6">
-            World-Class Brands
+            World-Class Partners
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             We work with the world's leading manufacturers of printing and finishing machinery

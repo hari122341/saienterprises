@@ -56,7 +56,7 @@ const Footer = () => {
             <div>
               <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Navigate</p>
               <nav className="space-y-2">
-                {['About', 'Machinery', 'Brands', 'Contact'].map((item) => (
+                {['About', 'Machinery', 'Partners', 'Contact'].map((item) => (
                   <Link key={item} to={`/${item.toLowerCase()}`} className="block text-sm text-background/60 hover:text-background transition-colors">
                     {item}
                   </Link>
