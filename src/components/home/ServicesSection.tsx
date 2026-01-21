@@ -1,28 +1,32 @@
 import { useState, useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Package, Wrench, HeadphonesIcon, Award } from 'lucide-react';
+import { ArrowRight, Package, Wrench, HeadphonesIcon, Award, Sparkles } from 'lucide-react';
 import InquiryModal from '@/components/InquiryModal';
 
 const services = [
   {
     icon: Package,
     title: "Trading & Export",
-    description: "Complete range of graphic machinery for national and international markets.",
+    description: "Complete range of graphic machinery for national and international markets with seamless logistics.",
+    stats: "50+ Countries",
   },
   {
     icon: Wrench,
     title: "Modernization",
-    description: "Upgrading existing units to advanced multi-color presses.",
+    description: "Upgrading existing units to advanced multi-color presses with cutting-edge technology.",
+    stats: "200+ Upgrades",
   },
   {
     icon: HeadphonesIcon,
     title: "Service & Support",
-    description: "Continuous technical support and long-term reliability.",
+    description: "Continuous technical support, maintenance, and long-term reliability assurance.",
+    stats: "24/7 Support",
   },
   {
     icon: Award,
     title: "HPM Sole Agent",
-    description: "Exclusive agent in India for HPM packaging machines.",
+    description: "Exclusive authorized agent in India for HPM premium packaging machines.",
+    stats: "Exclusive",
     highlight: true,
   },
 ];
@@ -30,6 +34,7 @@ const services = [
 const ServicesSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('General Inquiry');
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   
@@ -38,20 +43,36 @@ const ServicesSection = () => {
     offset: ["start end", "end start"]
   });
 
-  const decoY = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const decoY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const decoRotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
   return (
     <>
-      <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
-        {/* Parallax decorative elements */}
+      <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-background overflow-hidden">
+        {/* Premium decorative elements */}
         <motion.div 
-          className="absolute -top-20 -right-20 w-80 h-80 rounded-full border border-primary/10 pointer-events-none"
+          className="absolute top-20 right-20 w-2 h-2 rounded-full bg-primary"
           style={{ y: decoY }}
         />
         <motion.div 
-          className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full border border-primary/5 pointer-events-none"
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-40, 40]) }}
+          className="absolute bottom-40 left-32 w-40 h-40 border border-primary/10 rounded-full"
+          style={{ y: decoY, rotate: decoRotate }}
         />
+        <motion.div 
+          className="absolute top-1/3 right-1/4 w-px h-32 bg-gradient-to-b from-primary/20 to-transparent"
+          style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
+        />
+
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at center, hsl(var(--foreground)) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px'
+            }}
+          />
+        </div>
 
         <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
           <div className="max-w-7xl mx-auto">
@@ -60,120 +81,140 @@ const ServicesSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
-              className="mb-16 sm:mb-20"
+              className="mb-16 sm:mb-24"
             >
-              <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-                <motion.span 
-                  className="w-8 h-px bg-primary"
-                  initial={{ scaleX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : {}}
-                />
-                Services
-              </span>
-              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                  Four pillars of<br />
-                  <span className="text-primary">excellence.</span>
-                </h2>
-                <p className="text-muted-foreground max-w-md text-sm sm:text-base leading-relaxed">
-                  Core capabilities driving success for over two decades.
+              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+                <div>
+                  <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+                    <motion.span 
+                      className="w-8 h-px bg-primary"
+                      initial={{ scaleX: 0 }}
+                      animate={isInView ? { scaleX: 1 } : {}}
+                    />
+                    Services
+                  </span>
+                  <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight">
+                    Four pillars of<br />
+                    <span className="text-primary italic">excellence.</span>
+                  </h2>
+                </div>
+                <p className="text-muted-foreground max-w-md text-base lg:text-lg leading-relaxed lg:text-right">
+                  Core capabilities that have driven success for over two decades across continents.
                 </p>
               </div>
             </motion.div>
 
-            {/* Horizontal Scrolling Services */}
-            <div className="relative">
-              <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 -mx-6 px-6 sm:-mx-8 sm:px-8 scrollbar-hide">
-                {services.map((service, index) => {
-                  const Icon = service.icon;
-                  return (
-                    <motion.div
-                      key={service.title}
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.6, delay: index * 0.15 }}
-                      whileHover={{ y: -8 }}
-                      onClick={() => {
-                        setSelectedService(service.title);
-                        setIsModalOpen(true);
-                      }}
-                      className={`group relative flex-shrink-0 w-[280px] sm:w-[320px] cursor-pointer transition-all duration-500 ${
-                        service.highlight ? 'bg-primary text-primary-foreground' : 'bg-card border border-border hover:border-primary/30'
-                      }`}
-                    >
-                      <div className="p-6 sm:p-8">
-                        {/* Number */}
-                        <span className={`text-6xl sm:text-7xl font-serif opacity-10 absolute top-4 right-6 ${
-                          service.highlight ? 'text-primary-foreground' : 'text-foreground'
-                        }`}>
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
+            {/* Services Grid */}
+            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                const isHovered = hoveredIndex === index;
+                
+                return (
+                  <motion.div
+                    key={service.title}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    onClick={() => {
+                      setSelectedService(service.title);
+                      setIsModalOpen(true);
+                    }}
+                    className={`group relative cursor-pointer overflow-hidden transition-all duration-500 ${
+                      service.highlight 
+                        ? 'bg-primary text-primary-foreground md:col-span-2 lg:col-span-1' 
+                        : 'bg-card border border-border hover:border-primary/30'
+                    }`}
+                  >
+                    <div className="relative p-8 sm:p-10">
+                      {/* Background number */}
+                      <span className={`absolute top-6 right-8 text-[100px] sm:text-[120px] font-serif leading-none pointer-events-none transition-all duration-500 ${
+                        service.highlight 
+                          ? 'text-primary-foreground/5' 
+                          : isHovered ? 'text-primary/10' : 'text-foreground/[0.02]'
+                      }`}>
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
 
-                        {/* Icon */}
-                        <motion.div 
-                          className={`w-12 h-12 rounded-full flex items-center justify-center mb-6 ${
-                            service.highlight 
-                              ? 'bg-primary-foreground/10' 
-                              : 'bg-primary/10'
-                          }`}
-                          whileHover={{ rotate: 10, scale: 1.1 }}
-                        >
-                          <Icon className={`w-5 h-5 ${service.highlight ? 'text-primary-foreground' : 'text-primary'}`} />
-                        </motion.div>
-
-                        {/* Content */}
-                        <h3 className={`font-serif text-xl sm:text-2xl mb-3 ${
-                          service.highlight ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary'
-                        } transition-colors`}>
-                          {service.title}
-                        </h3>
-                        
+                      {/* Icon */}
+                      <motion.div 
+                        className={`relative w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${
+                          service.highlight 
+                            ? 'bg-primary-foreground/10' 
+                            : 'bg-primary/10'
+                        }`}
+                        animate={isHovered ? { scale: 1.1, rotate: 5 } : { scale: 1, rotate: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Icon className={`w-7 h-7 ${service.highlight ? 'text-primary-foreground' : 'text-primary'}`} />
                         {service.highlight && (
-                          <span className="inline-block mb-3 text-[9px] uppercase tracking-[0.2em] bg-primary-foreground/10 px-2 py-1">
-                            Exclusive
+                          <motion.div
+                            className="absolute -top-1 -right-1"
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          >
+                            <Sparkles className="w-4 h-4 text-primary-foreground/60" />
+                          </motion.div>
+                        )}
+                      </motion.div>
+
+                      {/* Content */}
+                      <div className="relative">
+                        {service.highlight && (
+                          <span className="inline-block mb-3 text-[9px] uppercase tracking-[0.2em] bg-primary-foreground/10 px-3 py-1.5 rounded-full">
+                            Exclusive Partnership
                           </span>
                         )}
                         
-                        <p className={`text-sm leading-relaxed mb-6 ${
+                        <h3 className={`font-serif text-2xl sm:text-3xl mb-4 ${
+                          service.highlight ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary'
+                        } transition-colors duration-300`}>
+                          {service.title}
+                        </h3>
+                        
+                        <p className={`text-base leading-relaxed mb-6 ${
                           service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
                         }`}>
                           {service.description}
                         </p>
 
-                        {/* CTA */}
-                        <div className={`flex items-center gap-2 text-sm font-medium ${
-                          service.highlight ? 'text-primary-foreground' : 'text-primary'
+                        {/* Stats badge */}
+                        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
+                          service.highlight 
+                            ? 'bg-primary-foreground/10 text-primary-foreground' 
+                            : 'bg-secondary text-foreground'
                         }`}>
-                          <span>Learn more</span>
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
+                          {service.stats}
                         </div>
                       </div>
 
-                      {/* Bottom line */}
+                      {/* CTA */}
+                      <motion.div 
+                        className={`absolute bottom-8 right-8 flex items-center gap-2 text-sm font-medium ${
+                          service.highlight ? 'text-primary-foreground' : 'text-primary'
+                        }`}
+                        animate={isHovered ? { x: 5 } : { x: 0 }}
+                      >
+                        <span className="hidden sm:inline">Learn more</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
+
+                      {/* Hover accent line */}
                       {!service.highlight && (
                         <motion.div
                           className="absolute bottom-0 left-0 h-1 bg-primary"
                           initial={{ width: 0 }}
-                          whileHover={{ width: '100%' }}
+                          animate={{ width: isHovered ? '100%' : 0 }}
                           transition={{ duration: 0.4 }}
                         />
                       )}
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {/* Scroll hint */}
-              <div className="flex justify-center mt-8 lg:hidden">
-                <motion.div 
-                  className="flex items-center gap-2 text-muted-foreground text-xs"
-                  animate={{ x: [0, 8, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <span>Swipe to explore</span>
-                  <ArrowRight className="w-3 h-3" />
-                </motion.div>
-              </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
