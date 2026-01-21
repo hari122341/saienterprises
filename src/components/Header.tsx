@@ -13,7 +13,6 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      // Check if we're in hero section (first viewport height)
       setIsHeroSection(window.scrollY < window.innerHeight * 0.5);
     };
     window.addEventListener('scroll', handleScroll);
@@ -25,7 +24,6 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -37,9 +35,7 @@ const Header = () => {
     };
   }, [isMobileMenuOpen]);
 
-  // Determine if we're on homepage
   const isHomepage = location.pathname === '/';
-  // Use light text only on homepage hero when not scrolled
   const useLightText = isHomepage && isHeroSection && !isScrolled;
 
   const navLinks = [
@@ -61,7 +57,6 @@ const Header = () => {
 
   return (
     <>
-      {/* Navigation Header */}
       <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -74,46 +69,63 @@ const Header = () => {
       >
         <div className="px-6 md:px-12 lg:px-20">
           <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo + Text */}
+            {/* Logo */}
             <Link 
               to="/" 
               className="flex items-center gap-3 group"
             >
-              <div className={`w-10 h-10 rounded-full overflow-hidden border transition-colors duration-300 ${
-                useLightText ? 'border-white/20' : 'border-border/30'
-              } shadow-sm`}>
+              <motion.div 
+                className={`w-10 h-10 rounded-full overflow-hidden border transition-all duration-300 ${
+                  useLightText ? 'border-white/20' : 'border-border/30'
+                } shadow-sm`}
+                whileHover={{ scale: 1.05 }}
+              >
                 <img 
                   src={saiLogo} 
                   alt="Sai Enterprises" 
                   className="w-full h-full object-cover"
                 />
+              </motion.div>
+              <div className="flex flex-col">
+                <span 
+                  className={`font-serif text-base tracking-wide transition-colors duration-300 ${
+                    useLightText 
+                      ? 'text-white group-hover:text-white/80' 
+                      : 'text-foreground group-hover:text-muted-foreground'
+                  }`}
+                >
+                  Sai Enterprises
+                </span>
+                <span className={`text-[9px] uppercase tracking-[0.2em] transition-colors duration-300 ${
+                  useLightText ? 'text-white/50' : 'text-muted-foreground/70'
+                }`}>
+                  Since 2000
+                </span>
               </div>
-              <span 
-                className={`text-sm font-medium tracking-wide transition-colors duration-300 ${
-                  useLightText 
-                    ? 'text-white group-hover:text-white/80' 
-                    : 'text-foreground group-hover:text-muted-foreground'
-                }`}
-              >
-                Sai Enterprises
-              </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-10">
+            <nav className="hidden md:flex items-center gap-1">
               {navLinks.slice(1).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`text-[13px] tracking-wide transition-colors duration-300 ${
+                  className={`relative px-4 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 ${
                     isActive(link.href)
-                      ? useLightText ? 'text-white font-medium' : 'text-foreground font-medium'
+                      ? useLightText ? 'text-white' : 'text-foreground'
                       : useLightText 
-                        ? 'text-white/70 hover:text-white' 
+                        ? 'text-white/60 hover:text-white' 
                         : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.name}
+                  {isActive(link.href) && (
+                    <motion.span 
+                      layoutId="activeNav"
+                      className="absolute bottom-0 left-4 right-4 h-px bg-primary"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
                 </Link>
               ))}
             </nav>
@@ -126,46 +138,54 @@ const Header = () => {
               }`}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              <motion.div
+                animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
+              </motion.div>
             </button>
           </div>
         </div>
       </motion.header>
 
-      {/* Mobile Menu - Full screen premium overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 md:hidden"
           >
-            {/* Background with brand color */}
-            <div className="absolute inset-0 bg-primary" />
+            <motion.div 
+              className="absolute inset-0 bg-primary"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
             
-            {/* Content */}
             <div className="relative h-full flex flex-col justify-center px-10">
-              {/* Navigation Links - Large editorial typography */}
-              <nav className="space-y-6">
+              <nav className="space-y-2">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.name}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + index * 0.06, duration: 0.5 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ delay: 0.05 + index * 0.05, duration: 0.4 }}
                   >
                     <Link
                       to={link.href}
-                      className={`block font-serif text-4xl tracking-wide transition-opacity duration-300 ${
+                      className={`block py-3 font-serif text-4xl sm:text-5xl tracking-wide transition-all duration-300 ${
                         isActive(link.href)
                           ? 'text-primary-foreground'
-                          : 'text-primary-foreground/70 hover:text-primary-foreground'
+                          : 'text-primary-foreground/50 hover:text-primary-foreground hover:translate-x-2'
                       }`}
                     >
                       {link.name}
@@ -174,22 +194,17 @@ const Header = () => {
                 ))}
               </nav>
 
-              {/* Bottom CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="absolute bottom-12 left-10 right-10"
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
+                className="absolute bottom-16 left-10 right-10"
               >
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
-                  <span className="text-sm font-medium tracking-wide">
-                    Get in touch
-                  </span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="flex items-center gap-4 text-primary-foreground/40">
+                  <span className="w-12 h-px bg-primary-foreground/20" />
+                  <span className="text-xs uppercase tracking-[0.2em]">India & East Africa</span>
+                </div>
               </motion.div>
             </div>
           </motion.div>
