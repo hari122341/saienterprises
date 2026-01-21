@@ -7,13 +7,17 @@ import saiLogo from '@/assets/sai-logo.png';
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHeroSection, setIsHeroSection] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      // Check if we're in hero section (first viewport height)
+      setIsHeroSection(window.scrollY < window.innerHeight * 0.5);
     };
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -32,6 +36,11 @@ const Header = () => {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
+
+  // Determine if we're on homepage
+  const isHomepage = location.pathname === '/';
+  // Use light text only on homepage hero when not scrolled
+  const useLightText = isHomepage && isHeroSection && !isScrolled;
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -52,25 +61,27 @@ const Header = () => {
 
   return (
     <>
-      {/* Thin, caption-style navigation */}
+      {/* Navigation Header */}
       <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'bg-background/95 backdrop-blur-sm border-b border-border/50' 
+            ? 'bg-background/95 backdrop-blur-md border-b border-border/50' 
             : 'bg-transparent'
         }`}
       >
-        <div className="px-6 md:px-10 lg:px-16">
-          <div className="flex items-center justify-between h-14 md:h-16">
+        <div className="px-6 md:px-12 lg:px-20">
+          <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo + Text */}
             <Link 
               to="/" 
               className="flex items-center gap-3 group"
             >
-              <div className="w-9 h-9 rounded-full overflow-hidden border border-border/30 shadow-sm">
+              <div className={`w-10 h-10 rounded-full overflow-hidden border transition-colors duration-300 ${
+                useLightText ? 'border-white/20' : 'border-border/30'
+              } shadow-sm`}>
                 <img 
                   src={saiLogo} 
                   alt="Sai Enterprises" 
@@ -78,8 +89,11 @@ const Header = () => {
                 />
               </div>
               <span 
-                className="text-sm tracking-wide text-foreground group-hover:text-muted-foreground transition-colors"
-                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 500 }}
+                className={`text-sm font-medium tracking-wide transition-colors duration-300 ${
+                  useLightText 
+                    ? 'text-white group-hover:text-white/80' 
+                    : 'text-foreground group-hover:text-muted-foreground'
+                }`}
               >
                 Sai Enterprises
               </span>
@@ -93,10 +107,11 @@ const Header = () => {
                   to={link.href}
                   className={`text-[13px] tracking-wide transition-colors duration-300 ${
                     isActive(link.href)
-                      ? 'text-foreground font-medium'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? useLightText ? 'text-white font-medium' : 'text-foreground font-medium'
+                      : useLightText 
+                        ? 'text-white/70 hover:text-white' 
+                        : 'text-muted-foreground hover:text-foreground'
                   }`}
-                  style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                 >
                   {link.name}
                 </Link>
@@ -106,7 +121,9 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 -mr-2 text-foreground"
+              className={`md:hidden p-2 -mr-2 transition-colors ${
+                useLightText ? 'text-white' : 'text-foreground'
+              }`}
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -130,10 +147,7 @@ const Header = () => {
             className="fixed inset-0 z-40 md:hidden"
           >
             {/* Background with brand color */}
-            <div 
-              className="absolute inset-0"
-              style={{ backgroundColor: 'hsl(195 85% 40%)' }}
-            />
+            <div className="absolute inset-0 bg-primary" />
             
             {/* Content */}
             <div className="relative h-full flex flex-col justify-center px-10">
@@ -148,12 +162,11 @@ const Header = () => {
                   >
                     <Link
                       to={link.href}
-                      className={`block text-4xl tracking-wide transition-opacity duration-300 ${
+                      className={`block font-serif text-4xl tracking-wide transition-opacity duration-300 ${
                         isActive(link.href)
-                          ? 'text-white'
-                          : 'text-white/70 hover:text-white'
+                          ? 'text-primary-foreground'
+                          : 'text-primary-foreground/70 hover:text-primary-foreground'
                       }`}
-                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                     >
                       {link.name}
                     </Link>
@@ -170,12 +183,9 @@ const Header = () => {
               >
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-3 text-white/80 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  <span 
-                    className="text-sm font-medium tracking-wide"
-                    style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
-                  >
+                  <span className="text-sm font-medium tracking-wide">
                     Get in touch
                   </span>
                   <ArrowRight className="w-4 h-4" />

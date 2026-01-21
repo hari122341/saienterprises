@@ -115,10 +115,7 @@ const MachineryHub = () => {
                     className="group block"
                   >
                     {/* Category Name */}
-                    <h2 
-                      className="text-5xl md:text-6xl lg:text-7xl text-foreground mb-6 group-hover:text-primary transition-colors duration-500"
-                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", lineHeight: 1 }}
-                    >
+                    <h2 className="text-5xl md:text-6xl lg:text-7xl text-foreground mb-6 group-hover:text-primary transition-colors duration-500 font-serif leading-none">
                       {category.name}
                     </h2>
                     

@@ -176,8 +176,7 @@ const ContactPage = () => {
                       <a 
                         key={email}
                         href={`mailto:${email}`}
-                        className="block text-xl text-foreground hover:text-primary transition-colors duration-300"
-                        style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                        className="block text-xl text-foreground hover:text-primary transition-colors duration-300 font-serif"
                       >
                         {email}
                       </a>
@@ -188,10 +187,7 @@ const ContactPage = () => {
                 {/* Head Office */}
                 <div>
                   <p className="caption mb-4">Head Office</p>
-                  <p 
-                    className="text-xl text-foreground"
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-                  >
+                  <p className="text-xl text-foreground font-serif">
                     {companyInfo.locations.headquarters.city}
                   </p>
                   <p className="text-muted-foreground mt-1">
@@ -212,10 +208,7 @@ const ContactPage = () => {
 
                 {/* Experience */}
                 <div className="pt-8 border-t border-border">
-                  <p 
-                    className="text-3xl text-foreground mb-2"
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-                  >
+                  <p className="text-3xl text-foreground mb-2 font-serif">
                     24+
                   </p>
                   <p className="text-xs uppercase tracking-[0.15em] font-medium text-muted-foreground">
