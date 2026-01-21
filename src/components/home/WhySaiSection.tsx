@@ -22,7 +22,7 @@ const WhySaiSection = () => {
   ];
 
   return (
-    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
+    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
       <motion.div 
         className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent pointer-events-none"
         style={{ scaleY: lineScale }}
@@ -35,7 +35,7 @@ const WhySaiSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
+            className="text-center mb-10 sm:mb-14"
           >
             <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
@@ -56,23 +56,23 @@ const WhySaiSection = () => {
           </motion.div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-16 sm:mb-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-10 sm:mb-14">
             {pillars.map((pillar, index) => (
               <motion.div
                 key={pillar.label}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-background p-6 sm:p-8 md:p-10 group hover:bg-secondary/30 transition-colors duration-500 text-center"
+                className="bg-background p-4 sm:p-6 md:p-8 group hover:bg-secondary/30 transition-colors duration-500 text-center"
               >
                 <motion.span 
-                  className="block font-serif text-4xl sm:text-5xl md:text-6xl text-primary mb-4"
+                  className="block font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-primary mb-2 sm:mb-3"
                   whileHover={{ scale: 1.05 }}
                 >
                   {pillar.number}
                 </motion.span>
-                <h4 className="font-medium text-foreground mb-2 text-sm sm:text-base">{pillar.label}</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm">{pillar.description}</p>
+                <h4 className="font-medium text-foreground mb-1 text-xs sm:text-sm">{pillar.label}</h4>
+                <p className="text-muted-foreground text-[10px] sm:text-xs leading-relaxed">{pillar.description}</p>
               </motion.div>
             ))}
           </div>

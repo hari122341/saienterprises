@@ -53,7 +53,7 @@ const AboutSection = () => {
         style={{ y: useTransform(scrollYProgress, [0, 1], [-30, 30]) }}
       />
 
-      <div className="relative px-5 sm:px-8 md:px-12 lg:px-20 py-16 sm:py-20 md:py-28 lg:py-32">
+      <div className="relative px-5 sm:px-8 md:px-12 lg:px-20 py-14 sm:py-16 md:py-20 lg:py-24">
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 md:gap-6 max-w-7xl mx-auto">
           
@@ -63,10 +63,10 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-5 sm:p-7 md:p-10 lg:p-12 flex flex-col justify-between min-h-[320px] sm:min-h-[380px] md:min-h-[480px] group hover:border-primary/20 transition-colors duration-500 overflow-hidden"
+            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between min-h-[280px] sm:min-h-[320px] md:min-h-[380px] group hover:border-primary/20 transition-colors duration-500 overflow-hidden"
           >
             <div>
-              <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6 sm:mb-8">
+              <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4 sm:mb-6">
                 <motion.span 
                   className="w-8 h-px bg-primary"
                   initial={{ scaleX: 0 }}
@@ -75,7 +75,7 @@ const AboutSection = () => {
                 />
                 About Us
               </span>
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground leading-[1.1] mb-4 sm:mb-6">
+              <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground leading-[1.1] mb-3 sm:mb-4">
                 More than<br />
                 <span className="text-primary">machinery</span> suppliers.
               </h2>
@@ -101,10 +101,10 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-5 bg-primary text-primary-foreground p-5 sm:p-7 md:p-10 flex flex-col justify-center items-center text-center min-h-[160px] sm:min-h-[180px] md:min-h-[200px]"
+            className="md:col-span-5 bg-primary text-primary-foreground p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px]"
           >
             <motion.div 
-              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight"
+              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -121,14 +121,14 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-5 bg-secondary/50 border border-border/50 p-5 sm:p-7 md:p-10 flex flex-col justify-center min-h-[160px] sm:min-h-[180px] md:min-h-[200px] group hover:bg-secondary transition-colors duration-500 overflow-hidden"
+            className="md:col-span-5 bg-secondary/50 border border-border/50 p-4 sm:p-6 md:p-8 flex flex-col justify-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px] group hover:bg-secondary transition-colors duration-500 overflow-hidden"
           >
             <blockquote 
-              className="font-serif text-base sm:text-lg md:text-xl lg:text-2xl text-foreground leading-snug italic"
+              className="font-serif text-sm sm:text-base md:text-lg lg:text-xl text-foreground leading-snug italic"
             >
               "We believe in long-term relationships, growing together as trusted partners."
             </blockquote>
-            <div className="mt-3 sm:mt-4 md:mt-6 flex items-center gap-3">
+            <div className="mt-2 sm:mt-3 md:mt-4 flex items-center gap-2 sm:gap-3">
               <motion.div 
                 className="w-8 h-px bg-primary/40"
                 whileHover={{ width: 40 }}
@@ -154,11 +154,11 @@ const AboutSection = () => {
             ].map((stat, index) => (
               <motion.div 
                 key={stat.label}
-                className="bg-background border border-border/50 p-3 sm:p-5 md:p-8 text-center hover:border-primary/30 transition-colors duration-300 overflow-hidden"
+                className="bg-background border border-border/50 p-3 sm:p-4 md:p-6 text-center hover:border-primary/30 transition-colors duration-300 overflow-hidden"
                 whileHover={{ y: -5 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
-                <div className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground mb-1">
+                <div className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground mb-0.5 sm:mb-1">
                   <AnimatedCounter end={stat.number} suffix={stat.suffix} duration={1.5 + index * 0.3} />
                 </div>
                 <span className="text-[7px] sm:text-[9px] md:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] text-muted-foreground">

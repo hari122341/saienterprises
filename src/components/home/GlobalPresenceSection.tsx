@@ -25,7 +25,7 @@ const GlobalPresenceSection = () => {
   const branches = ['New Delhi', 'Pune', 'Vijayawada'];
 
   return (
-    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-foreground overflow-hidden">
+    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
       {/* Animated gradient background */}
       <div className="absolute inset-0">
         <motion.div 
@@ -61,7 +61,7 @@ const GlobalPresenceSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
+            className="text-center mb-10 sm:mb-12"
           >
             <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
@@ -82,7 +82,7 @@ const GlobalPresenceSection = () => {
           </motion.div>
 
           {/* Main Locations Grid */}
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-12">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-5 mb-8 sm:mb-10">
             {locations.map((location, index) => (
               <motion.div
                 key={location.city}
@@ -106,9 +106,9 @@ const GlobalPresenceSection = () => {
                   }`}
                 />
 
-                <div className="relative p-8 sm:p-10">
-                  <div className="flex items-start justify-between mb-6">
-                    <span className={`text-[9px] uppercase tracking-[0.25em] font-medium ${
+                <div className="relative p-5 sm:p-6 md:p-8">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className={`text-[9px] uppercase tracking-[0.2em] font-medium ${
                       location.isPrimary ? 'text-primary-foreground/60' : 'text-background/40'
                     }`}>
                       {location.type}
@@ -117,18 +117,18 @@ const GlobalPresenceSection = () => {
                       animate={{ rotate: [0, 10, 0] }}
                       transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <MapPin className={`w-5 h-5 ${
+                      <MapPin className={`w-4 h-4 ${
                         location.isPrimary ? 'text-primary-foreground/40' : 'text-primary/40'
                       }`} />
                     </motion.div>
                   </div>
                   
-                  <h3 className={`font-serif text-4xl sm:text-5xl mb-2 ${
+                  <h3 className={`font-serif text-2xl sm:text-3xl md:text-4xl mb-1 ${
                     location.isPrimary ? 'text-primary-foreground' : 'text-background'
                   }`}>
                     {location.city}
                   </h3>
-                  <p className={`text-sm ${
+                  <p className={`text-xs sm:text-sm ${
                     location.isPrimary ? 'text-primary-foreground/60' : 'text-background/50'
                   }`}>
                     {location.region}

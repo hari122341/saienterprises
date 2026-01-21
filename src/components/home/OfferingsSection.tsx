@@ -10,7 +10,7 @@ const OfferingsSection = () => {
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
-    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
+    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div 
@@ -40,7 +40,7 @@ const OfferingsSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
+            className="text-center mb-10 sm:mb-14"
           >
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
@@ -76,7 +76,7 @@ const OfferingsSection = () => {
                 >
                   <Link
                     to={`/machinery/${category.slug}`}
-                    className={`group relative block p-5 sm:p-6 md:p-8 h-full min-h-[240px] sm:min-h-[280px] md:min-h-[300px] transition-all duration-500 overflow-hidden ${
+                    className={`group relative block p-4 sm:p-5 md:p-6 h-full min-h-[200px] sm:min-h-[220px] md:min-h-[260px] transition-all duration-500 overflow-hidden ${
                       isActive 
                         ? 'bg-primary' 
                         : 'bg-background/5 hover:bg-background/10 border border-background/10'
@@ -146,7 +146,7 @@ const OfferingsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-center mt-12 sm:mt-16"
+            className="text-center mt-8 sm:mt-12"
           >
             <Link
               to="/machinery"
