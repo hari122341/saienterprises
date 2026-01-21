@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import saiLogo from '@/assets/sai-logo.png';
 
 const Header = () => {
@@ -25,21 +25,14 @@ const Header = () => {
   }, [location]);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [isMobileMenuOpen]);
 
   const isHomepage = location.pathname === '/';
   const useLightText = isHomepage && isHeroSection && !isScrolled;
 
   const navLinks = [
-    { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Machinery', href: '/machinery' },
     { name: 'Brands', href: '/brands' },
@@ -48,10 +41,7 @@ const Header = () => {
   ];
 
   const isActive = (href: string) => {
-    if (href === '/') return location.pathname === '/';
-    if (href === '/machinery') {
-      return location.pathname.startsWith('/machinery');
-    }
+    if (href === '/machinery') return location.pathname.startsWith('/machinery');
     return location.pathname === href;
   };
 
@@ -60,72 +50,47 @@ const Header = () => {
       <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        transition={{ duration: 0.5 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
             ? 'bg-background/95 backdrop-blur-md border-b border-border/50' 
             : 'bg-transparent'
         }`}
       >
-        <div className="px-6 md:px-12 lg:px-20">
-          <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="px-6 md:px-12 lg:px-16">
+          <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo */}
-            <Link 
-              to="/" 
-              className="flex items-center gap-3 group"
-            >
+            <Link to="/" className="flex items-center gap-2.5 group">
               <motion.div 
-                className={`w-10 h-10 rounded-full overflow-hidden border transition-all duration-300 ${
-                  useLightText ? 'border-white/20' : 'border-border/30'
-                } shadow-sm`}
+                className={`w-8 h-8 rounded-full overflow-hidden transition-all duration-300 ${
+                  useLightText ? 'ring-1 ring-white/20' : 'ring-1 ring-border/30'
+                }`}
                 whileHover={{ scale: 1.05 }}
               >
-                <img 
-                  src={saiLogo} 
-                  alt="Sai Enterprises" 
-                  className="w-full h-full object-cover"
-                />
+                <img src={saiLogo} alt="Sai Enterprises" className="w-full h-full object-cover" />
               </motion.div>
-              <div className="flex flex-col">
-                <span 
-                  className={`font-serif text-base tracking-wide transition-colors duration-300 ${
-                    useLightText 
-                      ? 'text-white group-hover:text-white/80' 
-                      : 'text-foreground group-hover:text-muted-foreground'
-                  }`}
-                >
-                  Sai Enterprises
-                </span>
-                <span className={`text-[9px] uppercase tracking-[0.2em] transition-colors duration-300 ${
-                  useLightText ? 'text-white/50' : 'text-muted-foreground/70'
-                }`}>
-                  Since 2000
-                </span>
-              </div>
+              <span className={`font-serif text-sm tracking-wide transition-colors duration-300 ${
+                useLightText ? 'text-white' : 'text-foreground'
+              }`}>
+                Sai Enterprises
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1">
-              {navLinks.slice(1).map((link) => (
+            <nav className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`relative px-4 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 ${
+                  className={`relative text-xs uppercase tracking-[0.15em] font-medium transition-colors duration-300 ${
                     isActive(link.href)
-                      ? useLightText ? 'text-white' : 'text-foreground'
+                      ? useLightText ? 'text-white' : 'text-primary'
                       : useLightText 
                         ? 'text-white/60 hover:text-white' 
                         : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.name}
-                  {isActive(link.href) && (
-                    <motion.span 
-                      layoutId="activeNav"
-                      className="absolute bottom-0 left-4 right-4 h-px bg-primary"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
                 </Link>
               ))}
             </nav>
@@ -133,21 +98,9 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden p-2 -mr-2 transition-colors ${
-                useLightText ? 'text-white' : 'text-foreground'
-              }`}
-              aria-label="Toggle menu"
+              className={`md:hidden p-1.5 transition-colors ${useLightText ? 'text-white' : 'text-foreground'}`}
             >
-              <motion.div
-                animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
-                )}
-              </motion.div>
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -160,32 +113,21 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 md:hidden bg-foreground"
           >
-            <motion.div 
-              className="absolute inset-0 bg-primary"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-            
-            <div className="relative h-full flex flex-col justify-center px-10">
-              <nav className="space-y-2">
-                {navLinks.map((link, index) => (
+            <div className="h-full flex flex-col justify-center px-10">
+              <nav className="space-y-1">
+                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => (
                   <motion.div
                     key={link.name}
-                    initial={{ opacity: 0, x: -30 }}
+                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -30 }}
-                    transition={{ delay: 0.05 + index * 0.05, duration: 0.4 }}
+                    transition={{ delay: i * 0.05 }}
                   >
                     <Link
                       to={link.href}
-                      className={`block py-3 font-serif text-4xl sm:text-5xl tracking-wide transition-all duration-300 ${
-                        isActive(link.href)
-                          ? 'text-primary-foreground'
-                          : 'text-primary-foreground/50 hover:text-primary-foreground hover:translate-x-2'
+                      className={`block py-3 font-serif text-3xl transition-colors ${
+                        location.pathname === link.href ? 'text-primary' : 'text-background/60 hover:text-background'
                       }`}
                     >
                       {link.name}
@@ -193,19 +135,6 @@ const Header = () => {
                   </motion.div>
                 ))}
               </nav>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
-                className="absolute bottom-16 left-10 right-10"
-              >
-                <div className="flex items-center gap-4 text-primary-foreground/40">
-                  <span className="w-12 h-px bg-primary-foreground/20" />
-                  <span className="text-xs uppercase tracking-[0.2em]">India & East Africa</span>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
         )}
