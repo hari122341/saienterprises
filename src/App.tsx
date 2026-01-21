@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,15 +7,18 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useScrollToTop } from "./hooks/useScrollToTop";
 import PremiumLoader from "./components/PremiumLoader";
+import PageSkeleton from "./components/PageSkeleton";
 import Index from "./pages/Index";
-import AboutPage from "./pages/AboutPage";
-import MachineryHub from "./pages/MachineryHub";
-import MachineryCategory from "./pages/MachineryCategory";
-import ProductDetail from "./pages/ProductDetail";
-import BrandsPage from "./pages/BrandsPage";
-import GlobalPage from "./pages/GlobalPage";
-import ContactPage from "./pages/ContactPage";
-import NotFound from "./pages/NotFound";
+
+// Lazy load pages for better performance with skeleton loading
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const MachineryHub = lazy(() => import("./pages/MachineryHub"));
+const MachineryCategory = lazy(() => import("./pages/MachineryCategory"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const BrandsPage = lazy(() => import("./pages/BrandsPage"));
+const GlobalPage = lazy(() => import("./pages/GlobalPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -27,17 +30,19 @@ const AnimatedRoutes = () => {
   
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Index />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/machinery" element={<MachineryHub />} />
-        <Route path="/machinery/:categorySlug" element={<MachineryCategory />} />
-        <Route path="/machinery/:categorySlug/:productId" element={<ProductDetail />} />
-        <Route path="/brands" element={<BrandsPage />} />
-        <Route path="/global" element={<GlobalPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<PageSkeleton />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/machinery" element={<MachineryHub />} />
+          <Route path="/machinery/:categorySlug" element={<MachineryCategory />} />
+          <Route path="/machinery/:categorySlug/:productId" element={<ProductDetail />} />
+          <Route path="/brands" element={<BrandsPage />} />
+          <Route path="/global" element={<GlobalPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 };
