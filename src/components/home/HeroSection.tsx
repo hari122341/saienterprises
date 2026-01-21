@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import heroImage from '@/assets/hero-industrial.jpg';
 
 const HeroSection = () => {
@@ -119,51 +119,25 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
-      {/* Bottom Bar */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.9 }}
-        className="absolute bottom-0 left-0 right-0 z-20"
+        className="absolute bottom-8 left-0 right-0 z-20 flex justify-center"
       >
-        <div className="px-5 sm:px-8 md:px-12 lg:px-20 py-6 sm:py-8">
-          <div className="max-w-7xl mx-auto flex items-center justify-between border-t border-background/15 pt-6 sm:pt-8">
-            {/* Stats */}
-            <div className="hidden sm:flex items-center gap-6 md:gap-12">
-              {[
-                { value: '24+', label: 'Years' },
-                { value: '500+', label: 'Clients' },
-                { value: '8+', label: 'Brands' },
-              ].map((stat, i) => (
-                <motion.div 
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 1 + i * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="font-serif text-xl md:text-2xl text-background">{stat.value}</div>
-                  <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-background/50 mt-1">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* Scroll Indicator */}
-            <motion.button
-              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex items-center gap-2 sm:gap-3 text-background/60 hover:text-background transition-colors ml-auto group"
-              whileHover={{ y: 3 }}
-            >
-              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em]">Scroll</span>
-              <motion.div
-                animate={{ y: [0, 5, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <ChevronDown className="w-4 h-4" />
-              </motion.div>
-            </motion.button>
-          </div>
-        </div>
+        <motion.button
+          onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+          className="flex flex-col items-center gap-3 text-background/60 hover:text-background transition-colors group"
+          whileHover={{ y: 3 }}
+        >
+          <span className="text-[10px] uppercase tracking-[0.3em]">Discover More</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-px h-8 bg-gradient-to-b from-background/60 to-transparent"
+          />
+        </motion.button>
       </motion.div>
     </section>
   );
