@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Package, Wrench, HeadphonesIcon, Award } from 'lucide-react';
 import InquiryModal from '@/components/InquiryModal';
 
@@ -30,13 +30,30 @@ const services = [
 const ServicesSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('General Inquiry');
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const decoY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   return (
     <>
-      <section ref={containerRef} className="py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
-        <div className="px-6 sm:px-8 md:px-12 lg:px-20">
+      <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
+        {/* Parallax decorative elements */}
+        <motion.div 
+          className="absolute -top-20 -right-20 w-80 h-80 rounded-full border border-primary/10 pointer-events-none"
+          style={{ y: decoY }}
+        />
+        <motion.div 
+          className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full border border-primary/5 pointer-events-none"
+          style={{ y: useTransform(scrollYProgress, [0, 1], [-40, 40]) }}
+        />
+
+        <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <motion.div

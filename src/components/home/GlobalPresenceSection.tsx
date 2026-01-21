@@ -1,14 +1,39 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { companyInfo } from '@/data/products';
 
 const GlobalPresenceSection = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
+  const floatY1 = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const floatY2 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
 
   return (
-    <section ref={containerRef} className="py-20 sm:py-28 md:py-36 bg-primary overflow-hidden">
-      <div className="px-6 sm:px-8 md:px-12 lg:px-20">
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-primary overflow-hidden">
+      {/* Parallax background layer */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary/90"
+        style={{ scale: bgScale }}
+      />
+      
+      {/* Floating orbs */}
+      <motion.div 
+        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-primary-foreground/5 blur-3xl pointer-events-none"
+        style={{ y: floatY1 }}
+      />
+      <motion.div 
+        className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full bg-primary-foreground/3 blur-2xl pointer-events-none"
+        style={{ y: floatY2 }}
+      />
+      
+      <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <motion.div

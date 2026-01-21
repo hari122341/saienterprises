@@ -1,4 +1,4 @@
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 
 const testimonials = [
@@ -29,9 +29,17 @@ const testimonials = [
 ];
 
 const TestimonialsSection = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const quoteY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const orbY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,8 +49,18 @@ const TestimonialsSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
-      <div className="px-6 sm:px-8 md:px-12 lg:px-20">
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
+      {/* Parallax orbs */}
+      <motion.div 
+        className="absolute top-1/3 left-1/4 w-72 h-72 rounded-full bg-primary/10 blur-3xl pointer-events-none"
+        style={{ y: orbY }}
+      />
+      <motion.div 
+        className="absolute bottom-1/4 right-1/3 w-48 h-48 rounded-full bg-background/5 blur-2xl pointer-events-none"
+        style={{ y: useTransform(scrollYProgress, [0, 1], [-40, 40]) }}
+      />
+
+      <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <motion.div
