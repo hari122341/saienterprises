@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { productCategories } from '@/data/products';
 import machineryPrepress from '@/assets/machinery-prepress.jpg';
@@ -16,135 +16,140 @@ const categoryImages: Record<string, string> = {
 };
 
 const OfferingsSection = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
   
-  const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
 
   return (
-    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-28 lg:py-32 bg-secondary/50 overflow-hidden">
-      {/* Background image that changes on hover */}
-      <AnimatePresence mode="wait">
-        {hoveredIndex !== null && (
-          <motion.div
-            key={hoveredIndex}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 0.08, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 pointer-events-none"
-            style={{ y: bgY }}
-          >
-            <img 
-              src={categoryImages[productCategories[hoveredIndex]?.slug] || machineryPrepress}
-              alt=""
-              className="w-full h-full object-cover"
-              style={{ filter: 'grayscale(1)' }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <section ref={containerRef} className="relative min-h-screen bg-foreground overflow-hidden">
+      {/* Background Image */}
+      <motion.div 
+        className="absolute inset-0"
+        style={{ scale: imageScale }}
+      >
+        <motion.img 
+          key={activeIndex}
+          src={categoryImages[productCategories[activeIndex]?.slug] || machineryPrepress}
+          alt=""
+          className="w-full h-full object-cover"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          transition={{ duration: 0.8 }}
+          style={{ filter: 'grayscale(0.5)' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70" />
+      </motion.div>
 
-      <div className="relative z-10 px-5 sm:px-8 md:px-12 lg:px-20">
+      <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20 py-20 sm:py-28 md:py-36">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-10 sm:mb-14 md:mb-20"
+            className="mb-16 sm:mb-20"
           >
-            <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+            <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
                 className="w-8 h-px bg-primary"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
               />
-              What We Offer
+              Machinery
             </span>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight">
-                Machinery for every<br className="hidden sm:block" />
-                stage of print.
-              </h2>
-              <p className="text-muted-foreground max-w-sm text-sm sm:text-base leading-relaxed">
-                Four comprehensive categories covering the complete graphic production workflow.
-              </p>
-            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-background leading-tight">
+              Complete print<br />
+              <span className="text-primary">workflow</span> coverage.
+            </h2>
           </motion.div>
 
-          {/* Category Grid */}
-          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-            {productCategories.map((category, index) => (
-              <motion.div
-                key={category.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Link
-                  to={`/machinery/${category.slug}`}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  className="group block relative bg-card border border-border hover:border-primary/30 transition-all duration-500 overflow-hidden"
+          {/* Interactive Category List */}
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* Left - Category Navigation */}
+            <div className="space-y-0">
+              {productCategories.map((category, index) => (
+                <motion.div
+                  key={category.id}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  className="group"
                 >
-                  {/* Background image for card */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
-                    <img 
-                      src={categoryImages[category.slug] || machineryPrepress}
-                      alt=""
-                      className="w-full h-full object-cover"
-                      style={{ filter: 'grayscale(1)' }}
-                    />
-                  </div>
-
-                  <div className="relative p-5 sm:p-8 md:p-10">
-                    {/* Number */}
-                    <span className="text-xs font-mono text-muted-foreground/40 mb-3 sm:mb-4 block">
-                      0{index + 1}
-                    </span>
-
-                    {/* Title */}
-                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors mb-3 sm:mb-4">
-                      {category.name}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-5 sm:mb-6 max-w-md line-clamp-2 sm:line-clamp-none">
-                      {category.description}
-                    </p>
-
-                    {/* CTA */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-primary transition-colors">
-                        View machinery
+                  <Link
+                    to={`/machinery/${category.slug}`}
+                    className={`flex items-center justify-between py-6 border-b transition-all duration-500 ${
+                      activeIndex === index 
+                        ? 'border-primary' 
+                        : 'border-background/10 hover:border-background/30'
+                    }`}
+                  >
+                    <div className="flex items-baseline gap-4 sm:gap-6">
+                      <span className={`text-xs font-mono transition-colors duration-300 ${
+                        activeIndex === index ? 'text-primary' : 'text-background/30'
+                      }`}>
+                        0{index + 1}
                       </span>
-                      <motion.div 
-                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border group-hover:border-primary group-hover:bg-primary flex items-center justify-center transition-all duration-300"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground group-hover:text-primary-foreground transition-colors" />
-                      </motion.div>
+                      <span className={`font-serif text-2xl sm:text-3xl md:text-4xl transition-all duration-300 ${
+                        activeIndex === index 
+                          ? 'text-background translate-x-2' 
+                          : 'text-background/50 group-hover:text-background/70'
+                      }`}>
+                        {category.name}
+                      </span>
                     </div>
-                  </div>
+                    <motion.div 
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        activeIndex === index 
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-background/10 text-background/30 group-hover:bg-background/20'
+                      }`}
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </motion.div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
 
-                  {/* Bottom accent */}
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: 1 }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-                  />
-                </Link>
-              </motion.div>
-            ))}
+            {/* Right - Active Category Details */}
+            <motion.div 
+              key={activeIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col justify-center"
+            >
+              <div className="relative aspect-[4/3] mb-8 overflow-hidden">
+                <motion.img 
+                  src={categoryImages[productCategories[activeIndex]?.slug]}
+                  alt={productCategories[activeIndex]?.name}
+                  className="w-full h-full object-cover"
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+              </div>
+              <p className="text-background/60 text-sm sm:text-base leading-relaxed mb-6">
+                {productCategories[activeIndex]?.description}
+              </p>
+              <Link
+                to={`/machinery/${productCategories[activeIndex]?.slug}`}
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
+              >
+                <span>Explore {productCategories[activeIndex]?.name}</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>

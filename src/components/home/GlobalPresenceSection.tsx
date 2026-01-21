@@ -6,21 +6,8 @@ const GlobalPresenceSection = () => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
-  const indiaLocations = [
-    { city: companyInfo.locations.headquarters.city, isHQ: true },
-    { city: 'New Delhi', isHQ: false },
-    { city: 'Pune', isHQ: false },
-    { city: 'Vijayawada', isHQ: false },
-  ];
-
-  const africaLocation = { 
-    city: companyInfo.locations.overseas.city, 
-    country: companyInfo.locations.overseas.country,
-    isInternational: true 
-  };
-
   return (
-    <section ref={containerRef} className="py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
+    <section ref={containerRef} className="py-20 sm:py-28 md:py-36 bg-primary overflow-hidden">
       <div className="px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -28,30 +15,29 @@ const GlobalPresenceSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20 md:mb-24"
+            className="text-center mb-20 sm:mb-28"
           >
-            <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+            <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary-foreground/60 font-medium mb-4">
               <motion.span 
-                className="w-8 h-px bg-primary"
+                className="w-8 h-px bg-primary-foreground/40"
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
               />
-              Global Reach
+              Presence
               <motion.span 
-                className="w-8 h-px bg-primary"
+                className="w-8 h-px bg-primary-foreground/40"
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
               />
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-background leading-tight">
-              Two continents.<br />
-              <span className="text-primary">One</span> commitment.
+            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-primary-foreground leading-none">
+              Two continents.
             </h2>
           </motion.div>
 
-          {/* Locations Display */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* India Column */}
+          {/* Locations - Large Typography */}
+          <div className="grid md:grid-cols-2 gap-16 md:gap-20">
+            {/* India */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -59,49 +45,43 @@ const GlobalPresenceSection = () => {
             >
               <div className="flex items-center gap-3 mb-8">
                 <motion.div 
-                  className="w-3 h-3 rounded-full bg-primary"
-                  animate={{ scale: [1, 1.2, 1] }}
+                  className="w-2 h-2 rounded-full bg-primary-foreground"
+                  animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-xs uppercase tracking-[0.25em] text-background/50 font-medium">
-                  India
-                </span>
+                <span className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/50">India</span>
               </div>
               
-              <div className="space-y-4">
-                {indiaLocations.map((location, index) => (
+              <div className="space-y-6">
+                {[
+                  { city: companyInfo.locations.headquarters.city, label: 'HQ' },
+                  { city: 'New Delhi', label: null },
+                  { city: 'Pune', label: null },
+                  { city: 'Vijayawada', label: null },
+                ].map((loc, i) => (
                   <motion.div
-                    key={location.city}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                    className="group"
+                    key={loc.city}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                    className="flex items-baseline gap-4"
                   >
-                    <div className="flex items-baseline gap-4">
-                      <span className={`font-serif text-2xl sm:text-3xl md:text-4xl transition-colors duration-300 ${
-                        location.isHQ 
-                          ? 'text-primary' 
-                          : 'text-background/80 group-hover:text-background'
-                      }`}>
-                        {location.city}
+                    <span className={`font-serif text-3xl sm:text-4xl md:text-5xl ${
+                      loc.label ? 'text-primary-foreground' : 'text-primary-foreground/40'
+                    }`}>
+                      {loc.city}
+                    </span>
+                    {loc.label && (
+                      <span className="text-[9px] uppercase tracking-[0.2em] text-primary-foreground/60 bg-primary-foreground/10 px-2 py-1">
+                        {loc.label}
                       </span>
-                      {location.isHQ && (
-                        <motion.span 
-                          className="text-[9px] uppercase tracking-[0.2em] text-primary bg-primary/10 px-2 py-1"
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                          transition={{ delay: 0.6 }}
-                        >
-                          Headquarters
-                        </motion.span>
-                      )}
-                    </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
             </motion.div>
 
-            {/* East Africa Column */}
+            {/* East Africa */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -109,63 +89,53 @@ const GlobalPresenceSection = () => {
             >
               <div className="flex items-center gap-3 mb-8">
                 <motion.div 
-                  className="w-3 h-3 rounded-full bg-primary"
-                  animate={{ scale: [1, 1.2, 1] }}
+                  className="w-2 h-2 rounded-full bg-primary-foreground"
+                  animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                 />
-                <span className="text-xs uppercase tracking-[0.25em] text-background/50 font-medium">
-                  East Africa
-                </span>
+                <span className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/50">East Africa</span>
               </div>
               
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="relative"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.5 }}
+                className="flex items-baseline gap-4"
               >
-                <div className="flex items-baseline gap-4">
-                  <span className="font-serif text-2xl sm:text-3xl md:text-4xl text-primary">
-                    {africaLocation.city}
-                  </span>
-                  <motion.span 
-                    className="text-[9px] uppercase tracking-[0.2em] text-primary bg-primary/10 px-2 py-1"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.9 }}
-                  >
-                    International
-                  </motion.span>
-                </div>
-                <p className="text-background/50 text-sm mt-2">{africaLocation.country}</p>
+                <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-primary-foreground">
+                  {companyInfo.locations.overseas.city}
+                </span>
+                <span className="text-[9px] uppercase tracking-[0.2em] text-primary-foreground/60 bg-primary-foreground/10 px-2 py-1">
+                  International
+                </span>
               </motion.div>
+              <p className="text-primary-foreground/40 text-sm mt-2">{companyInfo.locations.overseas.country}</p>
             </motion.div>
           </div>
 
-          {/* Connection line */}
+          {/* Stats */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 1 }}
-            className="mt-16 sm:mt-20 pt-12 sm:pt-16 border-t border-background/10 flex items-center justify-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="mt-20 sm:mt-28 pt-12 border-t border-primary-foreground/10 flex flex-wrap justify-center gap-12 sm:gap-20"
           >
-            <div className="flex items-center gap-4 sm:gap-6">
-              <span className="text-xs sm:text-sm text-background/40 font-medium tracking-wide">4 Cities</span>
+            {[
+              { value: '5', label: 'Offices' },
+              { value: '24+', label: 'Years' },
+              { value: '500+', label: 'Clients' },
+            ].map((stat, i) => (
               <motion.div 
-                className="w-16 sm:w-24 h-px bg-gradient-to-r from-primary/60 via-primary to-primary/60"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 1, delay: 1.2 }}
-              />
-              <span className="text-xs sm:text-sm text-background/40 font-medium tracking-wide">2 Continents</span>
-              <motion.div 
-                className="w-16 sm:w-24 h-px bg-gradient-to-r from-primary/60 via-primary to-primary/60"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 1, delay: 1.4 }}
-              />
-              <span className="text-xs sm:text-sm text-background/40 font-medium tracking-wide">24+ Years</span>
-            </div>
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.8 + i * 0.1 }}
+                className="text-center"
+              >
+                <span className="block font-serif text-4xl sm:text-5xl text-primary-foreground">{stat.value}</span>
+                <span className="block text-[10px] uppercase tracking-[0.2em] text-primary-foreground/40 mt-2">{stat.label}</span>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </div>
