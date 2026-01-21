@@ -106,8 +106,8 @@ const AboutPage = () => {
         </section>
 
         {/* Story Section */}
-        <section className="py-20 sm:py-28 md:py-36 px-6 sm:px-8 md:px-16 lg:px-24">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
+        <section className="py-14 sm:py-18 md:py-24 px-6 sm:px-8 md:px-12 lg:px-20">
+          <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -150,115 +150,120 @@ const AboutPage = () => {
         </section>
 
         {/* Animated Timeline */}
-        <section ref={timelineRef} className="py-20 sm:py-28 bg-foreground overflow-hidden">
-          <div className="px-6 sm:px-8 md:px-16 lg:px-24">
-            <div className="max-w-6xl mx-auto">
+        <section ref={timelineRef} className="py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
+          <div className="px-6 sm:px-8 md:px-12 lg:px-20">
+            <div className="max-w-5xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-center mb-16 sm:mb-20"
+                className="text-center mb-10 sm:mb-12 md:mb-16"
               >
                 <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                   <span className="w-8 h-px bg-primary" />
                   Our Journey
                   <span className="w-8 h-px bg-primary" />
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background">
+                <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-background">
                   Key <span className="text-primary italic">milestones.</span>
                 </h2>
               </motion.div>
 
               {/* Timeline */}
               <div className="relative">
-                {/* Animated line */}
+                {/* Animated line - centered on all screen sizes */}
                 <motion.div 
-                  className="absolute left-4 sm:left-1/2 sm:-translate-x-px top-0 bottom-0 w-0.5 bg-background/20"
+                  className="absolute left-4 sm:left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-background/20"
                   initial={{ scaleY: 0 }}
                   animate={timelineInView ? { scaleY: 1 } : {}}
                   transition={{ duration: 1.5, ease: "easeOut" }}
                   style={{ originY: 0 }}
                 />
                 <motion.div 
-                  className="absolute left-4 sm:left-1/2 sm:-translate-x-px top-0 w-0.5 bg-primary"
+                  className="absolute left-4 sm:left-6 md:left-1/2 md:-translate-x-px top-0 w-0.5 bg-primary"
                   initial={{ height: 0 }}
                   animate={timelineInView ? { height: "100%" } : {}}
                   transition={{ duration: 2, ease: "easeOut", delay: 0.3 }}
                 />
 
-                <div className="space-y-12 sm:space-y-16">
-                  {milestones.map((milestone, index) => (
-                    <motion.div
-                      key={milestone.year}
-                      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                      animate={timelineInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ 
-                        duration: 0.6, 
-                        delay: 0.4 + index * 0.2,
-                        ease: [0.16, 1, 0.3, 1]
-                      }}
-                      className={`relative pl-12 sm:pl-0 sm:grid sm:grid-cols-2 sm:gap-12 ${
-                        index % 2 === 0 ? '' : 'sm:direction-rtl'
-                      }`}
-                    >
-                      {/* Dot */}
-                      <motion.div 
-                        className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-0"
-                        initial={{ scale: 0 }}
-                        animate={timelineInView ? { scale: 1 } : {}}
+                <div className="space-y-8 sm:space-y-10 md:space-y-12">
+                  {milestones.map((milestone, index) => {
+                    const isEven = index % 2 === 0;
+                    
+                    return (
+                      <motion.div
+                        key={milestone.year}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={timelineInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ 
-                          duration: 0.4, 
-                          delay: 0.6 + index * 0.2,
-                          type: "spring",
-                          stiffness: 300
+                          duration: 0.6, 
+                          delay: 0.4 + index * 0.15,
+                          ease: [0.16, 1, 0.3, 1]
                         }}
+                        className="relative pl-10 sm:pl-14 md:pl-0"
                       >
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          milestone.year === 'Now' 
-                            ? 'bg-primary' 
-                            : 'bg-background/10 border border-background/30'
-                        }`}>
-                          <motion.div 
-                            className={`w-2.5 h-2.5 rounded-full ${
-                              milestone.year === 'Now' 
-                                ? 'bg-primary-foreground' 
-                                : 'bg-primary'
-                            }`}
-                            animate={milestone.year === 'Now' ? { 
-                              scale: [1, 1.5, 1],
-                            } : {}}
-                            transition={{ 
-                              duration: 2, 
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
+                        {/* Dot - always on the left for mobile, centered for desktop */}
+                        <motion.div 
+                          className="absolute left-0 sm:left-2 md:left-1/2 md:-translate-x-1/2 top-0"
+                          initial={{ scale: 0 }}
+                          animate={timelineInView ? { scale: 1 } : {}}
+                          transition={{ 
+                            duration: 0.4, 
+                            delay: 0.6 + index * 0.15,
+                            type: "spring",
+                            stiffness: 300
+                          }}
+                        >
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                            milestone.year === 'Now' 
+                              ? 'bg-primary' 
+                              : 'bg-background/10 border border-background/30'
+                          }`}>
+                            <motion.div 
+                              className={`w-2.5 h-2.5 rounded-full ${
+                                milestone.year === 'Now' 
+                                  ? 'bg-primary-foreground' 
+                                  : 'bg-primary'
+                              }`}
+                              animate={milestone.year === 'Now' ? { 
+                                scale: [1, 1.5, 1],
+                              } : {}}
+                              transition={{ 
+                                duration: 2, 
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            />
+                          </div>
+                        </motion.div>
+
+                        {/* Content - stacks on mobile, alternates on desktop */}
+                        <div className={`md:grid md:grid-cols-2 md:gap-8`}>
+                          <div className={`${isEven ? 'md:text-right md:pr-12' : 'md:col-start-2 md:pl-12'}`}>
+                            <motion.div
+                              whileHover={{ x: isEven ? -4 : 4 }}
+                              transition={{ duration: 0.2 }}
+                              className="bg-background/5 p-4 sm:p-5 md:p-6 border border-background/10 hover:border-primary/30 transition-colors"
+                            >
+                              <span className={`inline-block text-xs sm:text-sm font-bold tracking-wider mb-2 ${
+                                milestone.year === 'Now' 
+                                  ? 'text-primary' 
+                                  : 'text-background/50'
+                              }`}>
+                                {milestone.year}
+                              </span>
+                              <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-background mb-1 sm:mb-2">
+                                {milestone.title}
+                              </h3>
+                              <p className="text-background/60 text-xs sm:text-sm md:text-base leading-relaxed">
+                                {milestone.description}
+                              </p>
+                            </motion.div>
+                          </div>
                         </div>
                       </motion.div>
-
-                      {/* Content */}
-                      <div className={`${index % 2 === 0 ? 'sm:text-right sm:pr-16' : 'sm:col-start-2 sm:pl-16 sm:direction-ltr'}`}>
-                        <motion.div
-                          whileHover={{ x: index % 2 === 0 ? -8 : 8 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <span className={`inline-block text-sm font-bold tracking-wider mb-2 ${
-                            milestone.year === 'Now' 
-                              ? 'text-primary' 
-                              : 'text-background/50'
-                          }`}>
-                            {milestone.year}
-                          </span>
-                          <h3 className="font-serif text-xl sm:text-2xl text-background mb-2">
-                            {milestone.title}
-                          </h3>
-                          <p className="text-background/60 text-sm sm:text-base">
-                            {milestone.description}
-                          </p>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>

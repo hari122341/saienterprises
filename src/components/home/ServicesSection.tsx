@@ -44,7 +44,7 @@ const ServicesSection = () => {
 
   return (
     <>
-      <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
+      <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
         {/* Subtle decorative line */}
         <motion.div 
           className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border to-transparent pointer-events-none"
