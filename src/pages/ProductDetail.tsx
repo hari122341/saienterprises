@@ -88,9 +88,9 @@ const ProductDetail = () => {
                 {product.name}
               </h1>
               
-              {product.subcategory && (
+              {product.category && (
                 <p className="text-muted-foreground text-lg mb-8">
-                  {product.subcategory}
+                  {product.category}
                 </p>
               )}
 

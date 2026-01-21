@@ -176,13 +176,18 @@ const ContactPage = () => {
                 {/* Email */}
                 <div>
                   <p className="caption mb-4">Email</p>
-                  <a 
-                    href={`mailto:${companyInfo.email}`}
-                    className="text-xl text-foreground hover:text-primary transition-colors duration-300"
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-                  >
-                    {companyInfo.email}
-                  </a>
+                  <div className="space-y-2">
+                    {companyInfo.emails.map((email) => (
+                      <a 
+                        key={email}
+                        href={`mailto:${email}`}
+                        className="block text-xl text-foreground hover:text-primary transition-colors duration-300"
+                        style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                      >
+                        {email}
+                      </a>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Head Office */}

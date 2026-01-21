@@ -203,13 +203,16 @@ const Contact = () => {
               </div>
 
               <div className="space-y-4">
-                <a
-                  href={`mailto:${companyInfo.email}`}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
-                >
-                  <Mail className="w-5 h-5" />
-                  <span className="font-medium">{companyInfo.email}</span>
-                </a>
+                {companyInfo.emails.map((email) => (
+                  <a
+                    key={email}
+                    href={`mailto:${email}`}
+                    className="flex items-center gap-3 p-4 rounded-xl bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
+                  >
+                    <Mail className="w-5 h-5" />
+                    <span className="font-medium">{email}</span>
+                  </a>
+                ))}
               </div>
             </div>
 

@@ -36,9 +36,9 @@ const ProductCategory = () => {
 
   const Icon = categoryIcons[category.id] || Package;
 
-  // Group products by subcategory
+  // Group products by category
   const subcategories = category.products.reduce((acc, product) => {
-    const sub = product.subcategory || 'General';
+    const sub = product.category || 'General';
     if (!acc[sub]) acc[sub] = [];
     acc[sub].push(product);
     return acc;
