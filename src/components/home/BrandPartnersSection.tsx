@@ -32,7 +32,13 @@ const BrandPartnersSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-16 md:mb-20"
         >
-          <span className="inline-block text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-medium mb-4">
+          <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+            <motion.span 
+              className="w-8 h-px bg-primary"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+            />
             Our Partners
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground">
