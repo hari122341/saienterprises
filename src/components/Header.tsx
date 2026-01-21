@@ -13,7 +13,7 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      setIsHeroSection(window.scrollY < window.innerHeight * 0.5);
+      setIsHeroSection(window.scrollY < window.innerHeight * 0.6);
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
@@ -30,6 +30,7 @@ const Header = () => {
   }, [isMobileMenuOpen]);
 
   const isHomepage = location.pathname === '/';
+  const shouldHide = isHomepage && isHeroSection && !isScrolled;
   const useLightText = isHomepage && isHeroSection && !isScrolled;
 
   const navLinks = [
@@ -44,58 +45,59 @@ const Header = () => {
     return location.pathname === href;
   };
 
-  const showBackdrop = !isHomepage || isScrolled;
-
   return (
     <>
       <motion.header
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`fixed top-3 left-3 right-3 z-50 transition-all duration-500 rounded-2xl ${
-          showBackdrop 
-            ? 'bg-background/70 backdrop-blur-xl border border-border/30 shadow-lg shadow-foreground/5' 
-            : 'bg-white/5 backdrop-blur-sm border border-white/10'
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ 
+          opacity: shouldHide ? 0 : 1, 
+          y: shouldHide ? -20 : 0,
+        }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-4 left-4 right-4 z-50 transition-all duration-500 rounded-full ${
+          isScrolled || !isHomepage
+            ? 'bg-background/60 backdrop-blur-2xl border border-border/20 shadow-lg shadow-foreground/[0.02]' 
+            : 'bg-white/[0.03] backdrop-blur-md border border-white/[0.08]'
         }`}
+        style={{
+          backdropFilter: 'blur(20px) saturate(1.8)',
+        }}
       >
-        <div className="px-4 sm:px-6">
-          <div className="flex items-center justify-between h-12">
+        <div className="px-3 sm:px-5">
+          <div className="flex items-center justify-between h-11 sm:h-12">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group">
+            <Link to="/" className="flex items-center gap-2 group">
               <motion.div 
-                className="w-8 h-8 rounded-full overflow-hidden ring-1 ring-primary/20"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1 ring-white/10"
                 whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <img src={saiLogo} alt="Sai Enterprises" className="w-full h-full object-cover" />
               </motion.div>
-              <span className={`font-serif text-sm sm:text-base tracking-wide transition-colors duration-300 ${
+              <span className={`font-serif text-sm tracking-wide transition-colors duration-300 ${
                 useLightText ? 'text-white' : 'text-foreground'
               }`}>
-                Sai Enterprises
+                Sai
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`relative text-[11px] uppercase tracking-[0.12em] font-medium transition-colors duration-300 ${
+                  className={`relative px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium transition-all duration-300 rounded-full ${
                     isActive(link.href)
-                      ? useLightText ? 'text-white' : 'text-primary'
+                      ? useLightText 
+                        ? 'text-white bg-white/10' 
+                        : 'text-primary bg-primary/10'
                       : useLightText 
-                        ? 'text-white/70 hover:text-white' 
-                        : 'text-muted-foreground hover:text-foreground'
+                        ? 'text-white/60 hover:text-white hover:bg-white/5' 
+                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
                   }`}
                 >
                   {link.name}
-                  {isActive(link.href) && (
-                    <motion.span 
-                      layoutId="nav-underline"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
-                    />
-                  )}
                 </Link>
               ))}
             </nav>
@@ -103,38 +105,76 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                useLightText ? 'text-white bg-white/10' : 'text-foreground bg-secondary/80'
+              className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+                useLightText 
+                  ? 'text-white bg-white/10 hover:bg-white/20' 
+                  : 'text-foreground bg-secondary/50 hover:bg-secondary'
               }`}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              <AnimatePresence mode="wait">
+                {isMobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="w-4 h-4" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="w-4 h-4" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.button>
           </div>
         </div>
       </motion.header>
 
-      {/* Minimal Centered Mobile Menu */}
+      {/* Premium Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 md:hidden"
           >
             {/* Backdrop with blur */}
             <motion.div 
-              className="absolute inset-0 bg-background/95 backdrop-blur-xl"
+              className="absolute inset-0 bg-foreground/95"
+              style={{ backdropFilter: 'blur(40px) saturate(1.5)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
 
-            {/* Content - Centered */}
+            {/* Floating orbs for ambient effect */}
+            <motion.div 
+              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-primary/20 blur-[80px]"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 5, repeat: Infinity }}
+            />
+            <motion.div 
+              className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full bg-primary/10 blur-[60px]"
+              animate={{ scale: [1.1, 1, 1.1] }}
+              transition={{ duration: 4, repeat: Infinity }}
+            />
+
+            {/* Content */}
             <div className="relative h-full flex flex-col items-center justify-center px-6">
-              {/* Navigation Links - Centered */}
-              <nav className="flex flex-col items-center gap-2">
+              {/* Navigation Links */}
+              <nav className="flex flex-col items-center gap-1">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -142,47 +182,65 @@ const Header = () => {
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, y: 30 }}
+                      initial={{ opacity: 0, y: 40 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 15 }}
-                      transition={{ delay: i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      exit={{ opacity: 0, y: 20 }}
+                      transition={{ 
+                        delay: i * 0.08, 
+                        duration: 0.5, 
+                        ease: [0.16, 1, 0.3, 1] 
+                      }}
+                      className="relative"
                     >
                       <Link
                         to={link.href}
-                        className="relative block py-3 px-8 text-center group"
+                        className="relative block py-3 px-10 text-center group"
                       >
-                        {/* Active indicator */}
+                        {/* Active background */}
                         {active && (
                           <motion.div
-                            layoutId="mobile-active"
-                            className="absolute inset-0 bg-primary/10 rounded-xl border border-primary/20"
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            layoutId="mobile-nav-active"
+                            className="absolute inset-0 bg-primary/20 rounded-2xl"
+                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
                           />
                         )}
                         
-                        <span className={`relative font-serif text-3xl transition-colors ${
+                        <span className={`relative font-serif text-4xl sm:text-5xl transition-colors ${
                           active 
                             ? 'text-primary' 
-                            : 'text-foreground/70 group-hover:text-foreground'
+                            : 'text-background/60 group-hover:text-background'
                         }`}>
                           {link.name}
                         </span>
+
+                        {/* Hover underline */}
+                        {!active && (
+                          <motion.div
+                            className="absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary/40 group-hover:w-12 transition-all duration-300 rounded-full"
+                          />
+                        )}
                       </Link>
                     </motion.div>
                   );
                 })}
               </nav>
 
-              {/* Subtle footer */}
+              {/* Footer info */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="absolute bottom-12 left-0 right-0 flex flex-col items-center"
+                transition={{ delay: 0.5 }}
+                className="absolute bottom-10 flex flex-col items-center"
               >
-                <div className="w-8 h-px bg-border mb-4" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  Since 2000
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-8 h-px bg-background/20" />
+                  <span className="text-[9px] uppercase tracking-[0.25em] text-background/30">
+                    Since 2000
+                  </span>
+                  <div className="w-8 h-px bg-background/20" />
+                </div>
+                <span className="text-[10px] text-background/20">
+                  India • Kenya
                 </span>
               </motion.div>
             </div>
