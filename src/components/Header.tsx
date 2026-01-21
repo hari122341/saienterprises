@@ -41,7 +41,7 @@ const Header = () => {
   const useLightText = isInHeroSection;
 
   const navLinks = [
-    { name: 'About', href: '/about', sectionId: 'about' },
+    { name: 'About', href: '/about', sectionId: null },
     { name: 'Machinery', href: '/machinery', sectionId: null },
     { name: 'Partners', href: '/partners', sectionId: 'partners' },
     { name: 'Contact', href: '/contact', sectionId: 'contact' },
