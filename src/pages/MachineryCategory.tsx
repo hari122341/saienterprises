@@ -95,7 +95,7 @@ const MachineryCategory = () => {
           />
 
           <motion.div 
-            className="relative text-center px-6 sm:px-8 pt-24 sm:pt-32"
+            className="relative text-center px-6 sm:px-8 pt-24 sm:pt-32 pb-16 sm:pb-24"
             style={{ opacity: heroOpacity, y: heroY }}
           >
             {/* Breadcrumb */}
