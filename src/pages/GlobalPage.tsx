@@ -80,10 +80,7 @@ const GlobalPage = () => {
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   className="py-6 md:py-8 border-b border-border flex items-center justify-between"
                 >
-                  <span 
-                    className="text-xl md:text-2xl text-foreground"
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-                  >
+                  <span className="text-xl md:text-2xl text-foreground font-serif">
                     {location.city}
                   </span>
                   <span className="text-sm text-muted-foreground">{location.role}</span>
@@ -113,10 +110,7 @@ const GlobalPage = () => {
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   className="py-6 md:py-8 border-b border-border flex items-center justify-between"
                 >
-                  <span 
-                    className="text-xl md:text-2xl text-foreground"
-                    style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-                  >
+                  <span className="text-xl md:text-2xl text-foreground font-serif">
                     {location.city}
                   </span>
                   <span className="text-sm text-muted-foreground">{location.role}</span>
@@ -135,10 +129,7 @@ const GlobalPage = () => {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <p 
-              className="text-foreground text-xl md:text-2xl leading-relaxed mb-6"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-            >
+            <p className="text-foreground text-xl md:text-2xl leading-relaxed mb-6 font-serif">
               Our presence in these strategic locations allows us to provide 
               rapid response, local expertise, and ongoing support.
             </p>

@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
 import { partnerBrands } from '@/data/products';
-
 import PageTransition from '@/components/PageTransition';
 
 const BrandsPage = () => {
@@ -46,10 +45,7 @@ const BrandsPage = () => {
                 transition={{ delay: index * 0.05, duration: 0.5 }}
                 className="py-8 md:py-10 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:pl-4 transition-all duration-300"
               >
-                <h3 
-                  className="text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors duration-300"
-                  style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-                >
+                <h3 className="text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors duration-300 font-serif">
                   {brand.name}
                 </h3>
                 <div className="flex items-center gap-6">
@@ -75,10 +71,7 @@ const BrandsPage = () => {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <p 
-              className="text-foreground text-xl md:text-2xl leading-relaxed mb-6"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-            >
+            <p className="text-foreground text-xl md:text-2xl leading-relaxed mb-6 font-serif">
               Each brand we represent has been selected for their commitment to 
               precision engineering, reliability, and long-term value.
             </p>

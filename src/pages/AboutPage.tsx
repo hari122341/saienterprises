@@ -76,7 +76,7 @@ const AboutPage = () => {
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
-              <p className="text-foreground text-xl md:text-2xl leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              <p className="text-foreground text-xl md:text-2xl leading-relaxed font-serif">
                 Sai Enterprises was founded with a simple belief: the printing and packaging 
                 industry deserves a trusted partner who understands their needs and stands 
                 by them through every decision.
@@ -109,8 +109,7 @@ const AboutPage = () => {
               {services.map((service) => (
                 <div 
                   key={service}
-                  className="py-5 border-b border-border text-foreground text-lg"
-                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                  className="py-5 border-b border-border text-foreground text-lg font-serif"
                 >
                   {service}
                 </div>
@@ -135,10 +134,7 @@ const AboutPage = () => {
                   key={location.city}
                   className="py-6 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-2"
                 >
-                  <span 
-                    className="text-xl md:text-2xl text-foreground"
-                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-                  >
+                  <span className="text-xl md:text-2xl text-foreground font-serif">
                     {location.city}
                   </span>
                   <div className="flex items-center gap-4">
