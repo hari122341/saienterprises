@@ -64,42 +64,46 @@ const Header = () => {
         }`}
       >
         <div className="px-6 md:px-10 lg:px-16">
-          <div className="flex items-center justify-between h-12 md:h-14">
+          <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo + Text */}
             <Link 
               to="/" 
               className="flex items-center gap-3 group"
             >
-              <div className="w-8 h-8 rounded-full overflow-hidden border border-border/30 shadow-sm">
+              <div className="w-9 h-9 rounded-full overflow-hidden border border-border/30 shadow-sm">
                 <img 
                   src={saiLogo} 
                   alt="Sai Enterprises" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="text-sm font-light tracking-wide text-foreground group-hover:text-muted-foreground transition-colors">
+              <span 
+                className="text-sm tracking-wide text-foreground group-hover:text-muted-foreground transition-colors"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 500 }}
+              >
                 Sai Enterprises
               </span>
             </Link>
 
-            {/* Desktop Navigation - light weight, generous spacing */}
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-10">
               {navLinks.slice(1).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`text-[13px] font-light tracking-wide transition-colors duration-300 ${
+                  className={`text-[13px] tracking-wide transition-colors duration-300 ${
                     isActive(link.href)
-                      ? 'text-foreground'
+                      ? 'text-foreground font-medium'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
+                  style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                 >
                   {link.name}
                 </Link>
               ))}
             </nav>
 
-            {/* Mobile Menu Button - minimal */}
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 -mr-2 text-foreground"
@@ -126,27 +130,30 @@ const Header = () => {
             className="fixed inset-0 z-40 md:hidden"
           >
             {/* Background with brand color */}
-            <div className="absolute inset-0 bg-primary" />
+            <div 
+              className="absolute inset-0"
+              style={{ backgroundColor: 'hsl(195 85% 40%)' }}
+            />
             
             {/* Content */}
-            <div className="relative h-full flex flex-col justify-center px-8">
+            <div className="relative h-full flex flex-col justify-center px-10">
               {/* Navigation Links - Large editorial typography */}
-              <nav className="space-y-8">
+              <nav className="space-y-6">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.name}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + index * 0.08, duration: 0.5 }}
+                    transition={{ delay: 0.1 + index * 0.06, duration: 0.5 }}
                   >
                     <Link
                       to={link.href}
-                      className={`block text-4xl font-light tracking-wide transition-opacity duration-300 ${
+                      className={`block text-4xl tracking-wide transition-opacity duration-300 ${
                         isActive(link.href)
-                          ? 'text-primary-foreground'
-                          : 'text-primary-foreground/70 hover:text-primary-foreground'
+                          ? 'text-white'
+                          : 'text-white/70 hover:text-white'
                       }`}
-                      style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                     >
                       {link.name}
                     </Link>
@@ -158,14 +165,19 @@ const Header = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="absolute bottom-12 left-8 right-8"
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="absolute bottom-12 left-10 right-10"
               >
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  className="inline-flex items-center gap-3 text-white/80 hover:text-white transition-colors"
                 >
-                  <span className="text-sm font-medium tracking-wide">Get in touch</span>
+                  <span 
+                    className="text-sm font-medium tracking-wide"
+                    style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+                  >
+                    Get in touch
+                  </span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </motion.div>
