@@ -52,15 +52,21 @@ const BrandPartnersSection = () => {
                   whileHover={{ scale: 1.02 }}
                   className="group text-center py-8 sm:py-12 border-b border-border hover:border-primary/30 transition-colors"
                 >
+                  <div className="min-h-[84px] sm:min-h-[96px] flex flex-col items-center justify-center">
                   <motion.span 
                     className="block font-bold text-2xl sm:text-3xl md:text-4xl tracking-[0.1em] text-foreground/20 group-hover:text-primary transition-colors duration-500"
                     whileHover={{ letterSpacing: '0.15em' }}
                   >
                     {brand.name.toUpperCase()}
                   </motion.span>
-                  <span className="block mt-3 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                    {brand.country}
-                  </span>
+                  </div>
+
+                  <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary/60" />
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      {brand.country}
+                    </span>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -71,19 +77,24 @@ const BrandPartnersSection = () => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-x-8 sm:gap-x-12 gap-y-4 mb-16"
+            className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-16"
           >
             {otherBrands.map((brand, index) => (
-              <motion.span
+              <motion.div
                 key={brand.name}
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : {}}
                 transition={{ delay: 0.5 + index * 0.05 }}
-                whileHover={{ scale: 1.05, color: 'hsl(var(--primary))' }}
-                className="text-sm sm:text-base font-semibold tracking-[0.15em] text-foreground/30 hover:text-primary transition-colors cursor-default"
+                whileHover={{ y: -2 }}
+                className="group inline-flex items-center gap-3 rounded-full border border-border bg-background/30 px-4 py-2 transition-colors hover:border-primary/30"
               >
-                {brand.name.toUpperCase()}
-              </motion.span>
+                <span className="text-xs sm:text-sm font-semibold tracking-[0.15em] text-foreground/40 group-hover:text-primary transition-colors">
+                  {brand.name.toUpperCase()}
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {brand.country}
+                </span>
+              </motion.div>
             ))}
           </motion.div>
 
