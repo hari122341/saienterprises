@@ -78,8 +78,8 @@ const Header = () => {
                 />
               </div>
               <span 
-                className="text-sm tracking-normal text-foreground group-hover:text-muted-foreground transition-colors"
-                style={{ fontFamily: "'Inter', system-ui, sans-serif", fontWeight: 500 }}
+                className="text-sm tracking-wide text-foreground group-hover:text-muted-foreground transition-colors"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 500 }}
               >
                 Sai Enterprises
               </span>
@@ -91,12 +91,12 @@ const Header = () => {
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`text-[13px] transition-colors duration-300 ${
+                  className={`text-[13px] tracking-wide transition-colors duration-300 ${
                     isActive(link.href)
                       ? 'text-foreground font-medium'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
-                  style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                 >
                   {link.name}
                 </Link>
@@ -148,12 +148,12 @@ const Header = () => {
                   >
                     <Link
                       to={link.href}
-                      className={`block text-4xl transition-opacity duration-300 ${
+                      className={`block text-4xl tracking-wide transition-opacity duration-300 ${
                         isActive(link.href)
                           ? 'text-white'
                           : 'text-white/70 hover:text-white'
                       }`}
-                      style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                     >
                       {link.name}
                     </Link>
@@ -173,8 +173,8 @@ const Header = () => {
                   className="inline-flex items-center gap-3 text-white/80 hover:text-white transition-colors"
                 >
                   <span 
-                    className="text-sm font-medium"
-                    style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
+                    className="text-sm font-medium tracking-wide"
+                    style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                   >
                     Get in touch
                   </span>

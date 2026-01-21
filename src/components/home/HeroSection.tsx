@@ -1,177 +1,171 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown, MapPin, Calendar, Users } from 'lucide-react';
 import heroImage from '@/assets/hero-industrial.jpg';
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
   
-  const imageY = useTransform(scrollY, [0, 600], [0, 100]);
-  const contentOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const imageScale = useTransform(scrollY, [0, 600], [1, 1.1]);
+  const imageOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
+  const contentY = useTransform(scrollY, [0, 400], [0, -50]);
 
   return (
     <section 
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen bg-background"
+      className="relative min-h-screen bg-foreground overflow-hidden"
     >
-      {/* Two-column layout */}
-      <div className="min-h-screen grid lg:grid-cols-2">
-        
-        {/* Left - Content */}
-        <motion.div 
-          className="relative z-10 flex flex-col justify-center px-6 md:px-12 lg:px-16 xl:px-24 py-32 lg:py-20"
-          style={{ opacity: contentOpacity }}
-        >
-          <div className="max-w-xl">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-10"
-            >
-              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary font-semibold">
-                <span className="w-8 h-px bg-primary" />
-                Since 2000
-              </span>
-            </motion.div>
+      {/* Full background image with overlay */}
+      <motion.div 
+        className="absolute inset-0"
+        style={{ scale: imageScale, opacity: imageOpacity }}
+      >
+        <img 
+          src={heroImage} 
+          alt="" 
+          className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.4) saturate(0.8)' }}
+        />
+      </motion.div>
 
-            {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-[1.1] mb-6"
-            >
-              Your Partner in{' '}
-              <span className="text-primary">Printing</span>{' '}
-              Excellence
-            </motion.h1>
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-transparent to-transparent" />
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-muted-foreground text-base md:text-lg leading-relaxed mb-10"
-            >
-              Premium graphic machinery suppliers delivering world-class 
-              pre-press, post-press, and corrugation solutions across 
-              India and East Africa.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-wrap gap-4 mb-16"
-            >
-              <Link
-                to="/machinery"
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
-              >
-                Explore Machinery
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-border text-foreground text-sm font-medium hover:border-primary hover:text-primary transition-colors"
-              >
-                Contact Us
-              </Link>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="grid grid-cols-3 gap-6 pt-10 border-t border-border"
-            >
-              {[
-                { value: '24+', label: 'Years' },
-                { value: '500+', label: 'Clients' },
-                { value: '8+', label: 'Brands' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="font-serif text-3xl md:text-4xl text-foreground">{stat.value}</div>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Right - Image */}
-        <motion.div 
-          className="relative hidden lg:block"
-          style={{ y: imageY }}
-        >
-          <div className="absolute inset-0">
-            <img 
-              src={heroImage} 
-              alt="Industrial printing machinery" 
-              className="w-full h-full object-cover"
-              style={{ filter: 'saturate(0.8) brightness(0.95)' }}
-            />
-            {/* Subtle overlay */}
-            <div className="absolute inset-0 bg-primary/5" />
-          </div>
-          
-          {/* Brand partners overlay card */}
+      {/* Main content */}
+      <motion.div 
+        className="relative z-10 min-h-screen flex flex-col justify-end pb-24 md:pb-32"
+        style={{ y: contentY }}
+      >
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-20">
+          {/* Top row - Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="absolute bottom-8 left-8 right-8 p-6 bg-background/95 backdrop-blur-sm border border-border"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-8"
           >
-            <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Authorized Partners</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-foreground">
-              <span>Heidelberg</span>
-              <span className="text-muted-foreground">•</span>
-              <span>Komori</span>
-              <span className="text-muted-foreground">•</span>
-              <span>Manroland</span>
-              <span className="text-muted-foreground">•</span>
-              <span>Bobst</span>
-              <span className="text-muted-foreground">•</span>
-              <span className="text-primary">+4 more</span>
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[11px] uppercase tracking-[0.2em] text-primary font-medium">
+                Trusted Since 2000
+              </span>
             </div>
           </motion.div>
-        </motion.div>
-      </div>
 
-      {/* Mobile image - shows below content on mobile */}
-      <div className="lg:hidden relative h-64 -mt-8">
-        <img 
-          src={heroImage} 
-          alt="Industrial printing machinery" 
-          className="w-full h-full object-cover"
-          style={{ filter: 'saturate(0.8) brightness(0.95)' }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-      </div>
+          {/* Headline - Large and impactful */}
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-8"
+          >
+            <span className="block font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-background/90 leading-[0.95]">
+              Your Partner in
+            </span>
+            <span className="block font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-primary leading-[0.95] mt-2">
+              Printing Excellence
+            </span>
+          </motion.h1>
 
-      {/* Scroll indicator */}
-      <motion.button
-        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-      >
-        <span className="text-[10px] uppercase tracking-wider">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="w-4 h-4" />
-        </motion.div>
-      </motion.button>
+          {/* Description + CTAs row */}
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-end">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <p className="text-background/60 text-lg md:text-xl leading-relaxed max-w-lg mb-8">
+                Premium graphic machinery suppliers delivering world-class 
+                pre-press, post-press, and corrugation solutions to printers 
+                across India and East Africa.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/machinery"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
+                >
+                  <span className="text-sm font-semibold">Explore Machinery</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-3 px-8 py-4 border border-background/20 text-background hover:bg-background/10 transition-all duration-300"
+                >
+                  <span className="text-sm font-semibold">Get in Touch</span>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Stats cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex gap-4 md:gap-6 lg:justify-end"
+            >
+              {[
+                { icon: Calendar, value: '24+', label: 'Years Experience' },
+                { icon: Users, value: '500+', label: 'Happy Clients' },
+                { icon: MapPin, value: '2', label: 'Continents' },
+              ].map((stat, i) => (
+                <motion.div 
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.7 + i * 0.1 }}
+                  className="flex-1 max-w-[140px] p-4 md:p-5 bg-background/5 backdrop-blur-sm border border-background/10"
+                >
+                  <stat.icon className="w-4 h-4 text-primary mb-3" />
+                  <div className="font-serif text-2xl md:text-3xl text-background">{stat.value}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-background/50 mt-1">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Bottom brand strip */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+            className="mt-16 pt-8 border-t border-background/10"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-6">
+                <span className="text-[10px] uppercase tracking-wider text-background/40">Authorized Partners</span>
+                <div className="hidden md:flex items-center gap-4 text-xs text-background/60">
+                  <span>Heidelberg</span>
+                  <span className="w-1 h-1 rounded-full bg-background/30" />
+                  <span>Komori</span>
+                  <span className="w-1 h-1 rounded-full bg-background/30" />
+                  <span>Manroland</span>
+                  <span className="w-1 h-1 rounded-full bg-background/30" />
+                  <span>Bobst</span>
+                  <span className="w-1 h-1 rounded-full bg-background/30" />
+                  <span className="text-primary">+4 more</span>
+                </div>
+              </div>
+              
+              {/* Scroll indicator */}
+              <motion.button
+                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                className="flex items-center gap-2 text-background/50 hover:text-background transition-colors"
+                animate={{ y: [0, 5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <span className="text-[10px] uppercase tracking-wider hidden sm:inline">Scroll to explore</span>
+                <ArrowDown className="w-4 h-4" />
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 };
