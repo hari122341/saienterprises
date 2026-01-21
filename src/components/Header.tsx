@@ -30,8 +30,8 @@ const Header = () => {
   }, [isMobileMenuOpen]);
 
   const isHomepage = location.pathname === '/';
-  const shouldHide = isHomepage && isHeroSection && !isScrolled;
-  const useLightText = isHomepage && isHeroSection && !isScrolled;
+  const isInHeroSection = isHomepage && isHeroSection && !isScrolled;
+  const useLightText = isInHeroSection;
 
   const navLinks = [
     { name: 'About', href: '/about' },
@@ -49,18 +49,15 @@ const Header = () => {
     <>
       <motion.header
         initial={{ opacity: 0, y: -20 }}
-        animate={{ 
-          opacity: shouldHide ? 0 : 1, 
-          y: shouldHide ? -20 : 0,
-        }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-4 left-4 right-4 z-50 transition-all duration-500 rounded-full ${
-          isScrolled || !isHomepage
-            ? 'bg-background/60 backdrop-blur-2xl border border-border/20 shadow-lg shadow-foreground/[0.02]' 
-            : 'bg-white/[0.03] backdrop-blur-md border border-white/[0.08]'
+          isInHeroSection
+            ? 'bg-transparent border-transparent' 
+            : 'bg-background/70 backdrop-blur-2xl border border-border/30 shadow-xl shadow-foreground/[0.03]'
         }`}
         style={{
-          backdropFilter: 'blur(20px) saturate(1.8)',
+          backdropFilter: isInHeroSection ? 'none' : 'blur(24px) saturate(1.8)',
         }}
       >
         <div className="px-3 sm:px-5">
@@ -147,34 +144,21 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-40 md:hidden"
           >
-            {/* Backdrop with blur */}
+            {/* Clean dark backdrop */}
             <motion.div 
-              className="absolute inset-0 bg-foreground/95"
-              style={{ backdropFilter: 'blur(40px) saturate(1.5)' }}
+              className="absolute inset-0 bg-foreground"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
 
-            {/* Floating orbs for ambient effect */}
-            <motion.div 
-              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-primary/20 blur-[80px]"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 5, repeat: Infinity }}
-            />
-            <motion.div 
-              className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full bg-primary/10 blur-[60px]"
-              animate={{ scale: [1.1, 1, 1.1] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            />
-
             {/* Content */}
             <div className="relative h-full flex flex-col items-center justify-center px-6">
               {/* Navigation Links */}
-              <nav className="flex flex-col items-center gap-1">
+              <nav className="flex flex-col items-center gap-2">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -182,41 +166,43 @@ const Header = () => {
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, y: 40 }}
+                      initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
+                      exit={{ opacity: 0, y: -20 }}
                       transition={{ 
-                        delay: i * 0.08, 
-                        duration: 0.5, 
+                        delay: i * 0.06, 
+                        duration: 0.4, 
                         ease: [0.16, 1, 0.3, 1] 
                       }}
                       className="relative"
                     >
                       <Link
                         to={link.href}
-                        className="relative block py-3 px-10 text-center group"
+                        className="relative block py-3 px-8 text-center group"
                       >
-                        {/* Active background */}
+                        {/* Premium active indicator */}
                         {active && (
                           <motion.div
                             layoutId="mobile-nav-active"
-                            className="absolute inset-0 bg-primary/20 rounded-2xl"
-                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                            className="absolute inset-0 rounded-xl border border-primary/40 bg-primary/10"
+                            transition={{ type: "spring", stiffness: 500, damping: 35 }}
                           />
                         )}
                         
-                        <span className={`relative font-serif text-4xl sm:text-5xl transition-colors ${
+                        <span className={`relative font-serif text-3xl sm:text-4xl transition-all duration-300 ${
                           active 
-                            ? 'text-primary' 
-                            : 'text-background/60 group-hover:text-background'
+                            ? 'text-primary font-medium' 
+                            : 'text-background/40 group-hover:text-background/80'
                         }`}>
                           {link.name}
                         </span>
 
-                        {/* Hover underline */}
-                        {!active && (
+                        {/* Active dot indicator */}
+                        {active && (
                           <motion.div
-                            className="absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary/40 group-hover:w-12 transition-all duration-300 rounded-full"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary"
                           />
                         )}
                       </Link>
@@ -225,22 +211,15 @@ const Header = () => {
                 })}
               </nav>
 
-              {/* Footer info */}
+              {/* Minimal footer */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="absolute bottom-10 flex flex-col items-center"
+                transition={{ delay: 0.4 }}
+                className="absolute bottom-12 text-center"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-8 h-px bg-background/20" />
-                  <span className="text-[9px] uppercase tracking-[0.25em] text-background/30">
-                    Since 2000
-                  </span>
-                  <div className="w-8 h-px bg-background/20" />
-                </div>
-                <span className="text-[10px] text-background/20">
-                  India • Kenya
+                <span className="text-[10px] uppercase tracking-[0.2em] text-background/20">
+                  Since 2000 • India & Kenya
                 </span>
               </motion.div>
             </div>
