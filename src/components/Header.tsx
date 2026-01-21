@@ -1,14 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import saiLogo from '@/assets/sai-logo.png';
+
+// Section IDs that correspond to homepage sections
+const homepageSections: Record<string, string> = {
+  '/about': 'about',
+  '/contact': 'contact',
+};
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeroSection, setIsHeroSection] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,11 +41,35 @@ const Header = () => {
   const useLightText = isInHeroSection;
 
   const navLinks = [
-    { name: 'About', href: '/about' },
-    { name: 'Machinery', href: '/machinery' },
-    { name: 'Brands', href: '/brands' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'About', href: '/about', sectionId: 'about' },
+    { name: 'Machinery', href: '/machinery', sectionId: null },
+    { name: 'Brands', href: '/brands', sectionId: 'partners' },
+    { name: 'Contact', href: '/contact', sectionId: 'contact' },
   ];
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  }, []);
+
+  const handleNavClick = useCallback((e: React.MouseEvent, href: string, sectionId: string | null) => {
+    // If we're on homepage and there's a corresponding section, scroll to it
+    if (isHomepage && sectionId) {
+      e.preventDefault();
+      scrollToSection(sectionId);
+      setIsMobileMenuOpen(false);
+    }
+    // Otherwise, navigate normally (handled by Link)
+  }, [isHomepage, scrollToSection]);
 
   const isActive = (href: string) => {
     if (href === '/machinery') return location.pathname.startsWith('/machinery');
@@ -91,6 +122,7 @@ const Header = () => {
                 >
                   <Link
                     to={link.href}
+                    onClick={(e) => handleNavClick(e, link.href, link.sectionId)}
                     className={`relative px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium transition-all duration-300 rounded-full group ${
                       isActive(link.href)
                         ? useLightText 
@@ -177,7 +209,7 @@ const Header = () => {
             <div className="relative h-full flex flex-col items-center justify-center px-6">
               {/* Navigation Links */}
               <nav className="flex flex-col items-center gap-4">
-                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
+                {[{ name: 'Home', href: '/', sectionId: null as string | null }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
                   
@@ -195,6 +227,7 @@ const Header = () => {
                     >
                       <Link
                         to={link.href}
+                        onClick={(e) => handleNavClick(e, link.href, link.sectionId)}
                         className="relative block py-2 text-center group"
                       >
                         <motion.span 
