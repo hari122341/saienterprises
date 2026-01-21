@@ -174,9 +174,9 @@ const ProductUniverse = () => {
                         <h4 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                           {product.name}
                         </h4>
-                        {product.subcategory && (
+                        {product.category && (
                           <span className="inline-block px-2 py-0.5 bg-secondary text-xs text-muted-foreground rounded mb-2">
-                            {product.subcategory}
+                            {product.category}
                           </span>
                         )}
                         {product.description && (

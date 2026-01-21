@@ -27,9 +27,9 @@ const MachineryCategory = () => {
     );
   }
 
-  // Group products by subcategory
+  // Group products by category
   const subcategories = category.products.reduce((acc, product) => {
-    const subcat = product.subcategory || 'General';
+    const subcat = product.category || 'General';
     if (!acc[subcat]) {
       acc[subcat] = [];
     }

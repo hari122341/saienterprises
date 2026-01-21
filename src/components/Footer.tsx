@@ -24,12 +24,17 @@ const Footer = () => {
               {companyInfo.experience} of excellence in graphic & corrugation machinery.
               Building long-term relationships across India and East Africa.
             </p>
-            <a 
-              href={`mailto:${companyInfo.email}`}
-              className="text-sm text-foreground hover:text-primary transition-colors"
-            >
-              {companyInfo.email}
-            </a>
+            <div className="space-y-1">
+              {companyInfo.emails.map((email) => (
+                <a 
+                  key={email}
+                  href={`mailto:${email}`}
+                  className="block text-sm text-foreground hover:text-primary transition-colors"
+                >
+                  {email}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Navigation */}
