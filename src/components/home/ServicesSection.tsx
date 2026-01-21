@@ -98,7 +98,7 @@ const ServicesSection = () => {
                       setSelectedService(service.title);
                       setIsModalOpen(true);
                     }}
-                    className={`flex-shrink-0 w-[260px] cursor-pointer transition-all duration-500 ${
+                    className={`flex-shrink-0 w-[240px] sm:w-[280px] cursor-pointer transition-all duration-500 overflow-hidden ${
                       service.highlight 
                         ? 'bg-primary text-primary-foreground' 
                         : 'bg-card border border-border'
