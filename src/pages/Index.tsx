@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
-import PremiumLoader from '@/components/PremiumLoader';
 import SectionNav from '@/components/SectionNav';
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
@@ -26,31 +24,25 @@ const sections = [
 ];
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
-    <>
-      {isLoading && <PremiumLoader onComplete={() => setIsLoading(false)} />}
+    <PageTransition>
+      <Header />
+      <SectionNav sections={sections} />
       
-      <PageTransition>
-        <Header />
-        <SectionNav sections={sections} />
-        
-        <main>
-          <HeroSection />
-          <div id="about"><AboutSection /></div>
-          <div id="offerings"><OfferingsSection /></div>
-          <div id="services"><ServicesSection /></div>
-          <div id="partners"><BrandPartnersSection /></div>
-          <div id="presence"><GlobalPresenceSection /></div>
-          <div id="testimonials"><TestimonialsSection /></div>
-          <div id="why-us"><WhySaiSection /></div>
-          <div id="contact"><ContactSection /></div>
-        </main>
+      <main>
+        <HeroSection />
+        <div id="about"><AboutSection /></div>
+        <div id="offerings"><OfferingsSection /></div>
+        <div id="services"><ServicesSection /></div>
+        <div id="partners"><BrandPartnersSection /></div>
+        <div id="presence"><GlobalPresenceSection /></div>
+        <div id="testimonials"><TestimonialsSection /></div>
+        <div id="why-us"><WhySaiSection /></div>
+        <div id="contact"><ContactSection /></div>
+      </main>
 
-        <Footer />
-      </PageTransition>
-    </>
+      <Footer />
+    </PageTransition>
   );
 };
 

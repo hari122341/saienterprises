@@ -6,26 +6,30 @@ interface PageTransitionProps {
   className?: string;
 }
 
-// Smooth, premium page transition variants
+// Buttery smooth page transition variants
 const pageVariants: Variants = {
   initial: {
     opacity: 0,
-    y: 16,
+    y: 24,
+    scale: 0.98,
   },
   enter: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1], // Custom expo-out easing
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1], // Custom smooth easing
+      staggerChildren: 0.1,
     },
   },
   exit: {
     opacity: 0,
-    y: -8,
+    y: -12,
+    scale: 1.01,
     transition: {
-      duration: 0.35,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
     },
   },
 };

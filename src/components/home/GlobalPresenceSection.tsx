@@ -1,103 +1,165 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { MapPin } from 'lucide-react';
 import { companyInfo } from '@/data/products';
 
 const GlobalPresenceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
+  const locations = [
+    {
+      type: 'Headquarters',
+      city: companyInfo.locations.headquarters.city,
+      region: `${companyInfo.locations.headquarters.state}, ${companyInfo.locations.headquarters.country}`,
+      isPrimary: true,
+    },
+    {
+      type: 'International',
+      city: companyInfo.locations.overseas.city,
+      region: companyInfo.locations.overseas.country,
+      isPrimary: false,
+    },
+  ];
+
+  const branches = ['New Delhi', 'Pune', 'Vijayawada'];
+
   return (
-    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-foreground overflow-hidden">
-      {/* Subtle dot pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--background)) 1px, transparent 0)`,
-            backgroundSize: '32px 32px'
-          }}
+    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-foreground overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0">
+        <motion.div 
+          className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-primary/10 blur-[150px]"
+          animate={isInView ? { 
+            x: [100, 0, 100],
+            opacity: [0.3, 0.5, 0.3]
+          } : {}}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[100px]"
+          animate={isInView ? { 
+            x: [-50, 50, -50],
+          } : {}}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
+      {/* Grid pattern overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--background)) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}
+      />
+
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
-        <div className="max-w-4xl">
-          {/* Header - Left aligned */}
+        <div className="max-w-6xl mx-auto">
+          {/* Header - Centered */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-12 sm:mb-16"
+            className="text-center mb-16 sm:mb-20"
           >
-            <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+            <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <motion.span 
                 className="w-8 h-px bg-primary"
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
               />
-              Presence
+              Global Presence
+              <motion.span 
+                className="w-8 h-px bg-primary"
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+              />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background leading-tight">
               Where we <span className="text-primary italic">operate.</span>
             </h2>
           </motion.div>
 
-          {/* Locations Grid */}
-          <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 mb-10">
-            {/* Headquarters */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-primary p-6 sm:p-8"
-            >
-              <span className="text-[9px] uppercase tracking-[0.2em] text-primary-foreground/50 mb-3 block">
-                Headquarters
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl text-primary-foreground mb-1">
-                {companyInfo.locations.headquarters.city}
-              </h3>
-              <p className="text-primary-foreground/60 text-sm">
-                {companyInfo.locations.headquarters.state}, {companyInfo.locations.headquarters.country}
-              </p>
-            </motion.div>
+          {/* Main Locations Grid */}
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-12">
+            {locations.map((location, index) => (
+              <motion.div
+                key={location.city}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -4 }}
+                className={`relative group cursor-default overflow-hidden ${
+                  location.isPrimary 
+                    ? 'bg-primary' 
+                    : 'bg-background/5 border border-background/10'
+                }`}
+                style={{ borderRadius: '2px' }}
+              >
+                {/* Subtle gradient overlay on hover */}
+                <motion.div 
+                  className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                    location.isPrimary 
+                      ? 'bg-gradient-to-br from-white/10 to-transparent' 
+                      : 'bg-gradient-to-br from-primary/10 to-transparent'
+                  }`}
+                />
 
-            {/* International */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-background/10 border border-background/20 p-6 sm:p-8"
-            >
-              <span className="text-[9px] uppercase tracking-[0.2em] text-background/40 mb-3 block">
-                International Office
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl text-background mb-1">
-                {companyInfo.locations.overseas.city}
-              </h3>
-              <p className="text-background/50 text-sm">
-                {companyInfo.locations.overseas.country}
-              </p>
-            </motion.div>
+                <div className="relative p-8 sm:p-10">
+                  <div className="flex items-start justify-between mb-6">
+                    <span className={`text-[9px] uppercase tracking-[0.25em] font-medium ${
+                      location.isPrimary ? 'text-primary-foreground/60' : 'text-background/40'
+                    }`}>
+                      {location.type}
+                    </span>
+                    <motion.div
+                      animate={{ rotate: [0, 10, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <MapPin className={`w-5 h-5 ${
+                        location.isPrimary ? 'text-primary-foreground/40' : 'text-primary/40'
+                      }`} />
+                    </motion.div>
+                  </div>
+                  
+                  <h3 className={`font-serif text-4xl sm:text-5xl mb-2 ${
+                    location.isPrimary ? 'text-primary-foreground' : 'text-background'
+                  }`}>
+                    {location.city}
+                  </h3>
+                  <p className={`text-sm ${
+                    location.isPrimary ? 'text-primary-foreground/60' : 'text-background/50'
+                  }`}>
+                    {location.region}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Branches */}
+          {/* Branch Offices */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap items-center gap-4"
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
           >
-            <span className="text-[10px] uppercase tracking-[0.15em] text-background/40">
-              Branches:
+            <span className="text-[10px] uppercase tracking-[0.2em] text-background/30">
+              Branch Offices
             </span>
-            <div className="flex flex-wrap gap-3">
-              {['New Delhi', 'Pune', 'Vijayawada'].map((city, i) => (
-                <span 
+            <div className="flex flex-wrap justify-center gap-3">
+              {branches.map((city, i) => (
+                <motion.span 
                   key={city}
-                  className="text-background/70 text-sm px-3 py-1 bg-background/5 rounded-full"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ delay: 0.5 + i * 0.1 }}
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                  className="text-background/60 text-sm px-5 py-2 bg-background/5 rounded-full border border-background/10 cursor-default transition-all"
                 >
                   {city}
-                </span>
+                </motion.span>
               ))}
             </div>
           </motion.div>
