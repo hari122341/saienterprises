@@ -6,15 +6,11 @@ import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
 import { partnerBrands } from '@/data/products';
 
+import PageTransition from '@/components/PageTransition';
+
 const BrandsPage = () => {
   return (
-    <motion.div 
-      className="min-h-screen bg-background"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageTransition>
       <ScrollProgress />
       <Header />
       
@@ -117,7 +113,7 @@ const BrandsPage = () => {
       </main>
 
       <Footer />
-    </motion.div>
+    </PageTransition>
   );
 };
 

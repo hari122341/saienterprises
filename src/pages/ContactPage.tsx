@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
+import PageTransition from '@/components/PageTransition';
 import { useToast } from '@/hooks/use-toast';
 import { companyInfo, productCategories } from '@/data/products';
 
@@ -29,13 +30,7 @@ const ContactPage = () => {
   };
 
   return (
-    <motion.div 
-      className="min-h-screen bg-background"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageTransition>
       <ScrollProgress />
       <Header />
       
@@ -234,7 +229,7 @@ const ContactPage = () => {
       </main>
 
       <Footer />
-    </motion.div>
+    </PageTransition>
   );
 };
 

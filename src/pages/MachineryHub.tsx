@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
+import PageTransition from '@/components/PageTransition';
 import { productCategories } from '@/data/products';
 import machineryPrepress from '@/assets/machinery-prepress.jpg';
 import machineryDetail from '@/assets/machinery-detail.jpg';
@@ -48,13 +49,7 @@ const MachineryHub = () => {
   };
 
   return (
-    <motion.div 
-      className="min-h-screen bg-background"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageTransition>
       <ScrollProgress />
       <Header />
       
@@ -122,7 +117,7 @@ const MachineryHub = () => {
                     {/* Category Name */}
                     <h2 
                       className="text-5xl md:text-6xl lg:text-7xl text-foreground mb-6 group-hover:text-primary transition-colors duration-500"
-                      style={{ fontFamily: "'Instrument Serif', Georgia, serif", lineHeight: 1 }}
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", lineHeight: 1 }}
                     >
                       {category.name}
                     </h2>
@@ -174,7 +169,7 @@ const MachineryHub = () => {
       </main>
 
       <Footer />
-    </motion.div>
+    </PageTransition>
   );
 };
 
