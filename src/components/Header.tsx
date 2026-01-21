@@ -50,85 +50,103 @@ const Header = () => {
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-4 left-4 right-4 z-50 transition-all duration-500 rounded-full ${
           isInHeroSection
             ? 'bg-transparent border-transparent' 
-            : 'bg-background/70 backdrop-blur-2xl border border-border/30 shadow-xl shadow-foreground/[0.03]'
+            : 'bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl shadow-foreground/[0.08]'
         }`}
-        style={{
-          backdropFilter: isInHeroSection ? 'none' : 'blur(24px) saturate(1.8)',
-        }}
       >
-        <div className="px-3 sm:px-5">
-          <div className="flex items-center justify-between h-11 sm:h-12">
+        <div className="px-4 sm:px-6">
+          <div className="flex items-center justify-between h-12 sm:h-14">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-2.5 group">
               <motion.div 
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1 ring-white/10"
-                whileHover={{ scale: 1.05 }}
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden ring-2 transition-all duration-300 ${
+                  useLightText ? 'ring-white/20' : 'ring-primary/20'
+                }`}
+                whileHover={{ scale: 1.08, rotate: 3 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <img src={saiLogo} alt="Sai Enterprises" className="w-full h-full object-cover" />
               </motion.div>
-              <span className={`font-serif text-sm tracking-wide transition-colors duration-300 ${
-                useLightText ? 'text-white' : 'text-foreground'
-              }`}>
-                Sai
-              </span>
+              <motion.span 
+                className={`font-serif text-base sm:text-lg tracking-wide transition-colors duration-300 ${
+                  useLightText ? 'text-white' : 'text-foreground'
+                }`}
+                whileHover={{ x: 2 }}
+              >
+                Sai<span className="font-light">enterprises</span>
+              </motion.span>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
+              {navLinks.map((link, index) => (
+                <motion.div
                   key={link.name}
-                  to={link.href}
-                  className={`relative px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium transition-all duration-300 rounded-full ${
-                    isActive(link.href)
-                      ? useLightText 
-                        ? 'text-white bg-white/10' 
-                        : 'text-primary bg-primary/10'
-                      : useLightText 
-                        ? 'text-white/60 hover:text-white hover:bg-white/5' 
-                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                  }`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 + 0.2 }}
                 >
-                  {link.name}
-                </Link>
+                  <Link
+                    to={link.href}
+                    className={`relative px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium transition-all duration-300 rounded-full group ${
+                      isActive(link.href)
+                        ? useLightText 
+                          ? 'text-white bg-white/15' 
+                          : 'text-primary bg-primary/10'
+                        : useLightText 
+                          ? 'text-white/70 hover:text-white hover:bg-white/10' 
+                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+                    }`}
+                  >
+                    {link.name}
+                    {isActive(link.href) && (
+                      <motion.div
+                        layoutId="nav-indicator"
+                        className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                          useLightText ? 'bg-white' : 'bg-primary'
+                        }`}
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
 
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+              className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                 useLightText 
-                  ? 'text-white bg-white/10 hover:bg-white/20' 
-                  : 'text-foreground bg-secondary/50 hover:bg-secondary'
+                  ? 'text-white bg-white/15 hover:bg-white/25' 
+                  : 'text-foreground bg-secondary/60 hover:bg-secondary'
               }`}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
             >
               <AnimatePresence mode="wait">
                 {isMobileMenuOpen ? (
                   <motion.div
                     key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-5 h-5" />
                   </motion.div>
                 ) : (
                   <motion.div
                     key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    initial={{ rotate: 90, opacity: 0, scale: 0.8 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: -90, opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <Menu className="w-4 h-4" />
+                    <Menu className="w-5 h-5" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -158,7 +176,7 @@ const Header = () => {
             {/* Content */}
             <div className="relative h-full flex flex-col items-center justify-center px-6">
               {/* Navigation Links */}
-              <nav className="flex flex-col items-center gap-2">
+              <nav className="flex flex-col items-center gap-4">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -166,45 +184,30 @@ const Header = () => {
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -30, scale: 0.9 }}
                       transition={{ 
-                        delay: i * 0.06, 
-                        duration: 0.4, 
+                        delay: i * 0.08, 
+                        duration: 0.5, 
                         ease: [0.16, 1, 0.3, 1] 
                       }}
-                      className="relative"
                     >
                       <Link
                         to={link.href}
-                        className="relative block py-3 px-8 text-center group"
+                        className="relative block py-2 text-center group"
                       >
-                        {/* Premium active indicator */}
-                        {active && (
-                          <motion.div
-                            layoutId="mobile-nav-active"
-                            className="absolute inset-0 rounded-xl border border-primary/40 bg-primary/10"
-                            transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                          />
-                        )}
-                        
-                        <span className={`relative font-serif text-3xl sm:text-4xl transition-all duration-300 ${
-                          active 
-                            ? 'text-primary font-medium' 
-                            : 'text-background/40 group-hover:text-background/80'
-                        }`}>
+                        <motion.span 
+                          className={`relative font-serif text-4xl sm:text-5xl transition-all duration-300 ${
+                            active 
+                              ? 'text-primary font-semibold' 
+                              : 'text-background/30 group-hover:text-background/70'
+                          }`}
+                          whileHover={{ scale: 1.05, x: 5 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
                           {link.name}
-                        </span>
-
-                        {/* Active dot indicator */}
-                        {active && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="absolute -right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary"
-                          />
-                        )}
+                        </motion.span>
                       </Link>
                     </motion.div>
                   );
