@@ -26,7 +26,7 @@ const OfferingsSection = () => {
   const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
-    <section ref={containerRef} className="relative py-24 md:py-32 bg-secondary/50 overflow-hidden">
+    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-28 lg:py-32 bg-secondary/50 overflow-hidden">
       {/* Background image that changes on hover */}
       <AnimatePresence mode="wait">
         {hoveredIndex !== null && (
@@ -49,7 +49,7 @@ const OfferingsSection = () => {
         )}
       </AnimatePresence>
 
-      <div className="relative z-10 px-6 md:px-12 lg:px-20">
+      <div className="relative z-10 px-5 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -57,24 +57,30 @@ const OfferingsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-16 md:mb-20"
+            className="mb-10 sm:mb-14 md:mb-20"
           >
             <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-              <span className="w-8 h-px bg-primary" />
+              <motion.span 
+                className="w-8 h-px bg-primary"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+              />
               What We Offer
             </span>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight">
-                Machinery for every<br />stage of print.
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight">
+                Machinery for every<br className="hidden sm:block" />
+                stage of print.
               </h2>
-              <p className="text-muted-foreground max-w-sm text-base leading-relaxed">
+              <p className="text-muted-foreground max-w-sm text-sm sm:text-base leading-relaxed">
                 Four comprehensive categories covering the complete graphic production workflow.
               </p>
             </div>
           </motion.div>
 
           {/* Category Grid */}
-          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
             {productCategories.map((category, index) => (
               <motion.div
                 key={category.id}
@@ -99,30 +105,33 @@ const OfferingsSection = () => {
                     />
                   </div>
 
-                  <div className="relative p-8 md:p-10">
+                  <div className="relative p-5 sm:p-8 md:p-10">
                     {/* Number */}
-                    <span className="text-xs font-mono text-muted-foreground/40 mb-4 block">
+                    <span className="text-xs font-mono text-muted-foreground/40 mb-3 sm:mb-4 block">
                       0{index + 1}
                     </span>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors mb-4">
+                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors mb-3 sm:mb-4">
                       {category.name}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6 max-w-md">
+                    <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-5 sm:mb-6 max-w-md line-clamp-2 sm:line-clamp-none">
                       {category.description}
                     </p>
 
                     {/* CTA */}
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors">
+                      <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-primary transition-colors">
                         View machinery
                       </span>
-                      <div className="w-10 h-10 rounded-full border border-border group-hover:border-primary group-hover:bg-primary flex items-center justify-center transition-all duration-300">
-                        <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary-foreground transition-colors" />
-                      </div>
+                      <motion.div 
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border group-hover:border-primary group-hover:bg-primary flex items-center justify-center transition-all duration-300"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground group-hover:text-primary-foreground transition-colors" />
+                      </motion.div>
                     </div>
                   </div>
 

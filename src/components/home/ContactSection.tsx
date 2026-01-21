@@ -32,7 +32,7 @@ const ContactSection = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
         title: "Enquiry Sent",
-        description: "We'll respond within 24-48 business hours.",
+        description: "We'll respond within 24 to 48 business hours.",
       });
       setFormData({ name: '', company: '', email: '', message: '' });
       setErrors({});
@@ -60,8 +60,8 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-secondary/30">
-      <div className="px-6 md:px-12 lg:px-20">
+    <section className="py-16 sm:py-20 md:py-28 lg:py-32 bg-secondary/30">
+      <div className="px-5 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -69,36 +69,52 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12 md:mb-16"
+            className="text-center mb-10 sm:mb-12 md:mb-16"
           >
             <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-              <span className="w-8 h-px bg-primary" />
+              <motion.span 
+                className="w-8 h-px bg-primary"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+              />
               Contact Us
-              <span className="w-8 h-px bg-primary" />
+              <motion.span 
+                className="w-8 h-px bg-primary"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+              />
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-4">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-3 sm:mb-4">
               Let's discuss your requirements.
             </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              We usually respond within 24–48 business hours.
+            <p className="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base">
+              We usually respond within 24 to 48 business hours.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             {/* Contact Info Cards */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="lg:col-span-1 space-y-4"
+              className="lg:col-span-1 space-y-3 sm:space-y-4"
             >
               {/* Phone */}
-              <div className="p-6 bg-card border border-border hover:border-primary/30 transition-colors group">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
+              <motion.div 
+                className="p-5 sm:p-6 bg-card border border-border hover:border-primary/30 transition-colors group"
+                whileHover={{ x: 5 }}
+              >
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <motion.div 
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                  >
                     <Phone className="w-4 h-4 text-primary group-hover:text-primary-foreground transition-colors" />
-                  </div>
+                  </motion.div>
                   <div>
                     <h4 className="text-sm font-medium text-foreground mb-2">Call Us</h4>
                     <div className="space-y-1">
@@ -106,7 +122,7 @@ const ContactSection = () => {
                         <a 
                           key={phone}
                           href={`tel:${phone.replace(/\s/g, '')}`}
-                          className="block text-muted-foreground hover:text-primary transition-colors text-sm"
+                          className="block text-muted-foreground hover:text-primary transition-colors text-xs sm:text-sm"
                         >
                           {phone}
                         </a>
@@ -114,22 +130,28 @@ const ContactSection = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Email */}
-              <div className="p-6 bg-card border border-border hover:border-primary/30 transition-colors group">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
+              <motion.div 
+                className="p-5 sm:p-6 bg-card border border-border hover:border-primary/30 transition-colors group"
+                whileHover={{ x: 5 }}
+              >
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <motion.div 
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                  >
                     <Mail className="w-4 h-4 text-primary group-hover:text-primary-foreground transition-colors" />
-                  </div>
-                  <div>
+                  </motion.div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-medium text-foreground mb-2">Email Us</h4>
                     <div className="space-y-1">
                       {companyInfo.emails.map(email => (
                         <a 
                           key={email}
                           href={`mailto:${email}`}
-                          className="block text-muted-foreground hover:text-primary transition-colors text-sm break-all"
+                          className="block text-muted-foreground hover:text-primary transition-colors text-xs sm:text-sm break-all"
                         >
                           {email}
                         </a>
@@ -137,45 +159,55 @@ const ContactSection = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Location */}
-              <div className="p-6 bg-primary text-primary-foreground">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
+              <motion.div 
+                className="p-5 sm:p-6 bg-primary text-primary-foreground"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                     <MapPin className="w-4 h-4 text-primary-foreground" />
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-primary-foreground mb-2">Head Office</h4>
-                    <p className="font-serif text-lg text-primary-foreground">
+                    <p className="font-serif text-base sm:text-lg text-primary-foreground">
                       {companyInfo.locations.headquarters.city}
                     </p>
-                    <p className="text-primary-foreground/70 text-sm">
+                    <p className="text-primary-foreground/70 text-xs sm:text-sm">
                       {companyInfo.locations.headquarters.state}, India
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Social */}
-              <div className="p-6 bg-card border border-border">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <motion.div 
+                className="p-5 sm:p-6 bg-card border border-border"
+                whileHover={{ x: 5 }}
+              >
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <motion.div 
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0"
+                    whileHover={{ scale: 1.1, rotate: 10 }}
+                  >
                     <Facebook className="w-4 h-4 text-primary" />
-                  </div>
+                  </motion.div>
                   <div>
                     <h4 className="text-sm font-medium text-foreground mb-1">Follow Us</h4>
                     <a 
                       href={`https://${companyInfo.facebook}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                      className="text-muted-foreground hover:text-primary transition-colors text-xs sm:text-sm"
                     >
                       Facebook
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
 
             {/* Contact Form */}
@@ -186,11 +218,11 @@ const ContactSection = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="lg:col-span-2"
             >
-              <form onSubmit={handleSubmit} className="bg-card border border-border p-8 md:p-10">
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <form onSubmit={handleSubmit} className="bg-card border border-border p-5 sm:p-8 md:p-10">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                   {/* Name */}
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                    <label className="block text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
                       Name <span className="text-primary">*</span>
                     </label>
                     <input
@@ -199,7 +231,7 @@ const ContactSection = () => {
                       value={formData.name}
                       onChange={handleChange}
                       className={`
-                        w-full px-4 py-3 bg-background border text-foreground
+                        w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border text-foreground text-sm
                         focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
                         transition-colors placeholder:text-muted-foreground/50
                         ${errors.name ? 'border-destructive' : 'border-border'}
@@ -207,13 +239,13 @@ const ContactSection = () => {
                       placeholder="Your name"
                     />
                     {errors.name && (
-                      <p className="text-xs text-destructive mt-1">{errors.name}</p>
+                      <p className="text-[10px] sm:text-xs text-destructive mt-1">{errors.name}</p>
                     )}
                   </div>
 
                   {/* Company */}
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                    <label className="block text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
                       Company
                     </label>
                     <input
@@ -221,15 +253,15 @@ const ContactSection = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors placeholder:text-muted-foreground/50"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors placeholder:text-muted-foreground/50"
                       placeholder="Company name"
                     />
                   </div>
                 </div>
 
                 {/* Email */}
-                <div className="mb-6">
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                <div className="mb-4 sm:mb-6">
+                  <label className="block text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
                     Email <span className="text-primary">*</span>
                   </label>
                   <input
@@ -238,7 +270,7 @@ const ContactSection = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className={`
-                      w-full px-4 py-3 bg-background border text-foreground
+                      w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border text-foreground text-sm
                       focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
                       transition-colors placeholder:text-muted-foreground/50
                       ${errors.email ? 'border-destructive' : 'border-border'}
@@ -246,22 +278,22 @@ const ContactSection = () => {
                     placeholder="your@email.com"
                   />
                   {errors.email && (
-                    <p className="text-xs text-destructive mt-1">{errors.email}</p>
+                    <p className="text-[10px] sm:text-xs text-destructive mt-1">{errors.email}</p>
                   )}
                 </div>
 
                 {/* Message */}
-                <div className="mb-8">
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                <div className="mb-6 sm:mb-8">
+                  <label className="block text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
                     Message <span className="text-primary">*</span>
                   </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows={5}
+                    rows={4}
                     className={`
-                      w-full px-4 py-3 bg-background border text-foreground resize-none
+                      w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border text-foreground text-sm resize-none
                       focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
                       transition-colors placeholder:text-muted-foreground/50
                       ${errors.message ? 'border-destructive' : 'border-border'}
@@ -269,15 +301,17 @@ const ContactSection = () => {
                     placeholder="Tell us about your machinery requirements..."
                   />
                   {errors.message && (
-                    <p className="text-xs text-destructive mt-1">{errors.message}</p>
+                    <p className="text-[10px] sm:text-xs text-destructive mt-1">{errors.message}</p>
                   )}
                 </div>
 
                 {/* Submit */}
-                <button
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
                 >
                   {isSubmitting ? (
                     <span className="text-sm font-medium">Sending...</span>
@@ -287,7 +321,7 @@ const ContactSection = () => {
                       <Send className="w-4 h-4" />
                     </>
                   )}
-                </button>
+                </motion.button>
               </form>
             </motion.div>
           </div>
