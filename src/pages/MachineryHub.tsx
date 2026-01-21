@@ -6,10 +6,6 @@ import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
 import PageTransition from '@/components/PageTransition';
 import { productCategories } from '@/data/products';
-import machineryPrepress from '@/assets/machinery-prepress.jpg';
-import machineryDetail from '@/assets/machinery-detail.jpg';
-import machineryPostpress from '@/assets/machinery-postpress.jpg';
-import corrugationHero from '@/assets/corrugation-hero.jpg';
 
 const categories = [
   { 
@@ -17,28 +13,24 @@ const categories = [
     name: 'Pre-Press',
     tagline: 'Plate making, exposure and imaging solutions for precision preparation.',
     href: '/machinery/pre-press',
-    image: machineryPrepress,
   },
   { 
     id: 'press', 
     name: 'Press',
     tagline: 'Offset and digital printing machinery for high-quality production.',
     href: '/machinery/press',
-    image: machineryDetail,
   },
   { 
     id: 'post-press', 
     name: 'Post-Press',
     tagline: 'Cutting, binding and finishing solutions for professional output.',
     href: '/machinery/post-press',
-    image: machineryPostpress,
   },
   { 
     id: 'corrugation', 
     name: 'Corrugation',
     tagline: 'Heavy-duty packaging machinery for industrial-scale operations.',
     href: '/machinery/corrugation',
-    image: corrugationHero,
   },
 ];
 
@@ -73,7 +65,7 @@ const MachineryHub = () => {
           </motion.div>
         </section>
 
-        {/* Category Sections - One per visual frame */}
+        {/* Category Sections - Text based, no images */}
         {categories.map((category, index) => {
           const count = getCategoryCount(category.id);
           const isEven = index % 2 === 0;
@@ -81,29 +73,20 @@ const MachineryHub = () => {
           return (
             <section 
               key={category.id}
-              className="relative min-h-[70vh] sm:min-h-[80vh] md:min-h-screen flex items-center border-t border-border overflow-hidden"
+              className={`relative py-16 sm:py-24 md:py-32 border-t border-border ${isEven ? '' : 'bg-secondary/30'}`}
             >
-              {/* Background Image - Color graded */}
-              <motion.div 
-                className={`absolute inset-0 ${isEven ? 'md:right-1/3' : 'md:left-1/3 md:right-0'} md:w-2/3`}
-                initial={{ scale: 1.1, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2 }}
-              >
-                <img 
-                  src={category.image} 
-                  alt="" 
-                  className="w-full h-full object-cover opacity-20 md:opacity-30"
-                  style={{ 
-                    filter: 'saturate(0.6) brightness(0.9) contrast(1.05)',
-                  }}
-                />
-                <div className={`absolute inset-0 bg-gradient-to-r ${isEven ? 'from-background via-background/90 to-transparent' : 'from-transparent via-background/90 to-background'}`} />
-              </motion.div>
+              {/* Subtle grid pattern */}
+              <div
+                className="absolute inset-0 opacity-[0.03]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+                  backgroundSize: "48px 48px",
+                }}
+              />
 
               {/* Content */}
-              <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24 py-14 sm:py-20">
+              <div className="relative w-full px-5 sm:px-8 md:px-16 lg:px-24">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
