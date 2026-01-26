@@ -121,22 +121,22 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-3 mb-4"
+          className="flex items-center gap-4 mb-6"
         >
           <img 
             src={saiLogoCmyk} 
             alt="Sai Enterprises" 
-            className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
+            className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
           />
           <div className="flex flex-col">
             <h1
-              className="text-xl sm:text-2xl font-serif font-bold tracking-wide"
+              className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold tracking-wide"
               style={{ color: '#e8eaed' }}
             >
               Sai Enterprises
             </h1>
             <span 
-              className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em]"
+              className="text-[10px] sm:text-xs uppercase tracking-[0.15em]"
               style={{ color: '#00bcd4' }}
             >
               Graphic Machinery Suppliers
@@ -149,7 +149,7 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-sm sm:text-base font-serif italic text-center mb-8"
+          className="text-base sm:text-lg md:text-xl font-serif italic text-center mb-10"
           style={{ color: '#9aa0a6' }}
         >
           We believe in long-term relationships.
@@ -162,9 +162,9 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
           transition={{ duration: 0.3, delay: 0.6 }}
           className="flex flex-col items-center"
         >
-          <div className="relative w-28 sm:w-32">
+          <div className="relative w-40 sm:w-48">
             <div 
-              className="w-full h-[2px] rounded-full overflow-hidden"
+              className="w-full h-[3px] rounded-full overflow-hidden"
               style={{ backgroundColor: '#2d3139' }}
             >
               <div 
@@ -178,7 +178,7 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
           </div>
           
           <span 
-            className="text-[9px] mt-2 tabular-nums tracking-wider"
+            className="text-[10px] sm:text-xs mt-3 tabular-nums tracking-wider"
             style={{ color: '#5f6368' }}
           >
             {progress}%
