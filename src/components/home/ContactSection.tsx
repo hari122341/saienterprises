@@ -316,13 +316,18 @@ const ContactSection = () => {
                       <Mail className="w-4 h-4 text-primary" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h4 className="text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">Email Us</h4>
-                      <a 
-                        href={`mailto:${companyInfo.emails[0]}`}
-                        className="block text-foreground hover:text-primary transition-colors text-sm truncate"
-                      >
-                        {companyInfo.emails[0]}
-                      </a>
+                      <h4 className="text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">Mail Us</h4>
+                      <div className="space-y-1">
+                        {companyInfo.emails.map((email) => (
+                          <a 
+                            key={email}
+                            href={`mailto:${email}`}
+                            className="block text-foreground hover:text-primary transition-colors text-sm truncate"
+                          >
+                            {email}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

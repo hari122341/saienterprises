@@ -28,7 +28,7 @@ const Footer = () => {
                 Premium graphic machinery suppliers. Building long-term relationships across India and East Africa since 2000.
               </p>
               <div className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-2">
-                {companyInfo.emails.slice(0, 1).map((email) => (
+                {companyInfo.emails.map((email) => (
                   <a key={email} href={`mailto:${email}`} className="text-sm text-background/70 hover:text-primary transition-colors break-all">
                     {email}
                   </a>
@@ -76,9 +76,9 @@ const Footer = () => {
               </div>
             </div>
             <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Contact</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Call Us</p>
               <div className="space-y-1.5 sm:space-y-2">
-                {companyInfo.phones.slice(0, 2).map((phone) => (
+                {companyInfo.phones.map((phone) => (
                   <a key={phone} href={`tel:${phone.replace(/\s/g, '')}`} className="block text-xs sm:text-sm text-background/60 hover:text-background transition-colors">
                     {phone}
                   </a>
@@ -86,12 +86,25 @@ const Footer = () => {
               </div>
             </div>
             <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Partners</p>
-              <div className="space-y-1.5 sm:space-y-2 text-sm text-background/40">
-                <p>Heidelberg</p>
-                <p>Komori</p>
-                <p className="text-primary">HPM (Sole Agent)</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Mail Us</p>
+              <div className="space-y-1.5 sm:space-y-2">
+                {companyInfo.emails.map((email) => (
+                  <a key={email} href={`mailto:${email}`} className="block text-xs sm:text-sm text-background/60 hover:text-background transition-colors break-all">
+                    {email}
+                  </a>
+                ))}
               </div>
+            </div>
+            <div>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Follow Us</p>
+              <a 
+                href={`https://${companyInfo.facebook}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors"
+              >
+                Facebook
+              </a>
             </div>
           </div>
         </div>
