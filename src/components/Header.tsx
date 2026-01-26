@@ -65,11 +65,11 @@ const Header = memo(() => {
             : 'bg-background/80 backdrop-blur-xl border border-border/30 shadow-sm'
         }`}
       >
-        <div className="px-3 sm:px-5">
-          <div className="flex items-center justify-between h-11 sm:h-12">
+        <div className="px-4 sm:px-6">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8">
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 sm:w-10 sm:h-10">
                 <img 
                   src={saiLogoCmyk} 
                   alt="Sai Enterprises" 
@@ -79,14 +79,14 @@ const Header = memo(() => {
               </div>
               <div className="flex flex-col">
                 <span 
-                  className={`font-serif text-sm sm:text-[15px] font-semibold tracking-wide leading-tight transition-colors duration-200 ${
+                  className={`font-serif text-base sm:text-lg font-bold tracking-wide leading-tight transition-colors duration-200 ${
                     useLightText ? 'text-white' : 'text-foreground'
                   }`}
                 >
                   Sai Enterprises
                 </span>
-                <span className={`text-[7px] sm:text-[8px] uppercase tracking-[0.1em] transition-colors duration-200 ${
-                  useLightText ? 'text-white/50' : 'text-primary'
+                <span className={`text-[8px] sm:text-[9px] uppercase tracking-[0.12em] transition-colors duration-200 ${
+                  useLightText ? 'text-white/60' : 'text-primary'
                 }`}>
                   Graphic Machinery
                 </span>
@@ -94,25 +94,25 @@ const Header = memo(() => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-0.5">
+            <nav className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`relative px-3 py-1.5 text-[10px] uppercase tracking-[0.1em] font-medium transition-colors duration-200 rounded-full ${
+                  className={`relative px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold transition-colors duration-200 rounded-full ${
                     isActive(link.href)
                       ? useLightText 
                         ? 'text-white bg-white/15' 
                         : 'text-primary bg-primary/10'
                       : useLightText 
-                        ? 'text-white/70 hover:text-white hover:bg-white/10' 
+                        ? 'text-white/80 hover:text-white hover:bg-white/10' 
                         : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
                   }`}
                 >
                   {link.name}
                   {isActive(link.href) && (
                     <span
-                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                      className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
                         useLightText ? 'bg-white' : 'bg-primary'
                       }`}
                     />
@@ -124,14 +124,14 @@ const Header = memo(() => {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMenu}
-              className={`md:hidden w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
+              className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 ${
                 useLightText 
                   ? 'text-white bg-white/15 active:bg-white/25' 
                   : 'text-foreground bg-secondary/60 active:bg-secondary'
               }`}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -148,7 +148,7 @@ const Header = memo(() => {
             className="fixed inset-0 z-40 md:hidden bg-foreground"
           >
             <div className="h-full flex flex-col items-center justify-center px-6">
-              <nav className="flex flex-col items-center gap-2">
+              <nav className="flex flex-col items-center gap-3">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -158,17 +158,17 @@ const Header = memo(() => {
                       key={link.name}
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.04, duration: 0.25 }}
+                      transition={{ delay: i * 0.05, duration: 0.3 }}
                     >
                       <Link
                         to={link.href}
-                        className="block py-1.5 text-center"
+                        className="block py-2 text-center"
                       >
                         <span 
-                          className={`font-serif text-2xl sm:text-3xl transition-colors ${
+                          className={`font-serif text-3xl sm:text-4xl transition-colors ${
                             active 
-                              ? 'text-primary font-semibold' 
-                              : 'text-background/40 active:text-background/60'
+                              ? 'text-primary font-bold' 
+                              : 'text-background/50 active:text-background/70'
                           }`}
                         >
                           {link.name}
@@ -179,7 +179,7 @@ const Header = memo(() => {
                 })}
               </nav>
 
-              <span className="absolute bottom-8 text-[9px] uppercase tracking-[0.12em] text-background/20">
+              <span className="absolute bottom-8 text-[10px] uppercase tracking-[0.15em] text-background/30">
                 Since 2000 · India & Kenya
               </span>
             </div>
