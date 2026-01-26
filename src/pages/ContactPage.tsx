@@ -328,6 +328,57 @@ const ContactPage = () => {
           </div>
         </section>
 
+        {/* Google Maps Embed */}
+        <section className="py-16 sm:py-20 px-6 sm:px-8 md:px-16 lg:px-24 bg-foreground">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-10"
+            >
+              <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+                <span className="w-8 h-px bg-primary" />
+                Our Location
+                <span className="w-8 h-px bg-primary" />
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-background">
+                Hyderabad <span className="text-primary italic">Headquarters</span>
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="relative overflow-hidden rounded-xl border border-background/10"
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243647.24402923545!2d78.24323134336773!3d17.412608639498753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1706000000000!5m2!1sen!2sin"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="grayscale hover:grayscale-0 transition-all duration-500"
+                title="Sai Enterprises Headquarters - Hyderabad, India"
+              />
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="text-center text-background/60 mt-6 text-sm"
+            >
+              Serving clients across India and East Africa from our headquarters in Hyderabad
+            </motion.p>
+          </div>
+        </section>
+
         {/* Experience Badge Section */}
         <section className="py-16 sm:py-20 px-6 sm:px-8 md:px-16 lg:px-24 bg-secondary/30">
           <motion.div
