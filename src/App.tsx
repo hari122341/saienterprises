@@ -68,11 +68,11 @@ const AppContent = () => {
     preloadImages.forEach((src) => {
       const img = new Image();
       img.onload = checkAllLoaded;
-      img.onerror = checkAllLoaded; // Continue even if image fails
+      img.onerror = checkAllLoaded;
       img.src = src;
     });
 
-    // Fallback timeout - don't wait forever for images
+    // Fallback timeout
     const timeout = setTimeout(() => {
       setImagesLoaded(true);
     }, 2000);
@@ -84,7 +84,6 @@ const AppContent = () => {
     setIsLoading(false);
   };
 
-  // Show loader until both animation completes AND images are preloaded
   const showLoader = isLoading || !imagesLoaded;
 
   return (

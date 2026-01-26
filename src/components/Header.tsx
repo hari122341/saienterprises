@@ -61,15 +61,15 @@ const Header = memo(() => {
       <header
         className={`fixed top-4 left-4 right-4 z-50 rounded-full transition-all duration-300 ${
           isInHeroSection
-            ? 'bg-transparent border-transparent' 
-            : 'bg-background/80 backdrop-blur-xl border border-border/30 shadow-lg'
+            ? 'bg-white/5 backdrop-blur-md border border-white/10' 
+            : 'bg-background/70 backdrop-blur-xl border border-border/40 shadow-lg'
         }`}
       >
         <div className="px-4 sm:px-6">
-          <div className="flex items-center justify-between h-12 sm:h-14">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 sm:w-9 sm:h-9">
+            <Link to="/" className="flex items-center gap-3">
+              <div className="w-9 h-9 sm:w-10 sm:h-10">
                 <img 
                   src={saiLogoCmyk} 
                   alt="Sai Enterprises" 
@@ -79,13 +79,13 @@ const Header = memo(() => {
               </div>
               <div className="flex flex-col">
                 <span 
-                  className={`font-serif text-sm sm:text-base tracking-wide leading-tight transition-colors duration-200 ${
+                  className={`font-serif text-base sm:text-lg font-bold tracking-wide leading-tight transition-colors duration-200 ${
                     useLightText ? 'text-white' : 'text-foreground'
                   }`}
                 >
-                  Sai <span className="font-light">Enterprises</span>
+                  Sai Enterprises
                 </span>
-                <span className={`text-[7px] sm:text-[8px] uppercase tracking-[0.1em] transition-colors duration-200 ${
+                <span className={`text-[8px] sm:text-[9px] uppercase tracking-[0.12em] transition-colors duration-200 ${
                   useLightText ? 'text-white/50' : 'text-primary'
                 }`}>
                   Graphic Machinery
@@ -137,7 +137,7 @@ const Header = memo(() => {
         </div>
       </header>
 
-      {/* Mobile Menu - Simplified for performance */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
