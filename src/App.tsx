@@ -21,10 +21,14 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
+// Preload critical images
+const preloadImages = [
+  '/src/assets/hero-industrial.jpg',
+  '/src/assets/sai-logo-cmyk.png',
+];
+
 const AnimatedRoutes = () => {
   const location = useLocation();
-  
-  // Scroll to top on route change
   useScrollToTop();
   
   return (
@@ -47,29 +51,54 @@ const AnimatedRoutes = () => {
 
 const AppContent = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
-    // Check if already loaded in this session
-    const loaded = sessionStorage.getItem('sai-loaded');
-    if (loaded === 'true') {
-      setIsLoading(false);
-      setHasLoaded(true);
-    }
+    // Preload critical images
+    let loadedCount = 0;
+    const totalImages = preloadImages.length;
+    
+    const checkAllLoaded = () => {
+      loadedCount++;
+      if (loadedCount >= totalImages) {
+        setImagesLoaded(true);
+      }
+    };
+
+    preloadImages.forEach((src) => {
+      const img = new Image();
+      img.onload = checkAllLoaded;
+      img.onerror = checkAllLoaded; // Continue even if image fails
+      img.src = src;
+    });
+
+    // Fallback timeout - don't wait forever for images
+    const timeout = setTimeout(() => {
+      setImagesLoaded(true);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const handleLoaderComplete = () => {
     setIsLoading(false);
-    setHasLoaded(true);
-    sessionStorage.setItem('sai-loaded', 'true');
   };
+
+  // Show loader until both animation completes AND images are preloaded
+  const showLoader = isLoading || !imagesLoaded;
 
   return (
     <>
-      {isLoading && !hasLoaded && (
+      {showLoader && (
         <PremiumLoader onComplete={handleLoaderComplete} />
       )}
-      <div style={{ opacity: isLoading && !hasLoaded ? 0 : 1, transition: 'opacity 0.3s ease' }}>
+      <div 
+        style={{ 
+          opacity: showLoader ? 0 : 1, 
+          transition: 'opacity 0.4s ease',
+          visibility: showLoader ? 'hidden' : 'visible'
+        }}
+      >
         <AnimatedRoutes />
       </div>
     </>
