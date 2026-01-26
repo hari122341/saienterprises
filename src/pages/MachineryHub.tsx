@@ -70,25 +70,11 @@ const MachineryHub = () => {
       <main>
         {/* Hero */}
         <section ref={heroRef} className="relative min-h-[60vh] flex items-center justify-center bg-secondary/30 overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
-
-          {/* Floating orbs */}
+          {/* Subtle ambient glow */}
           <motion.div 
             className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-primary/5 blur-3xl"
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 8, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute bottom-1/4 left-1/3 w-48 h-48 rounded-full bg-primary/3 blur-3xl"
-            animate={{ scale: [1.1, 1, 1.1] }}
-            transition={{ duration: 6, repeat: Infinity, delay: 1 }}
           />
 
           <motion.div 

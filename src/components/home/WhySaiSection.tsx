@@ -23,11 +23,6 @@ const WhySaiSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
-      <motion.div 
-        className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent pointer-events-none"
-        style={{ scaleY: lineScale }}
-      />
-
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header - Centered */}

@@ -102,18 +102,8 @@ const BrandPartnersSection = () => {
           <ScrollReveal animation="scaleUp" delay={0.2}>
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="relative py-10 sm:py-12 px-8 sm:px-12 border border-primary/30 bg-primary/5 overflow-hidden"
+              className="relative py-10 sm:py-12 px-8 sm:px-12 border border-primary/30 bg-primary/5"
             >
-              {/* Decorative corner elements */}
-              <div className="absolute top-0 left-0 w-8 h-8">
-                <div className="absolute top-0 left-0 w-full h-px bg-primary" />
-                <div className="absolute top-0 left-0 h-full w-px bg-primary" />
-              </div>
-              <div className="absolute bottom-0 right-0 w-8 h-8">
-                <div className="absolute bottom-0 right-0 w-full h-px bg-primary" />
-                <div className="absolute bottom-0 right-0 h-full w-px bg-primary" />
-              </div>
-
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
                 <div className="flex items-center gap-2">
                   <Star className="w-4 h-4 text-primary/60" />

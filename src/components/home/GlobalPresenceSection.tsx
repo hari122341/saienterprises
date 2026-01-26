@@ -26,32 +26,14 @@ const GlobalPresenceSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0">
-        <motion.div 
-          className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-primary/10 blur-[150px]"
-          animate={{ 
-            x: [100, 0, 100],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[100px]"
-          animate={{ 
-            x: [-50, 50, -50],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
-
-      {/* Grid pattern overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--background)) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
+      {/* Subtle ambient glow */}
+      <motion.div 
+        className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[150px]"
+        animate={{ 
+          x: [100, 0, 100],
+          opacity: [0.3, 0.5, 0.3]
         }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
