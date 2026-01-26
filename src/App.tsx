@@ -8,6 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import { useScrollToTop } from "./hooks/useScrollToTop";
 import PremiumLoader from "./components/PremiumLoader";
 import PageSkeleton from "./components/PageSkeleton";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import Index from "./pages/Index";
 
 // Lazy load pages for better performance
@@ -99,6 +100,7 @@ const AppContent = () => {
         }}
       >
         <AnimatedRoutes />
+        <FloatingWhatsApp />
       </div>
     </>
   );
