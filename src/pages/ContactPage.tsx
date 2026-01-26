@@ -342,9 +342,15 @@ const ContactPage = () => {
                 Our Location
                 <span className="w-8 h-px bg-primary" />
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-background">
+              <h2 className="font-serif text-3xl sm:text-4xl text-background mb-4">
                 Hyderabad <span className="text-primary italic">Headquarters</span>
               </h2>
+              <div className="flex items-center justify-center gap-2 text-background/70">
+                <MapPin className="w-4 h-4 text-primary" />
+                <p className="text-sm sm:text-base">
+                  1st Floor, 7-1-307/14/G/6/5, Plot No-99, Sai Arcade, Lingaiah Nagar, Balkampet, Hyderabad, Telangana
+                </p>
+              </div>
             </motion.div>
 
             <motion.div
@@ -355,7 +361,7 @@ const ContactPage = () => {
               className="relative overflow-hidden rounded-xl border border-background/10"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243647.24402923545!2d78.24323134336773!3d17.412608639498753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1706000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.3!2d78.4285!3d17.4356!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f1a5555555%3A0x1234567890abcdef!2sLingaiah%20Nagar%2C%20Balkampet%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1706000000000!5m2!1sen!2sin"
                 width="100%"
                 height="450"
                 style={{ border: 0 }}
@@ -363,7 +369,7 @@ const ContactPage = () => {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="grayscale hover:grayscale-0 transition-all duration-500"
-                title="Sai Enterprises Headquarters - Hyderabad, India"
+                title="Sai Enterprises Headquarters - Balkampet, Hyderabad"
               />
             </motion.div>
 
