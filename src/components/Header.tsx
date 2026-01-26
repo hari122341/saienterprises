@@ -70,7 +70,7 @@ const Header = memo(() => {
         }`}
       >
         <div className="px-4 sm:px-6 md:px-12 lg:px-20">
-          <div className="flex items-center justify-between h-12 sm:h-14 md:h-16">
+          <div className="flex items-center justify-between h-14 sm:h-16 md:h-18 lg:h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-2.5">
               <motion.div 
