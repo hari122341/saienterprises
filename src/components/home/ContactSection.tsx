@@ -71,17 +71,6 @@ const ContactSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
-      {/* Subtle background */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at center, hsl(var(--foreground)) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
-          }}
-        />
-      </div>
-
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
