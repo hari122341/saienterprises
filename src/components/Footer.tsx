@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { companyInfo } from '@/data/products';
-import saiLogo from '@/assets/sai-logo.png';
+import saiLogoCmyk from '@/assets/sai-logo-cmyk.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,10 +16,13 @@ const Footer = () => {
             {/* Left - Brand */}
             <div>
               <div className="flex items-center gap-3 mb-5 sm:mb-6">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden ring-1 ring-background/20 flex-shrink-0">
-                  <img src={saiLogo} alt="Sai Enterprises" className="w-full h-full object-cover" />
+                <div className="w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0">
+                  <img src={saiLogoCmyk} alt="Sai Enterprises" className="w-full h-full object-contain" />
                 </div>
-                <span className="font-serif text-base sm:text-lg text-background">Sai Enterprises</span>
+                <div>
+                  <span className="font-serif text-base sm:text-lg text-background block">Sai Enterprises</span>
+                  <span className="text-[9px] uppercase tracking-[0.15em] text-primary">Graphic Machinery Suppliers</span>
+                </div>
               </div>
               <p className="text-background/50 text-sm leading-relaxed max-w-sm mb-6 sm:mb-8">
                 Premium graphic machinery suppliers. Building long-term relationships across India and East Africa since 2000.
