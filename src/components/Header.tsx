@@ -140,11 +140,11 @@ const Header = memo(() => {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={toggleMenu}
-              whileTap={{ scale: 0.9 }}
-              className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+              whileTap={{ scale: 0.95 }}
+              className={`md:hidden p-2 flex items-center justify-center transition-all duration-300 ${
                 useLightText 
-                  ? 'text-white bg-white/15 hover:bg-white/25' 
-                  : 'text-foreground bg-secondary/80 hover:bg-secondary'
+                  ? 'text-white hover:text-white/80' 
+                  : 'text-foreground hover:text-foreground/70'
               }`}
               aria-label="Toggle menu"
             >
