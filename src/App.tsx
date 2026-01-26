@@ -52,7 +52,7 @@ const AppContent = () => {
   useEffect(() => {
     // Check if already loaded in this session
     const loaded = sessionStorage.getItem('sai-loaded');
-    if (loaded) {
+    if (loaded === 'true') {
       setIsLoading(false);
       setHasLoaded(true);
     }
