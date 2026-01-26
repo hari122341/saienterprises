@@ -64,12 +64,12 @@ const AboutSection = () => {
       />
 
       <div className="relative px-5 sm:px-8 md:px-12 lg:px-20 py-14 sm:py-16 md:py-20 lg:py-24">
-        {/* Bento Grid Layout */}
+        {/* Bento Grid Layout - Fixed heights */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 md:gap-6 max-w-7xl mx-auto">
           
           {/* Main Statement - Large card spanning left */}
           <ScrollReveal animation="fadeUp" className="md:col-span-7 md:row-span-2">
-            <div className="bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between min-h-[280px] sm:min-h-[320px] md:min-h-[380px] group hover:border-primary/20 transition-colors duration-500 overflow-hidden h-full">
+            <div className="bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between h-full min-h-[280px] sm:min-h-[320px] md:min-h-[380px] group hover:border-primary/20 transition-colors duration-500 overflow-hidden">
               <div>
                 <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4 sm:mb-6">
                   <span className="w-8 h-px bg-primary" />
@@ -93,7 +93,7 @@ const AboutSection = () => {
 
           {/* Years Counter - Top right */}
           <ScrollReveal animation="scaleUp" delay={0.1} className="md:col-span-5">
-            <div className="bg-primary text-primary-foreground p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px] h-full">
+            <div className="bg-primary text-primary-foreground p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center h-full min-h-[140px] sm:min-h-[160px] md:min-h-[180px]">
               <motion.div 
                 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight"
                 whileHover={{ scale: 1.05 }}
@@ -109,7 +109,7 @@ const AboutSection = () => {
 
           {/* Philosophy Card - Bottom right */}
           <ScrollReveal animation="slideRight" delay={0.2} className="md:col-span-5">
-            <div className="bg-secondary/50 border border-border/50 p-4 sm:p-6 md:p-8 flex flex-col justify-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px] group hover:bg-secondary transition-colors duration-500 overflow-hidden h-full">
+            <div className="bg-secondary/50 border border-border/50 p-4 sm:p-6 md:p-8 flex flex-col justify-center h-full min-h-[140px] sm:min-h-[160px] md:min-h-[180px] group hover:bg-secondary transition-colors duration-500 overflow-hidden">
               <blockquote className="font-serif text-sm sm:text-base md:text-lg lg:text-xl text-foreground leading-snug italic">
                 "We believe in long-term relationships, growing together as trusted partners."
               </blockquote>
@@ -122,7 +122,7 @@ const AboutSection = () => {
             </div>
           </ScrollReveal>
 
-          {/* Stats Row */}
+          {/* Stats Row - Equal height cards */}
           <ScrollReveal animation="fadeUp" delay={0.3} className="md:col-span-12">
             <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               {[
@@ -132,7 +132,7 @@ const AboutSection = () => {
               ].map((stat, index) => (
                 <motion.div 
                   key={stat.label}
-                  className="bg-background border border-border/50 p-3 sm:p-4 md:p-6 text-center hover:border-primary/30 transition-colors duration-300 overflow-hidden"
+                  className="bg-background border border-border/50 p-3 sm:p-4 md:p-6 text-center hover:border-primary/30 transition-colors duration-300 overflow-hidden flex flex-col justify-center min-h-[100px] sm:min-h-[120px]"
                   whileHover={{ y: -5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >

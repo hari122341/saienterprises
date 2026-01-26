@@ -82,33 +82,33 @@ const ServicesSection = () => {
                         setSelectedService(service.title);
                         setIsModalOpen(true);
                       }}
-                      className={`flex-shrink-0 w-[240px] sm:w-[280px] cursor-pointer transition-all duration-500 overflow-hidden ${
+                      className={`flex-shrink-0 w-[260px] sm:w-[280px] cursor-pointer transition-all duration-500 overflow-hidden ${
                         service.highlight 
                           ? 'bg-primary text-primary-foreground' 
                           : 'bg-card border border-border'
                       }`}
                       style={{ scrollSnapAlign: 'start' }}
                     >
-                      <div className="relative p-5">
-                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-4 block ${
+                      <div className="relative p-5 h-[220px] flex flex-col">
+                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-3 block ${
                           service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
                         }`}>
                           0{index + 1}
                         </span>
 
-                        <h3 className={`font-serif text-xl mb-2 ${
+                        <h3 className={`font-serif text-xl sm:text-2xl mb-2 ${
                           service.highlight ? 'text-primary-foreground' : 'text-foreground'
                         }`}>
                           {service.title}
                         </h3>
                         
-                        <p className={`text-sm leading-relaxed mb-4 ${
+                        <p className={`text-sm leading-relaxed mb-auto ${
                           service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
                         }`}>
                           {service.description}
                         </p>
 
-                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mt-4 self-start ${
                           service.highlight 
                             ? 'bg-primary-foreground/10 text-primary-foreground' 
                             : 'bg-secondary text-foreground'
@@ -123,7 +123,7 @@ const ServicesSection = () => {
               </div>
             </div>
 
-            {/* Desktop Grid */}
+            {/* Desktop Grid - Equal height cards */}
             <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {services.map((service, index) => {
                 const isHovered = hoveredIndex === index;
@@ -137,14 +137,15 @@ const ServicesSection = () => {
                         setSelectedService(service.title);
                         setIsModalOpen(true);
                       }}
-                      className={`group relative cursor-pointer overflow-hidden transition-all duration-500 h-full ${
+                      className={`group relative cursor-pointer overflow-hidden transition-all duration-500 ${
                         service.highlight 
                           ? 'bg-primary text-primary-foreground' 
                           : 'bg-card border border-border hover:border-primary/30'
                       }`}
                     >
-                      <div className="relative p-6">
-                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-6 block ${
+                      {/* Fixed height container with flex layout */}
+                      <div className="relative p-6 h-[280px] flex flex-col">
+                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-4 block ${
                           service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
                         }`}>
                           0{index + 1}
@@ -156,19 +157,19 @@ const ServicesSection = () => {
                           </div>
                         )}
 
-                        <h3 className={`font-serif text-xl mb-3 ${
+                        <h3 className={`font-serif text-xl md:text-2xl mb-3 ${
                           service.highlight ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary'
                         } transition-colors duration-300`}>
                           {service.title}
                         </h3>
                         
-                        <p className={`text-sm leading-relaxed mb-6 ${
+                        <p className={`text-sm leading-relaxed mb-auto ${
                           service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
                         }`}>
                           {service.description}
                         </p>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mt-6">
                           <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
                             service.highlight 
                               ? 'bg-primary-foreground/10 text-primary-foreground' 

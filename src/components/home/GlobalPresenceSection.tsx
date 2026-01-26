@@ -68,13 +68,13 @@ const GlobalPresenceSection = () => {
             </h2>
           </ScrollReveal>
 
-          {/* Main Locations Grid */}
+          {/* Main Locations Grid - Equal height cards */}
           <div className="grid md:grid-cols-2 gap-4 sm:gap-5 mb-8 sm:mb-10">
             {locations.map((location, index) => (
               <ScrollReveal key={location.city} animation={index === 0 ? 'slideLeft' : 'slideRight'} delay={0.1 + index * 0.1}>
                 <motion.div
                   whileHover={{ scale: 1.02, y: -4 }}
-                  className={`relative group cursor-default overflow-hidden ${
+                  className={`relative group cursor-default overflow-hidden h-full ${
                     location.isPrimary 
                       ? 'bg-primary' 
                       : 'bg-background/5 border border-background/10'
@@ -90,7 +90,7 @@ const GlobalPresenceSection = () => {
                     }`}
                   />
 
-                  <div className="relative p-5 sm:p-6 md:p-8">
+                  <div className="relative p-5 sm:p-6 md:p-8 min-h-[160px] sm:min-h-[180px] flex flex-col">
                     <div className="flex items-start justify-between mb-4">
                       <span className={`text-[9px] uppercase tracking-[0.2em] font-medium ${
                         location.isPrimary ? 'text-primary-foreground/60' : 'text-background/40'
@@ -107,7 +107,7 @@ const GlobalPresenceSection = () => {
                       </motion.div>
                     </div>
                     
-                    <h3 className={`font-serif text-2xl sm:text-3xl md:text-4xl mb-1 ${
+                    <h3 className={`font-serif text-2xl sm:text-3xl md:text-4xl mb-1 mt-auto ${
                       location.isPrimary ? 'text-primary-foreground' : 'text-background'
                     }`}>
                       {location.city}

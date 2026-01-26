@@ -42,13 +42,13 @@ const WhySaiSection = () => {
             </h2>
           </ScrollReveal>
 
-          {/* Stats Grid */}
+          {/* Stats Grid - Equal height cards */}
           <ScrollReveal animation="fadeUp" delay={0.1}>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-10 sm:mb-14">
               {pillars.map((pillar) => (
                 <motion.div
                   key={pillar.label}
-                  className="bg-background p-4 sm:p-6 md:p-8 group hover:bg-secondary/30 transition-colors duration-500 text-center"
+                  className="bg-background p-4 sm:p-6 md:p-8 group hover:bg-secondary/30 transition-colors duration-500 text-center flex flex-col justify-center min-h-[160px] sm:min-h-[180px]"
                   whileHover={{ y: -5 }}
                 >
                   <motion.span 
