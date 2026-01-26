@@ -79,7 +79,7 @@ const HeroSection = () => {
             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="mb-6 sm:mb-8 md:mb-10"
           >
-            <h1 className="font-serif text-[2.75rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-background leading-[1.05] max-w-5xl">
+            <h1 className="font-serif text-[2.25rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-background leading-[1.05] max-w-5xl">
               We believe in
               <motion.span 
                 className="block text-primary"
@@ -98,7 +98,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-background/80 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-sm sm:max-w-lg md:max-w-xl mb-8 sm:mb-10 md:mb-14"
+            className="text-background/80 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-sm sm:max-w-lg md:max-w-xl mb-8 sm:mb-10 md:mb-14"
           >
             Premium graphic machinery suppliers. Trusted by printers across 
             two continents for quality and exceptional service.
