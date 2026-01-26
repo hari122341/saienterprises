@@ -59,17 +59,17 @@ const Header = memo(() => {
   return (
     <>
       <header
-        className={`fixed top-2 left-2 right-2 sm:top-3 sm:left-3 sm:right-3 z-50 rounded-full transition-all duration-300 ${
+        className={`fixed top-4 left-4 right-4 sm:top-5 sm:left-6 sm:right-6 md:left-8 md:right-8 z-50 rounded-full transition-all duration-300 ${
           isInHeroSection
-            ? 'bg-transparent border border-white/10' 
-            : 'bg-background/80 backdrop-blur-xl border border-border/30 shadow-sm'
+            ? 'bg-white/5 backdrop-blur-sm border border-white/10' 
+            : 'bg-background/85 backdrop-blur-xl border border-border/40 shadow-lg'
         }`}
       >
-        <div className="px-3 sm:px-5">
-          <div className="flex items-center justify-between h-11 sm:h-12">
+        <div className="px-4 sm:px-6">
+          <div className="flex items-center justify-between h-12 sm:h-14">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8">
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 sm:w-9 sm:h-9">
                 <img 
                   src={saiLogoCmyk} 
                   alt="Sai Enterprises" 
@@ -79,14 +79,14 @@ const Header = memo(() => {
               </div>
               <div className="flex flex-col">
                 <span 
-                  className={`font-serif text-sm sm:text-base font-bold tracking-wide leading-tight transition-colors duration-200 ${
+                  className={`font-serif text-base sm:text-lg font-bold tracking-wide leading-tight transition-colors duration-200 ${
                     useLightText ? 'text-white' : 'text-foreground'
                   }`}
                 >
                   Sai Enterprises
                 </span>
-                <span className={`text-[7px] sm:text-[8px] uppercase tracking-[0.1em] transition-colors duration-200 ${
-                  useLightText ? 'text-white/50' : 'text-primary'
+                <span className={`text-[8px] sm:text-[9px] uppercase tracking-[0.12em] transition-colors duration-200 ${
+                  useLightText ? 'text-white/60' : 'text-primary'
                 }`}>
                   Graphic Machinery
                 </span>
@@ -94,12 +94,12 @@ const Header = memo(() => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-0.5">
+            <nav className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`relative px-3 py-1.5 text-[11px] uppercase tracking-[0.1em] font-semibold transition-colors duration-200 rounded-full ${
+                  className={`relative px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold transition-colors duration-200 rounded-full ${
                     isActive(link.href)
                       ? useLightText 
                         ? 'text-white bg-white/15' 
@@ -112,7 +112,7 @@ const Header = memo(() => {
                   {link.name}
                   {isActive(link.href) && (
                     <span
-                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                      className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
                         useLightText ? 'bg-white' : 'bg-primary'
                       }`}
                     />
@@ -124,14 +124,14 @@ const Header = memo(() => {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMenu}
-              className={`md:hidden w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
+              className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200 ${
                 useLightText 
                   ? 'text-white bg-white/10 active:bg-white/20' 
-                  : 'text-foreground bg-secondary/60 active:bg-secondary'
+                  : 'text-foreground bg-secondary/70 active:bg-secondary'
               }`}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>

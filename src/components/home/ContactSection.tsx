@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Send, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { Send, Phone, Mail, MapPin, CheckCircle2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { companyInfo } from '@/data/products';
 import { z } from 'zod';
@@ -27,6 +27,7 @@ const ContactSection = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,13 +35,17 @@ const ContactSection = () => {
     
     try {
       contactSchema.parse(formData);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      setIsSubmitted(true);
       toast({
-        title: "Message Sent",
+        title: "Message Sent Successfully!",
         description: "We'll respond within 24 to 48 business hours.",
       });
       setFormData({ name: '', company: '', email: '', phone: '', message: '' });
       setErrors({});
+      
+      // Reset success state after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
@@ -115,107 +120,172 @@ const ContactSection = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="order-2 lg:order-1"
             >
-              <form onSubmit={handleSubmit} className="bg-card border border-border p-6 sm:p-8 md:p-10 shadow-lg">
-                <div className="grid sm:grid-cols-2 gap-5 mb-5">
-                  {/* Name */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
-                      Name <span className="text-primary">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 bg-background border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 ${errors.name ? 'border-destructive' : 'border-border'}`}
-                      placeholder="Your name"
-                    />
-                    {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
-                  </div>
-
-                  {/* Company */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
-                      Company
-                    </label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
-                      placeholder="Company name"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-5 mb-5">
-                  {/* Email */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
-                      Email <span className="text-primary">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 bg-background border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 ${errors.email ? 'border-destructive' : 'border-border'}`}
-                      placeholder="your@email.com"
-                    />
-                    {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
-                  </div>
-
-                  {/* Phone */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
-                      placeholder="+91 00000 00000"
-                    />
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div className="mb-6">
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
-                    Message <span className="text-primary">*</span>
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className={`w-full px-4 py-3 bg-background border text-foreground text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 ${errors.message ? 'border-destructive' : 'border-border'}`}
-                    placeholder="Tell us about your machinery requirements..."
-                  />
-                  {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
-                </div>
-
-                {/* Submit */}
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all text-sm font-semibold tracking-wide"
-                >
-                  {isSubmitting ? (
-                    <span>Sending...</span>
-                  ) : (
-                    <>
-                      <span>Send Message</span>
-                      <Send className="w-4 h-4" />
-                    </>
+              <div className="relative bg-card border border-border p-6 sm:p-8 md:p-10 shadow-lg overflow-hidden">
+                {/* Success Animation Overlay */}
+                <AnimatePresence>
+                  {isSubmitted && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="absolute inset-0 bg-background/95 backdrop-blur-sm z-10 flex flex-col items-center justify-center"
+                    >
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+                        className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6"
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 300, delay: 0.3 }}
+                        >
+                          <CheckCircle2 className="w-10 h-10 text-primary" />
+                        </motion.div>
+                      </motion.div>
+                      <motion.h3
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="font-serif text-2xl sm:text-3xl text-foreground mb-2"
+                      >
+                        Message Sent!
+                      </motion.h3>
+                      <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-muted-foreground text-center max-w-xs"
+                      >
+                        Thank you for reaching out. We'll respond within 24-48 hours.
+                      </motion.p>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.7 }}
+                        className="flex items-center gap-2 mt-4 text-primary text-sm"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        <span>Looking forward to connecting</span>
+                      </motion.div>
+                    </motion.div>
                   )}
-                </motion.button>
-              </form>
+                </AnimatePresence>
+
+                <form onSubmit={handleSubmit}>
+                  <div className="grid sm:grid-cols-2 gap-5 mb-5">
+                    {/* Name */}
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                        Name <span className="text-primary">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3.5 bg-background border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 rounded-sm ${errors.name ? 'border-destructive' : 'border-border'}`}
+                        placeholder="Your name"
+                      />
+                      {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
+                    </div>
+
+                    {/* Company */}
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                        Company
+                      </label>
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3.5 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 rounded-sm"
+                        placeholder="Company name"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-5 mb-5">
+                    {/* Email */}
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                        Email <span className="text-primary">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3.5 bg-background border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 rounded-sm ${errors.email ? 'border-destructive' : 'border-border'}`}
+                        placeholder="your@email.com"
+                      />
+                      {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+                    </div>
+
+                    {/* Phone */}
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                        Phone
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3.5 bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 rounded-sm"
+                        placeholder="+91 00000 00000"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div className="mb-6">
+                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2 font-medium">
+                      Message <span className="text-primary">*</span>
+                    </label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      rows={4}
+                      className={`w-full px-4 py-3.5 bg-background border text-foreground text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 rounded-sm ${errors.message ? 'border-destructive' : 'border-border'}`}
+                      placeholder="Tell us about your machinery requirements..."
+                    />
+                    {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
+                  </div>
+
+                  {/* Submit */}
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting || isSubmitted}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all text-sm font-semibold tracking-wide rounded-sm"
+                  >
+                    {isSubmitting ? (
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="flex items-center gap-2"
+                      >
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full"
+                        />
+                        Sending...
+                      </motion.span>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </motion.button>
+                </form>
+              </div>
             </motion.div>
 
             {/* Contact Info */}
