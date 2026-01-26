@@ -11,19 +11,7 @@ const OfferingsSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(90deg, hsl(var(--background)) 1px, transparent 1px),
-                              linear-gradient(hsl(var(--background)) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
-          }}
-        />
-      </div>
-
-      {/* Floating orbs */}
+      {/* Subtle ambient glow */}
       <motion.div 
         className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[100px] pointer-events-none"
         animate={{ 
