@@ -52,23 +52,23 @@ const ContactPage = () => {
     {
       icon: Phone,
       label: 'Call Us',
-      value: companyInfo.phones[0],
-      href: `tel:${companyInfo.phones[0]}`,
-      description: 'Mon-Sat, 9am-6pm IST'
+      values: companyInfo.phones,
+      description: 'Mon-Sat, 9am-6pm IST',
+      type: 'phone'
     },
     {
       icon: Mail,
-      label: 'Email Us',
-      value: companyInfo.emails[0],
-      href: `mailto:${companyInfo.emails[0]}`,
-      description: 'We respond within 24 hours'
+      label: 'Mail Us',
+      values: companyInfo.emails,
+      description: 'We respond within 24 hours',
+      type: 'email'
     },
     {
       icon: MapPin,
       label: 'Visit Us',
-      value: 'Hyderabad, India',
-      href: '#',
-      description: 'Headquarters'
+      values: ['Hyderabad, India'],
+      description: 'Headquarters',
+      type: 'address'
     },
   ];
 
@@ -127,15 +127,14 @@ const ContactPage = () => {
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
               {contactCards.map((card, index) => (
-                <motion.a
+                <motion.div
                   key={card.label}
-                  href={card.href}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   whileHover={{ y: -6, scale: 1.02 }}
-                  className="group relative p-6 sm:p-8 bg-secondary/30 hover:bg-secondary/50 border border-border hover:border-primary/30 transition-all duration-300 cursor-pointer overflow-hidden"
+                  className="group relative p-6 sm:p-8 bg-secondary/30 hover:bg-secondary/50 border border-border hover:border-primary/30 transition-all duration-300 overflow-hidden"
                 >
                   {/* Hover gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -147,14 +146,34 @@ const ContactPage = () => {
                     <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-2">
                       {card.label}
                     </span>
-                    <span className="font-serif text-xl text-foreground group-hover:text-primary transition-colors block mb-1">
-                      {card.value}
-                    </span>
+                    <div className="space-y-1 mb-1">
+                      {card.values.map((value, i) => (
+                        card.type === 'phone' ? (
+                          <a 
+                            key={i}
+                            href={`tel:${value.replace(/\s/g, '')}`}
+                            className="block font-serif text-lg text-foreground group-hover:text-primary transition-colors"
+                          >
+                            {value}
+                          </a>
+                        ) : card.type === 'email' ? (
+                          <a 
+                            key={i}
+                            href={`mailto:${value}`}
+                            className="block font-serif text-lg text-foreground group-hover:text-primary transition-colors break-all"
+                          >
+                            {value}
+                          </a>
+                        ) : (
+                          <span key={i} className="block font-serif text-xl text-foreground">{value}</span>
+                        )
+                      ))}
+                    </div>
                     <span className="text-sm text-muted-foreground">
                       {card.description}
                     </span>
                   </div>
-                </motion.a>
+                </motion.div>
               ))}
             </div>
           </div>

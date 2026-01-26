@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 
 const FloatingWhatsApp = () => {
-  // Replace with your actual WhatsApp number (include country code without +)
-  const whatsappNumber = '919876543210';
+  // WhatsApp number (include country code without +)
+  const whatsappNumber = '919312175513';
   const defaultMessage = 'Hello! I would like to inquire about your graphic machinery.';
   
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(defaultMessage)}`;
