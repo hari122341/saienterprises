@@ -30,12 +30,23 @@ const PartnersPage = () => {
       <main>
         {/* Hero */}
         <section ref={heroRef} className="relative min-h-[60vh] flex items-center justify-center bg-foreground overflow-hidden">
-          {/* Animated gradient glow */}
+          {/* Animated gradient glows */}
           <motion.div 
-            className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-primary/15 blur-[120px]"
+            className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]"
             animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }}
             transition={{ duration: 12, repeat: Infinity }}
           />
+          <motion.div 
+            className="absolute bottom-1/3 left-1/4 w-72 h-72 rounded-full bg-accent/15 blur-[100px]"
+            animate={{ scale: [1.2, 1, 1.2], y: [0, -30, 0] }}
+            transition={{ duration: 10, repeat: Infinity, delay: 2 }}
+          />
+          
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary)) 1px, transparent 1px)`,
+            backgroundSize: '48px 48px',
+          }} />
 
           <motion.div 
             className="relative text-center px-6 sm:px-8 pt-24 sm:pt-32"

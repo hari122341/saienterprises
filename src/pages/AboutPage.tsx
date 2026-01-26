@@ -46,12 +46,23 @@ const AboutPage = () => {
       <main>
         {/* Hero Section */}
         <section ref={heroRef} className="relative min-h-[70vh] flex items-center justify-center bg-secondary/30 overflow-hidden">
-          {/* Subtle ambient glow */}
+          {/* Animated ambient glows */}
           <motion.div 
-            className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-primary/5 blur-3xl"
-            animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+            className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px]"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
             transition={{ duration: 10, repeat: Infinity }}
           />
+          <motion.div 
+            className="absolute bottom-1/4 left-1/4 w-72 h-72 rounded-full bg-accent/10 blur-[100px]"
+            animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 12, repeat: Infinity, delay: 2 }}
+          />
+          
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary)) 1px, transparent 1px)`,
+            backgroundSize: '48px 48px',
+          }} />
 
           <motion.div 
             className="relative text-center px-6 sm:px-8 pt-24 sm:pt-32 pb-20"
