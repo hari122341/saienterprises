@@ -1,28 +1,28 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback, memo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import saiLogoCmyk from '@/assets/sai-logo-cmyk.png';
 
-// Section IDs that correspond to homepage sections
-const homepageSections: Record<string, string> = {
-  '/about': 'about',
-  '/contact': 'contact',
-};
-
-const Header = () => {
+const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeroSection, setIsHeroSection] = useState(true);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      setIsHeroSection(window.scrollY < window.innerHeight * 0.6);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          setIsHeroSection(window.scrollY < window.innerHeight * 0.6);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -41,74 +41,51 @@ const Header = () => {
   const useLightText = isInHeroSection;
 
   const navLinks = [
-    { name: 'About', href: '/about', sectionId: null },
-    { name: 'Machinery', href: '/machinery', sectionId: null },
-    { name: 'Partners', href: '/partners', sectionId: null },
-    { name: 'Contact', href: '/contact', sectionId: null },
+    { name: 'About', href: '/about' },
+    { name: 'Machinery', href: '/machinery' },
+    { name: 'Partners', href: '/partners' },
+    { name: 'Contact', href: '/contact' },
   ];
 
-  const scrollToSection = useCallback((sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  }, []);
-
-  const handleNavClick = useCallback((e: React.MouseEvent, href: string, sectionId: string | null) => {
-    // If we're on homepage and there's a corresponding section, scroll to it
-    if (isHomepage && sectionId) {
-      e.preventDefault();
-      scrollToSection(sectionId);
-      setIsMobileMenuOpen(false);
-    }
-    // Otherwise, navigate normally (handled by Link)
-  }, [isHomepage, scrollToSection]);
-
-  const isActive = (href: string) => {
+  const isActive = useCallback((href: string) => {
     if (href === '/machinery') return location.pathname.startsWith('/machinery');
     return location.pathname === href;
-  };
+  }, [location.pathname]);
+
+  const toggleMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
 
   return (
     <>
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-4 left-4 right-4 z-50 transition-all duration-500 rounded-full ${
+      <header
+        className={`fixed top-4 left-4 right-4 z-50 rounded-full transition-all duration-300 ${
           isInHeroSection
             ? 'bg-transparent border-transparent' 
-            : 'bg-background/70 backdrop-blur-2xl border border-border/30 shadow-xl shadow-foreground/[0.05]'
+            : 'bg-background/80 backdrop-blur-xl border border-border/30 shadow-lg'
         }`}
       >
         <div className="px-4 sm:px-6">
           <div className="flex items-center justify-between h-12 sm:h-14">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <motion.div 
-                className="w-9 h-9 sm:w-10 sm:h-10"
-                whileHover={{ scale: 1.08, rotate: 3 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <img src={saiLogoCmyk} alt="Sai Enterprises" className="w-full h-full object-contain" />
-              </motion.div>
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 sm:w-9 sm:h-9">
+                <img 
+                  src={saiLogoCmyk} 
+                  alt="Sai Enterprises" 
+                  className="w-full h-full object-contain"
+                  loading="eager"
+                />
+              </div>
               <div className="flex flex-col">
-                <motion.span 
-                  className={`font-serif text-sm sm:text-base tracking-wide transition-colors duration-300 leading-tight ${
+                <span 
+                  className={`font-serif text-sm sm:text-base tracking-wide leading-tight transition-colors duration-200 ${
                     useLightText ? 'text-white' : 'text-foreground'
                   }`}
-                  whileHover={{ x: 2 }}
                 >
                   Sai <span className="font-light">Enterprises</span>
-                </motion.span>
-                <span className={`text-[8px] uppercase tracking-[0.1em] transition-colors duration-300 ${
+                </span>
+                <span className={`text-[7px] sm:text-[8px] uppercase tracking-[0.1em] transition-colors duration-200 ${
                   useLightText ? 'text-white/50' : 'text-primary'
                 }`}>
                   Graphic Machinery
@@ -118,157 +95,101 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link, index) => (
-                <motion.div
+              {navLinks.map((link) => (
+                <Link
                   key={link.name}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 + 0.2 }}
+                  to={link.href}
+                  className={`relative px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium transition-colors duration-200 rounded-full ${
+                    isActive(link.href)
+                      ? useLightText 
+                        ? 'text-white bg-white/15' 
+                        : 'text-primary bg-primary/10'
+                      : useLightText 
+                        ? 'text-white/70 hover:text-white hover:bg-white/10' 
+                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+                  }`}
                 >
-                  <Link
-                    to={link.href}
-                    onClick={(e) => handleNavClick(e, link.href, link.sectionId)}
-                    className={`relative px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium transition-all duration-300 rounded-full group ${
-                      isActive(link.href)
-                        ? useLightText 
-                          ? 'text-white bg-white/15' 
-                          : 'text-primary bg-primary/10'
-                        : useLightText 
-                          ? 'text-white/70 hover:text-white hover:bg-white/10' 
-                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
-                    }`}
-                  >
-                    {link.name}
-                    {isActive(link.href) && (
-                      <motion.div
-                        layoutId="nav-indicator"
-                        className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                          useLightText ? 'bg-white' : 'bg-primary'
-                        }`}
-                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      />
-                    )}
-                  </Link>
-                </motion.div>
+                  {link.name}
+                  {isActive(link.href) && (
+                    <span
+                      className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                        useLightText ? 'bg-white' : 'bg-primary'
+                      }`}
+                    />
+                  )}
+                </Link>
               ))}
             </nav>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+            <button
+              onClick={toggleMenu}
+              className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 ${
                 useLightText 
-                  ? 'text-white bg-white/15 hover:bg-white/25' 
-                  : 'text-foreground bg-secondary/60 hover:bg-secondary'
+                  ? 'text-white bg-white/15 active:bg-white/25' 
+                  : 'text-foreground bg-secondary/60 active:bg-secondary'
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
+              aria-label="Toggle menu"
             >
-              <AnimatePresence mode="wait">
-                {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <X className="w-5 h-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0, scale: 0.8 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: -90, opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <Menu className="w-5 h-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      {/* Premium Mobile Menu */}
+      {/* Mobile Menu - Simplified for performance */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 md:hidden"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 md:hidden bg-foreground"
           >
-            {/* Clean dark backdrop */}
-            <motion.div 
-              className="absolute inset-0 bg-foreground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-
-            {/* Content */}
-            <div className="relative h-full flex flex-col items-center justify-center px-6">
-              {/* Navigation Links */}
-              <nav className="flex flex-col items-center gap-4">
-                {[{ name: 'Home', href: '/', sectionId: null as string | null }, ...navLinks].map((link, i) => {
+            <div className="h-full flex flex-col items-center justify-center px-6">
+              <nav className="flex flex-col items-center gap-3">
+                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
                   
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -30, scale: 0.9 }}
-                      transition={{ 
-                        delay: i * 0.08, 
-                        duration: 0.5, 
-                        ease: [0.16, 1, 0.3, 1] 
-                      }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05, duration: 0.3 }}
                     >
                       <Link
                         to={link.href}
-                        onClick={(e) => handleNavClick(e, link.href, link.sectionId)}
-                        className="relative block py-2 text-center group"
+                        className="block py-2 text-center"
                       >
-                        <motion.span 
-                          className={`relative font-serif text-4xl sm:text-5xl transition-all duration-300 ${
+                        <span 
+                          className={`font-serif text-3xl sm:text-4xl transition-colors ${
                             active 
                               ? 'text-primary font-semibold' 
-                              : 'text-background/30 group-hover:text-background/70'
+                              : 'text-background/40 active:text-background/70'
                           }`}
-                          whileHover={{ scale: 1.05, x: 5 }}
-                          whileTap={{ scale: 0.98 }}
                         >
                           {link.name}
-                        </motion.span>
+                        </span>
                       </Link>
                     </motion.div>
                   );
                 })}
               </nav>
 
-              {/* Minimal footer */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="absolute bottom-12 text-center"
-              >
-                <span className="text-[10px] uppercase tracking-[0.2em] text-background/20">
-                  Since 2000 • India & Kenya
-                </span>
-              </motion.div>
+              <span className="absolute bottom-10 text-[10px] uppercase tracking-[0.15em] text-background/20">
+                Since 2000 · India & Kenya
+              </span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;
