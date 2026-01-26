@@ -63,14 +63,17 @@ const Header = memo(() => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-3 left-3 right-3 sm:top-4 sm:left-5 sm:right-5 md:left-8 md:right-8 lg:left-12 lg:right-12 z-[100] rounded-full transition-all duration-500 ${
+        className={`fixed z-[100] transition-all duration-500
+          top-3 left-3 right-3 rounded-full
+          sm:top-0 sm:left-0 sm:right-0 sm:rounded-none
+          ${
           isInHeroSection
-            ? 'bg-white/5 backdrop-blur-md border border-white/15 shadow-lg shadow-black/5' 
-            : 'bg-background/90 backdrop-blur-xl border border-border/50 shadow-xl shadow-black/5'
+            ? 'bg-white/5 backdrop-blur-md border border-white/15 sm:border-0 sm:border-b sm:border-white/10 shadow-lg shadow-black/5 sm:shadow-none' 
+            : 'bg-background/90 backdrop-blur-xl border border-border/50 sm:border-0 sm:border-b sm:border-border/30 shadow-xl shadow-black/5 sm:shadow-sm'
         }`}
       >
-        <div className="px-4 sm:px-6 md:px-8">
-          <div className="flex items-center justify-between h-12 sm:h-12 md:h-14">
+        <div className="px-4 sm:px-6 md:px-12 lg:px-20">
+          <div className="flex items-center justify-between h-12 sm:h-14 md:h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-2.5">
               <motion.div 
