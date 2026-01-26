@@ -1,13 +1,13 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { productCategories } from '@/data/products';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const OfferingsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
     <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
@@ -36,30 +36,17 @@ const OfferingsSection = () => {
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-10 sm:mb-14"
-          >
+          <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-14">
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-              <motion.span 
-                className="w-8 h-px bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-              />
+              <span className="w-8 h-px bg-primary" />
               Machinery
-              <motion.span 
-                className="w-8 h-px bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-              />
+              <span className="w-8 h-px bg-primary" />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-background leading-tight">
               Complete print<br />
               <span className="text-primary">workflow</span> coverage.
             </h2>
-          </motion.div>
+          </ScrollReveal>
 
           {/* Category Cards Grid - Text based, no icons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
@@ -67,13 +54,7 @@ const OfferingsSection = () => {
               const isActive = activeIndex === index;
               
               return (
-                <motion.div
-                  key={category.id}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  onMouseEnter={() => setActiveIndex(index)}
-                >
+                <ScrollReveal key={category.id} animation="fadeUp" delay={index * 0.1}>
                   <Link
                     to={`/machinery/${category.slug}`}
                     className={`group relative block p-4 sm:p-5 md:p-6 h-full min-h-[200px] sm:min-h-[220px] md:min-h-[260px] transition-all duration-500 overflow-hidden ${
@@ -81,6 +62,7 @@ const OfferingsSection = () => {
                         ? 'bg-primary' 
                         : 'bg-background/5 hover:bg-background/10 border border-background/10'
                     }`}
+                    onMouseEnter={() => setActiveIndex(index)}
                   >
                     {/* Large Number */}
                     <span className={`absolute top-3 right-3 sm:top-4 sm:right-4 text-5xl sm:text-6xl md:text-7xl font-serif transition-colors duration-300 ${
@@ -136,18 +118,13 @@ const OfferingsSection = () => {
                       whileHover={{ width: '100%' }}
                     />
                   </Link>
-                </motion.div>
+                </ScrollReveal>
               );
             })}
           </div>
 
           {/* View All Link */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-center mt-8 sm:mt-12"
-          >
+          <ScrollReveal animation="fadeUp" delay={0.4} className="text-center mt-8 sm:mt-12">
             <Link
               to="/machinery"
               className="inline-flex items-center gap-3 text-primary hover:text-primary/80 transition-colors"
@@ -160,7 +137,7 @@ const OfferingsSection = () => {
                 <ArrowUpRight className="w-4 h-4" />
               </motion.div>
             </Link>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

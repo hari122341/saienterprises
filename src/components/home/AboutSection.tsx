@@ -1,24 +1,34 @@
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
+import ScrollReveal from '@/components/ScrollReveal';
 
 // Animated counter component
 const AnimatedCounter = ({ end, duration = 2, suffix = '' }: { end: number; duration?: number; suffix?: string }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
-    if (!isInView) return;
-    
-    let startTime: number;
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [isInView, end, duration]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let startTime: number;
+          const animate = (currentTime: number) => {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+            setCount(Math.floor(progress * end));
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [end, duration, hasAnimated]);
 
   return <span ref={ref}>{count}{suffix}</span>;
 };
@@ -58,115 +68,84 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 md:gap-6 max-w-7xl mx-auto">
           
           {/* Main Statement - Large card spanning left */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between min-h-[280px] sm:min-h-[320px] md:min-h-[380px] group hover:border-primary/20 transition-colors duration-500 overflow-hidden"
-          >
-            <div>
-              <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4 sm:mb-6">
-                <motion.span 
-                  className="w-8 h-px bg-primary"
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                />
-                About Us
-              </span>
-              <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground leading-[1.1] mb-3 sm:mb-4">
-                More than<br />
-                <span className="text-primary">machinery</span> suppliers.
-              </h2>
+          <ScrollReveal animation="fadeUp" className="md:col-span-7 md:row-span-2">
+            <div className="bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border border-border/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between min-h-[280px] sm:min-h-[320px] md:min-h-[380px] group hover:border-primary/20 transition-colors duration-500 overflow-hidden h-full">
+              <div>
+                <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4 sm:mb-6">
+                  <span className="w-8 h-px bg-primary" />
+                  About Us
+                </span>
+                <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground leading-[1.1] mb-3 sm:mb-4">
+                  More than<br />
+                  <span className="text-primary">machinery</span> suppliers.
+                </h2>
+              </div>
+              
+              <div className="space-y-3 sm:space-y-4">
+                <p className="text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
+                  With over 24 years of expertise in graphic and corrugation machinery, 
+                  we've built trust across India and East Africa through genuine partnership.
+                </p>
+                <div className="w-12 h-px bg-primary/40" />
+              </div>
             </div>
-            
-            <div className="space-y-3 sm:space-y-4">
-              <p className="text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
-                With over 24 years of expertise in graphic and corrugation machinery, 
-                we've built trust across India and East Africa through genuine partnership.
-              </p>
-              <motion.div 
-                className="w-12 h-px bg-primary/40"
-                whileInView={{ width: 80 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              />
-            </div>
-          </motion.div>
+          </ScrollReveal>
 
           {/* Years Counter - Top right */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-5 bg-primary text-primary-foreground p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px]"
-          >
-            <motion.div 
-              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <AnimatedCounter end={24} suffix="+" />
-            </motion.div>
-            <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-primary-foreground/70 mt-2">
-              Years Experience
-            </span>
-          </motion.div>
-
-          {/* Philosophy Card - Bottom right */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-5 bg-secondary/50 border border-border/50 p-4 sm:p-6 md:p-8 flex flex-col justify-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px] group hover:bg-secondary transition-colors duration-500 overflow-hidden"
-          >
-            <blockquote 
-              className="font-serif text-sm sm:text-base md:text-lg lg:text-xl text-foreground leading-snug italic"
-            >
-              "We believe in long-term relationships, growing together as trusted partners."
-            </blockquote>
-            <div className="mt-2 sm:mt-3 md:mt-4 flex items-center gap-2 sm:gap-3">
+          <ScrollReveal animation="scaleUp" delay={0.1} className="md:col-span-5">
+            <div className="bg-primary text-primary-foreground p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px] h-full">
               <motion.div 
-                className="w-8 h-px bg-primary/40"
-                whileHover={{ width: 40 }}
-              />
-              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-muted-foreground">
-                Our Philosophy
+                className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <AnimatedCounter end={24} suffix="+" />
+              </motion.div>
+              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-primary-foreground/70 mt-2">
+                Years Experience
               </span>
             </div>
-          </motion.div>
+          </ScrollReveal>
+
+          {/* Philosophy Card - Bottom right */}
+          <ScrollReveal animation="slideRight" delay={0.2} className="md:col-span-5">
+            <div className="bg-secondary/50 border border-border/50 p-4 sm:p-6 md:p-8 flex flex-col justify-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px] group hover:bg-secondary transition-colors duration-500 overflow-hidden h-full">
+              <blockquote className="font-serif text-sm sm:text-base md:text-lg lg:text-xl text-foreground leading-snug italic">
+                "We believe in long-term relationships, growing together as trusted partners."
+              </blockquote>
+              <div className="mt-2 sm:mt-3 md:mt-4 flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-px bg-primary/40" />
+                <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-muted-foreground">
+                  Our Philosophy
+                </span>
+              </div>
+            </div>
+          </ScrollReveal>
 
           {/* Stats Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-12 grid grid-cols-3 gap-3 sm:gap-4 md:gap-6"
-          >
-            {[
-              { number: 500, suffix: '+', label: 'Clients' },
-              { number: 2, suffix: '', label: 'Continents' },
-              { number: 100, suffix: '%', label: 'Committed' },
-            ].map((stat, index) => (
-              <motion.div 
-                key={stat.label}
-                className="bg-background border border-border/50 p-3 sm:p-4 md:p-6 text-center hover:border-primary/30 transition-colors duration-300 overflow-hidden"
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <div className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground mb-0.5 sm:mb-1">
-                  <AnimatedCounter end={stat.number} suffix={stat.suffix} duration={1.5 + index * 0.3} />
-                </div>
-                <span className="text-[7px] sm:text-[9px] md:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] text-muted-foreground">
-                  {stat.label}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
+          <ScrollReveal animation="fadeUp" delay={0.3} className="md:col-span-12">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+              {[
+                { number: 500, suffix: '+', label: 'Clients' },
+                { number: 2, suffix: '', label: 'Continents' },
+                { number: 100, suffix: '%', label: 'Committed' },
+              ].map((stat, index) => (
+                <motion.div 
+                  key={stat.label}
+                  className="bg-background border border-border/50 p-3 sm:p-4 md:p-6 text-center hover:border-primary/30 transition-colors duration-300 overflow-hidden"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground mb-0.5 sm:mb-1">
+                    <AnimatedCounter end={stat.number} suffix={stat.suffix} duration={1.5 + index * 0.3} />
+                  </div>
+                  <span className="text-[7px] sm:text-[9px] md:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] text-muted-foreground">
+                    {stat.label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
