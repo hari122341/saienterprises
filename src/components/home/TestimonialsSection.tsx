@@ -115,11 +115,11 @@ const TestimonialsSection = () => {
             {/* Main testimonial card */}
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="bg-card border border-border p-8 sm:p-12 md:p-16 relative"
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.98 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-card border border-border p-8 sm:p-12 md:p-16 relative shadow-sm"
             >
               {/* Quote icon */}
               <div className="absolute top-8 right-8 sm:top-12 sm:right-12">

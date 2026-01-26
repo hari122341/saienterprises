@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import saiLogo from '@/assets/sai-logo.png';
+import saiLogoCmyk from '@/assets/sai-logo-cmyk.png';
 
 // Section IDs that correspond to homepage sections
 const homepageSections: Record<string, string> = {
@@ -93,22 +93,27 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5 group">
               <motion.div 
-                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden ring-2 transition-all duration-300 ${
-                  useLightText ? 'ring-white/20' : 'ring-primary/20'
-                }`}
+                className="w-9 h-9 sm:w-10 sm:h-10"
                 whileHover={{ scale: 1.08, rotate: 3 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <img src={saiLogo} alt="Sai Enterprises" className="w-full h-full object-cover" />
+                <img src={saiLogoCmyk} alt="Sai Enterprises" className="w-full h-full object-contain" />
               </motion.div>
-              <motion.span 
-                className={`font-serif text-base sm:text-lg tracking-wide transition-colors duration-300 ${
-                  useLightText ? 'text-white' : 'text-foreground'
-                }`}
-                whileHover={{ x: 2 }}
-              >
-                Sai <span className="font-light">Enterprises</span>
-              </motion.span>
+              <div className="flex flex-col">
+                <motion.span 
+                  className={`font-serif text-sm sm:text-base tracking-wide transition-colors duration-300 leading-tight ${
+                    useLightText ? 'text-white' : 'text-foreground'
+                  }`}
+                  whileHover={{ x: 2 }}
+                >
+                  Sai <span className="font-light">Enterprises</span>
+                </motion.span>
+                <span className={`text-[8px] uppercase tracking-[0.1em] transition-colors duration-300 ${
+                  useLightText ? 'text-white/50' : 'text-primary'
+                }`}>
+                  Graphic Machinery
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}

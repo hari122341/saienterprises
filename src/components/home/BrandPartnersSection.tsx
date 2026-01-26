@@ -42,9 +42,9 @@ const BrandPartnersSection = () => {
       </div>
 
       {/* Scrolling Marquee - Row 1 */}
-      <div className="relative mb-8">
-        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-secondary/100 via-secondary/80 to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-secondary/100 via-secondary/80 to-transparent z-10 pointer-events-none" />
+      <div className="relative mb-6 sm:mb-8">
+        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-secondary/100 via-secondary/60 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-secondary/100 via-secondary/60 to-transparent z-10 pointer-events-none" />
         
         <motion.div
           className="flex gap-10 sm:gap-16"
@@ -76,9 +76,9 @@ const BrandPartnersSection = () => {
       </div>
 
       {/* Scrolling Marquee - Row 2 (Reverse, slightly faster) */}
-      <div className="relative mb-10">
-        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-secondary/100 via-secondary/80 to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-secondary/100 via-secondary/80 to-transparent z-10 pointer-events-none" />
+      <div className="relative mb-8 sm:mb-10">
+        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-secondary/100 via-secondary/60 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-secondary/100 via-secondary/60 to-transparent z-10 pointer-events-none" />
         
         <motion.div
           className="flex gap-10 sm:gap-16"
