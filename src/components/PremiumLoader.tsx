@@ -1,6 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import saiLogoCmyk from '@/assets/sai-logo-cmyk.png';
+
+// Critical images to preload
+const criticalImages = [
+  '/src/assets/hero-industrial.jpg',
+  '/src/assets/sai-logo-cmyk.png',
+  '/src/assets/machinery-corrugation.jpg',
+  '/src/assets/machinery-prepress.jpg',
+];
 
 interface PremiumLoaderProps {
   onComplete: () => void;
@@ -9,26 +17,77 @@ interface PremiumLoaderProps {
 const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+  const [loadedImages, setLoadedImages] = useState(0);
+
+  const handleComplete = useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => onComplete(), 500);
+  }, [onComplete]);
 
   useEffect(() => {
-    const duration = 2400;
+    const totalImages = criticalImages.length;
+    let imagesLoaded = 0;
+    
+    // Preload images and track progress
+    criticalImages.forEach((src) => {
+      const img = new Image();
+      img.onload = () => {
+        imagesLoaded++;
+        setLoadedImages(imagesLoaded);
+        // Calculate progress based on image loading (70% weight) + minimum time (30% weight)
+        const imageProgress = (imagesLoaded / totalImages) * 70;
+        setProgress(prev => Math.max(prev, Math.round(imageProgress)));
+      };
+      img.onerror = () => {
+        imagesLoaded++;
+        setLoadedImages(imagesLoaded);
+        const imageProgress = (imagesLoaded / totalImages) * 70;
+        setProgress(prev => Math.max(prev, Math.round(imageProgress)));
+      };
+      img.src = src;
+    });
+
+    // Smooth progress animation for remaining 30%
+    const minDuration = 2500;
     const startTime = Date.now();
     
-    const updateProgress = () => {
+    const animateProgress = () => {
       const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / duration) * 100, 100);
-      setProgress(Math.round(newProgress));
+      const timeProgress = Math.min((elapsed / minDuration) * 30, 30);
       
-      if (elapsed < duration) {
-        requestAnimationFrame(updateProgress);
-      } else {
-        setIsExiting(true);
-        setTimeout(() => onComplete(), 400);
+      setProgress(prev => {
+        const newProgress = Math.min(prev + 1, 70 + timeProgress);
+        return Math.round(newProgress);
+      });
+      
+      if (elapsed < minDuration) {
+        requestAnimationFrame(animateProgress);
       }
     };
     
-    requestAnimationFrame(updateProgress);
-  }, [onComplete]);
+    requestAnimationFrame(animateProgress);
+
+    // Complete after minimum duration and all images loaded
+    const checkComplete = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      if (elapsed >= minDuration && imagesLoaded >= totalImages) {
+        setProgress(100);
+        setTimeout(() => handleComplete(), 300);
+        clearInterval(checkComplete);
+      }
+    }, 100);
+
+    // Fallback timeout
+    const timeout = setTimeout(() => {
+      setProgress(100);
+      handleComplete();
+    }, 4000);
+
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(checkComplete);
+    };
+  }, [handleComplete]);
 
   return (
     <div
