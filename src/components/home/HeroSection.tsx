@@ -41,19 +41,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-transparent to-foreground/40" />
       </motion.div>
 
-      {/* Animated decorative elements - hidden on mobile for performance */}
-      <motion.div 
-        className="hidden md:block absolute top-1/4 right-1/4 w-64 h-64 border border-primary/10 rounded-full pointer-events-none"
-        style={{ y: floatY1 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div 
-        className="hidden md:block absolute bottom-1/3 left-1/4 w-32 h-32 border border-primary/5 rounded-full pointer-events-none"
-        style={{ y: floatY2 }}
-        animate={{ rotate: -360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      />
+      {/* Subtle accent dot */}
       <motion.div
         className="hidden sm:block absolute top-1/3 right-1/3 w-2 h-2 bg-primary rounded-full pointer-events-none"
         animate={{ 

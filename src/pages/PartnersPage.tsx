@@ -30,26 +30,11 @@ const PartnersPage = () => {
       <main>
         {/* Hero */}
         <section ref={heroRef} className="relative min-h-[60vh] flex items-center justify-center bg-foreground overflow-hidden">
-          {/* Animated gradient background */}
+          {/* Animated gradient glow */}
           <motion.div 
             className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-primary/15 blur-[120px]"
             animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }}
             transition={{ duration: 12, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/10 blur-[100px]"
-            animate={{ scale: [1.1, 1, 1.1], y: [0, -30, 0] }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "linear-gradient(hsl(var(--background)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--background)) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
-            }}
           />
 
           <motion.div 
@@ -113,7 +98,7 @@ const PartnersPage = () => {
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={brandsInView ? { opacity: 1, y: 0, scale: 1 } : {}}
                   transition={{ 
-                    delay: index * 0.08, 
+                    delay: index * 0.06, 
                     duration: 0.5,
                     ease: [0.22, 1, 0.36, 1]
                   }}
@@ -122,29 +107,15 @@ const PartnersPage = () => {
                     scale: 1.02,
                     transition: { duration: 0.3 }
                   }}
-                  className="group relative aspect-[4/3] border border-border hover:border-primary/30 bg-secondary/20 hover:bg-secondary/40 transition-all duration-500 flex flex-col items-center justify-center p-6 sm:p-8 cursor-default overflow-hidden"
+                  className="group relative aspect-[4/3] min-h-[140px] sm:min-h-[160px] border border-border hover:border-primary/30 bg-secondary/20 hover:bg-secondary/40 transition-all duration-500 flex flex-col items-center justify-center p-6 sm:p-8 cursor-default"
                 >
-                  {/* Gradient overlay on hover */}
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  />
-
-                  {/* Content */}
-                  <div className="relative z-10 text-center">
-                    <span className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground group-hover:text-primary transition-colors duration-300 block mb-3">
-                      {brand.name}
-                    </span>
-                    <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
-                      {brand.country}
-                    </span>
-                  </div>
-
-                  {/* Corner accent */}
-                  <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-[1px] h-8 bg-border group-hover:bg-primary/30 transition-colors" />
-                    <div className="absolute top-0 right-0 h-[1px] w-8 bg-border group-hover:bg-primary/30 transition-colors" />
-                  </div>
+                  <span className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground group-hover:text-primary transition-colors duration-300 block mb-3">
+                    {brand.name}
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
+                    {brand.country}
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -154,18 +125,6 @@ const PartnersPage = () => {
         {/* HPM Exclusive Section */}
         <section className="py-16 sm:py-20 px-6 sm:px-8 md:px-16 lg:px-24 bg-primary overflow-hidden">
           <div className="max-w-4xl mx-auto text-center relative">
-            {/* Floating decorative elements */}
-            <motion.div 
-              className="absolute -top-20 -right-20 w-40 h-40 rounded-full border border-primary-foreground/10"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div 
-              className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full border border-primary-foreground/10"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            />
-
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}

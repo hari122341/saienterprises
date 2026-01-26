@@ -79,10 +79,6 @@ const TestimonialsSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-background overflow-hidden">
-      {/* Subtle decorative elements */}
-      <div className="absolute top-20 left-20 w-32 h-32 border border-primary/5 rounded-full pointer-events-none" />
-      <div className="absolute bottom-20 right-20 w-48 h-48 border border-primary/5 rounded-full pointer-events-none" />
-
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}

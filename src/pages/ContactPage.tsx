@@ -80,26 +80,11 @@ const ContactPage = () => {
       <main>
         {/* Hero */}
         <section ref={heroRef} className="relative min-h-[65vh] flex items-center justify-center bg-foreground overflow-hidden">
-          {/* Animated ambient background */}
+          {/* Animated ambient glow */}
           <motion.div 
             className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]"
             animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
             transition={{ duration: 10, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-primary/10 blur-[100px]"
-            animate={{ scale: [1.1, 1, 1.1] }}
-            transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-          />
-
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.02]"
-            style={{
-              backgroundImage:
-                "linear-gradient(hsl(var(--background)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--background)) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
-            }}
           />
 
           <motion.div 
