@@ -63,13 +63,10 @@ const Header = memo(() => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed z-[100] transition-all duration-500
-          top-3 left-3 right-3 rounded-full
-          sm:top-0 sm:left-0 sm:right-0 sm:rounded-none
-          ${
+        className={`fixed z-[100] top-0 left-0 right-0 transition-all duration-500 ${
           isInHeroSection
-            ? 'bg-white/5 backdrop-blur-md border border-white/15 sm:border-0 sm:border-b sm:border-white/10 shadow-lg shadow-black/5 sm:shadow-none' 
-            : 'bg-background/90 backdrop-blur-xl border border-border/50 sm:border-0 sm:border-b sm:border-border/30 shadow-xl shadow-black/5 sm:shadow-sm'
+            ? 'bg-white/5 backdrop-blur-md border-b border-white/10' 
+            : 'bg-background/90 backdrop-blur-xl border-b border-border/30 shadow-sm'
         }`}
       >
         <div className="px-4 sm:px-6 md:px-12 lg:px-20">
