@@ -1,6 +1,7 @@
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const testimonials = [
   {
@@ -47,7 +48,6 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -57,7 +57,7 @@ const TestimonialsSection = () => {
     
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 4000); // 4 second interval for smooth reading
+    }, 4000);
     
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
@@ -86,136 +86,125 @@ const TestimonialsSection = () => {
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16 sm:mb-20"
-          >
+          <ScrollReveal animation="fadeUp" className="text-center mb-16 sm:mb-20">
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-              <motion.span 
-                className="w-8 h-px bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-              />
+              <span className="w-8 h-px bg-primary" />
               Testimonials
-              <motion.span 
-                className="w-8 h-px bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-              />
+              <span className="w-8 h-px bg-primary" />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
               What our <span className="text-primary italic">clients</span> say
             </h2>
-          </motion.div>
+          </ScrollReveal>
 
           {/* Testimonial Slider */}
-          <div className="relative">
-            {/* Main testimonial card */}
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 30, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -30, scale: 0.98 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-card border border-border p-8 sm:p-12 md:p-16 relative shadow-sm"
-            >
-              {/* Quote icon */}
-              <div className="absolute top-8 right-8 sm:top-12 sm:right-12">
-                <Quote className="w-12 h-12 sm:w-16 sm:h-16 text-primary/10" />
-              </div>
+          <ScrollReveal animation="scaleUp" delay={0.1}>
+            <div className="relative">
+              {/* Main testimonial card */}
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -30, scale: 0.98 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="bg-card border border-border p-8 sm:p-12 md:p-16 relative shadow-sm"
+              >
+                {/* Quote icon */}
+                <div className="absolute top-8 right-8 sm:top-12 sm:right-12">
+                  <Quote className="w-12 h-12 sm:w-16 sm:h-16 text-primary/10" />
+                </div>
 
-              {/* Stars */}
-              <div className="flex gap-1 mb-6 sm:mb-8">
-                {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.1 }}
+                {/* Stars */}
+                <div className="flex gap-1 mb-6 sm:mb-8">
+                  {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      <Star className="w-5 h-5 fill-primary text-primary" />
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Quote */}
+                <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8 sm:mb-12 max-w-4xl">
+                  "{testimonials[activeIndex].quote}"
+                </blockquote>
+
+                {/* Author info */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 sm:pt-8 border-t border-border">
+                  <div>
+                    <p className="font-serif text-xl sm:text-2xl text-foreground mb-1">
+                      {testimonials[activeIndex].author}
+                    </p>
+                    <p className="text-sm text-primary font-medium mb-1">
+                      {testimonials[activeIndex].designation}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonials[activeIndex].company}, {testimonials[activeIndex].location}
+                    </p>
+                  </div>
+
+                  {/* Navigation arrows */}
+                  <div className="flex items-center gap-3">
+                    <motion.button
+                      onClick={handlePrev}
+                      className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </motion.button>
+                    <motion.button
+                      onClick={handleNext}
+                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Progress dots */}
+              <div className="flex justify-center gap-2 mt-8">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className="relative group p-1"
                   >
-                    <Star className="w-5 h-5 fill-primary text-primary" />
-                  </motion.div>
+                    <span className={`block w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === activeIndex 
+                        ? 'bg-primary w-8' 
+                        : 'bg-border hover:bg-muted-foreground'
+                    }`} />
+                    {index === activeIndex && isAutoPlaying && (
+                      <motion.span 
+                        className="absolute inset-0 rounded-full border border-primary/50"
+                        initial={{ scale: 1, opacity: 1 }}
+                        animate={{ scale: 1.5, opacity: 0 }}
+                        transition={{ duration: 4, repeat: Infinity }}
+                      />
+                    )}
+                  </button>
                 ))}
               </div>
 
-              {/* Quote */}
-              <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8 sm:mb-12 max-w-4xl">
-                "{testimonials[activeIndex].quote}"
-              </blockquote>
-
-              {/* Author info */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 sm:pt-8 border-t border-border">
-                <div>
-                  <p className="font-serif text-xl sm:text-2xl text-foreground mb-1">
-                    {testimonials[activeIndex].author}
-                  </p>
-                  <p className="text-sm text-primary font-medium mb-1">
-                    {testimonials[activeIndex].designation}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonials[activeIndex].company}, {testimonials[activeIndex].location}
-                  </p>
-                </div>
-
-                {/* Navigation arrows */}
-                <div className="flex items-center gap-3">
-                  <motion.button
-                    onClick={handlePrev}
-                    className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </motion.button>
-                  <motion.button
-                    onClick={handleNext}
-                    className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Progress dots */}
-            <div className="flex justify-center gap-2 mt-8">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  className="relative group p-1"
-                >
-                  <span className={`block w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === activeIndex 
-                      ? 'bg-primary w-8' 
-                      : 'bg-border hover:bg-muted-foreground'
-                  }`} />
-                  {index === activeIndex && isAutoPlaying && (
-                    <motion.span 
-                      className="absolute inset-0 rounded-full border border-primary/50"
-                      initial={{ scale: 1, opacity: 1 }}
-                      animate={{ scale: 1.5, opacity: 0 }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                    />
-                  )}
-                </button>
-              ))}
+              {/* Auto-play indicator */}
+              <motion.p 
+                className="text-center text-xs text-muted-foreground mt-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+              >
+                {isAutoPlaying ? 'Auto-scrolling' : 'Paused'} · {activeIndex + 1} of {testimonials.length}
+              </motion.p>
             </div>
-
-            {/* Auto-play indicator */}
-            <motion.p 
-              className="text-center text-xs text-muted-foreground mt-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-            >
-              {isAutoPlaying ? 'Auto-scrolling' : 'Paused'} · {activeIndex + 1} of {testimonials.length}
-            </motion.p>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

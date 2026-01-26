@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import InquiryModal from '@/components/InquiryModal';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const services = [
   {
@@ -33,7 +34,6 @@ const ServicesSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -54,24 +54,11 @@ const ServicesSection = () => {
         <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
           <div className="max-w-7xl mx-auto">
             {/* Header - Centered */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-12 sm:mb-16"
-            >
+            <ScrollReveal animation="fadeUp" className="text-center mb-12 sm:mb-16">
               <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-                <motion.span 
-                  className="w-8 h-px bg-primary"
-                  initial={{ scaleX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : {}}
-                />
+                <span className="w-8 h-px bg-primary" />
                 Services
-                <motion.span 
-                  className="w-8 h-px bg-primary"
-                  initial={{ scaleX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : {}}
-                />
+                <span className="w-8 h-px bg-primary" />
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mb-4">
                 What we <span className="text-primary italic">do.</span>
@@ -79,7 +66,7 @@ const ServicesSection = () => {
               <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto">
                 Core capabilities driving success for over two decades.
               </p>
-            </motion.div>
+            </ScrollReveal>
 
             {/* Mobile Horizontal Scroll */}
             <div 
@@ -89,52 +76,49 @@ const ServicesSection = () => {
             >
               <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
                 {services.map((service, index) => (
-                  <motion.div
-                    key={service.title}
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    onClick={() => {
-                      setSelectedService(service.title);
-                      setIsModalOpen(true);
-                    }}
-                    className={`flex-shrink-0 w-[240px] sm:w-[280px] cursor-pointer transition-all duration-500 overflow-hidden ${
-                      service.highlight 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-card border border-border'
-                    }`}
-                    style={{ scrollSnapAlign: 'start' }}
-                  >
-                    <div className="relative p-5">
-                      {/* Number */}
-                      <span className={`text-[10px] uppercase tracking-[0.15em] mb-4 block ${
-                        service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
-                      }`}>
-                        0{index + 1}
-                      </span>
-
-                      <h3 className={`font-serif text-xl mb-2 ${
-                        service.highlight ? 'text-primary-foreground' : 'text-foreground'
-                      }`}>
-                        {service.title}
-                      </h3>
-                      
-                      <p className={`text-sm leading-relaxed mb-4 ${
-                        service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
-                      }`}>
-                        {service.description}
-                      </p>
-
-                      <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+                  <ScrollReveal key={service.title} animation="fadeUp" delay={index * 0.1}>
+                    <div
+                      onClick={() => {
+                        setSelectedService(service.title);
+                        setIsModalOpen(true);
+                      }}
+                      className={`flex-shrink-0 w-[240px] sm:w-[280px] cursor-pointer transition-all duration-500 overflow-hidden ${
                         service.highlight 
-                          ? 'bg-primary-foreground/10 text-primary-foreground' 
-                          : 'bg-secondary text-foreground'
-                      }`}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
-                        {service.stats}
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-card border border-border'
+                      }`}
+                      style={{ scrollSnapAlign: 'start' }}
+                    >
+                      <div className="relative p-5">
+                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-4 block ${
+                          service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
+                        }`}>
+                          0{index + 1}
+                        </span>
+
+                        <h3 className={`font-serif text-xl mb-2 ${
+                          service.highlight ? 'text-primary-foreground' : 'text-foreground'
+                        }`}>
+                          {service.title}
+                        </h3>
+                        
+                        <p className={`text-sm leading-relaxed mb-4 ${
+                          service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                        }`}>
+                          {service.description}
+                        </p>
+
+                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+                          service.highlight 
+                            ? 'bg-primary-foreground/10 text-primary-foreground' 
+                            : 'bg-secondary text-foreground'
+                        }`}>
+                          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
+                          {service.stats}
+                        </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </ScrollReveal>
                 ))}
               </div>
             </div>
@@ -145,78 +129,75 @@ const ServicesSection = () => {
                 const isHovered = hoveredIndex === index;
                 
                 return (
-                  <motion.div
-                    key={service.title}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                    onClick={() => {
-                      setSelectedService(service.title);
-                      setIsModalOpen(true);
-                    }}
-                    className={`group relative cursor-pointer overflow-hidden transition-all duration-500 ${
-                      service.highlight 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-card border border-border hover:border-primary/30'
-                    }`}
-                  >
-                    <div className="relative p-6">
-                      {/* Number */}
-                      <span className={`text-[10px] uppercase tracking-[0.15em] mb-6 block ${
-                        service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
-                      }`}>
-                        0{index + 1}
-                      </span>
-
-                      {service.highlight && (
-                        <motion.div className="absolute top-4 right-4">
-                          <Sparkles className="w-4 h-4 text-primary-foreground/40" />
-                        </motion.div>
-                      )}
-
-                      <h3 className={`font-serif text-xl mb-3 ${
-                        service.highlight ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary'
-                      } transition-colors duration-300`}>
-                        {service.title}
-                      </h3>
-                      
-                      <p className={`text-sm leading-relaxed mb-6 ${
-                        service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
-                      }`}>
-                        {service.description}
-                      </p>
-
-                      <div className="flex items-center justify-between">
-                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
-                          service.highlight 
-                            ? 'bg-primary-foreground/10 text-primary-foreground' 
-                            : 'bg-secondary text-foreground'
+                  <ScrollReveal key={service.title} animation="fadeUp" delay={index * 0.1}>
+                    <div
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      onClick={() => {
+                        setSelectedService(service.title);
+                        setIsModalOpen(true);
+                      }}
+                      className={`group relative cursor-pointer overflow-hidden transition-all duration-500 h-full ${
+                        service.highlight 
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-card border border-border hover:border-primary/30'
+                      }`}
+                    >
+                      <div className="relative p-6">
+                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-6 block ${
+                          service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
                         }`}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
-                          {service.stats}
-                        </div>
-                        
-                        <motion.div 
-                          className={`${service.highlight ? 'text-primary-foreground' : 'text-primary'}`}
-                          animate={isHovered ? { x: 3 } : { x: 0 }}
-                        >
-                          <ArrowRight className="w-4 h-4" />
-                        </motion.div>
-                      </div>
+                          0{index + 1}
+                        </span>
 
-                      {/* Hover accent line */}
-                      {!service.highlight && (
-                        <motion.div
-                          className="absolute bottom-0 left-0 h-0.5 bg-primary"
-                          initial={{ width: 0 }}
-                          animate={{ width: isHovered ? '100%' : 0 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      )}
+                        {service.highlight && (
+                          <div className="absolute top-4 right-4">
+                            <Sparkles className="w-4 h-4 text-primary-foreground/40" />
+                          </div>
+                        )}
+
+                        <h3 className={`font-serif text-xl mb-3 ${
+                          service.highlight ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary'
+                        } transition-colors duration-300`}>
+                          {service.title}
+                        </h3>
+                        
+                        <p className={`text-sm leading-relaxed mb-6 ${
+                          service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                        }`}>
+                          {service.description}
+                        </p>
+
+                        <div className="flex items-center justify-between">
+                          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+                            service.highlight 
+                              ? 'bg-primary-foreground/10 text-primary-foreground' 
+                              : 'bg-secondary text-foreground'
+                          }`}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
+                            {service.stats}
+                          </div>
+                          
+                          <motion.div 
+                            className={`${service.highlight ? 'text-primary-foreground' : 'text-primary'}`}
+                            animate={isHovered ? { x: 3 } : { x: 0 }}
+                          >
+                            <ArrowRight className="w-4 h-4" />
+                          </motion.div>
+                        </div>
+
+                        {/* Hover accent line */}
+                        {!service.highlight && (
+                          <motion.div
+                            className="absolute bottom-0 left-0 h-0.5 bg-primary"
+                            initial={{ width: 0 }}
+                            animate={{ width: isHovered ? '100%' : 0 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        )}
+                      </div>
                     </div>
-                  </motion.div>
+                  </ScrollReveal>
                 );
               })}
             </div>

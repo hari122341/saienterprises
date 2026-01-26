@@ -1,11 +1,11 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { partnerBrands } from '@/data/products';
 import { Star } from 'lucide-react';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const BrandPartnersSection = () => {
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   // Duplicate for seamless loop
   const duplicatedBrands = [...partnerBrands, ...partnerBrands, ...partnerBrands];
@@ -15,29 +15,16 @@ const BrandPartnersSection = () => {
       <div className="px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-10 sm:mb-12"
-          >
+          <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-12">
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-              <motion.span 
-                className="w-8 h-px bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-              />
+              <span className="w-8 h-px bg-primary" />
               Partners
-              <motion.span 
-                className="w-8 h-px bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-              />
+              <span className="w-8 h-px bg-primary" />
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
               World-class <span className="text-primary italic">partners.</span>
             </h2>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </div>
 
@@ -112,40 +99,39 @@ const BrandPartnersSection = () => {
       {/* HPM Exclusive - Premium treatment */}
       <div className="px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            whileHover={{ scale: 1.02 }}
-            className="relative py-10 sm:py-12 px-8 sm:px-12 border border-primary/30 bg-primary/5 overflow-hidden"
-          >
-            {/* Decorative corner elements */}
-            <div className="absolute top-0 left-0 w-8 h-8">
-              <div className="absolute top-0 left-0 w-full h-px bg-primary" />
-              <div className="absolute top-0 left-0 h-full w-px bg-primary" />
-            </div>
-            <div className="absolute bottom-0 right-0 w-8 h-8">
-              <div className="absolute bottom-0 right-0 w-full h-px bg-primary" />
-              <div className="absolute bottom-0 right-0 h-full w-px bg-primary" />
-            </div>
+          <ScrollReveal animation="scaleUp" delay={0.2}>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="relative py-10 sm:py-12 px-8 sm:px-12 border border-primary/30 bg-primary/5 overflow-hidden"
+            >
+              {/* Decorative corner elements */}
+              <div className="absolute top-0 left-0 w-8 h-8">
+                <div className="absolute top-0 left-0 w-full h-px bg-primary" />
+                <div className="absolute top-0 left-0 h-full w-px bg-primary" />
+              </div>
+              <div className="absolute bottom-0 right-0 w-8 h-8">
+                <div className="absolute bottom-0 right-0 w-full h-px bg-primary" />
+                <div className="absolute bottom-0 right-0 h-full w-px bg-primary" />
+              </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-primary/60" />
-                <span className="font-black text-4xl sm:text-5xl md:text-6xl text-primary tracking-wider">HPM</span>
-                <Star className="w-4 h-4 text-primary/60" />
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+                <div className="flex items-center gap-2">
+                  <Star className="w-4 h-4 text-primary/60" />
+                  <span className="font-black text-4xl sm:text-5xl md:text-6xl text-primary tracking-wider">HPM</span>
+                  <Star className="w-4 h-4 text-primary/60" />
+                </div>
+                <div className="hidden sm:block h-10 w-px bg-primary/30" />
+                <div className="text-center sm:text-left">
+                  <span className="text-foreground font-medium block mb-1">
+                    Sole Agent for HPM in India
+                  </span>
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                    Exclusive Partnership
+                  </span>
+                </div>
               </div>
-              <div className="hidden sm:block h-10 w-px bg-primary/30" />
-              <div className="text-center sm:text-left">
-                <span className="text-foreground font-medium block mb-1">
-                  Sole Agent for HPM in India
-                </span>
-                <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                  Exclusive Partnership
-                </span>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
