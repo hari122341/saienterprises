@@ -58,34 +58,42 @@ const Header = memo(() => {
 
   return (
     <>
-      <header
-        className={`fixed top-4 left-4 right-4 sm:top-5 sm:left-6 sm:right-6 md:left-8 md:right-8 z-50 rounded-full transition-all duration-300 ${
+      {/* Floating Navbar - Always on top */}
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed top-3 left-3 right-3 sm:top-4 sm:left-5 sm:right-5 md:left-8 md:right-8 lg:left-12 lg:right-12 z-[100] rounded-full transition-all duration-500 ${
           isInHeroSection
-            ? 'bg-white/5 backdrop-blur-sm border border-white/10' 
-            : 'bg-background/85 backdrop-blur-xl border border-border/40 shadow-lg'
+            ? 'bg-white/5 backdrop-blur-md border border-white/15 shadow-lg shadow-black/5' 
+            : 'bg-background/90 backdrop-blur-xl border border-border/50 shadow-xl shadow-black/5'
         }`}
       >
-        <div className="px-4 sm:px-6">
-          <div className="flex items-center justify-between h-12 sm:h-14">
+        <div className="px-4 sm:px-6 md:px-8">
+          <div className="flex items-center justify-between h-13 sm:h-14 md:h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 sm:w-9 sm:h-9">
+            <Link to="/" className="flex items-center gap-2.5 sm:gap-3">
+              <motion.div 
+                className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11"
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
                 <img 
                   src={saiLogoCmyk} 
                   alt="Sai Enterprises" 
                   className="w-full h-full object-contain"
                   loading="eager"
                 />
-              </div>
+              </motion.div>
               <div className="flex flex-col">
                 <span 
-                  className={`font-serif text-base sm:text-lg font-bold tracking-wide leading-tight transition-colors duration-200 ${
+                  className={`font-serif text-base sm:text-lg md:text-xl font-bold tracking-wide leading-tight transition-colors duration-200 ${
                     useLightText ? 'text-white' : 'text-foreground'
                   }`}
                 >
                   Sai Enterprises
                 </span>
-                <span className={`text-[8px] sm:text-[9px] uppercase tracking-[0.12em] transition-colors duration-200 ${
+                <span className={`text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-[0.12em] transition-colors duration-200 ${
                   useLightText ? 'text-white/60' : 'text-primary'
                 }`}>
                   Graphic Machinery
@@ -94,61 +102,103 @@ const Header = memo(() => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
+            <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+              {navLinks.map((link, index) => (
+                <motion.div
                   key={link.name}
-                  to={link.href}
-                  className={`relative px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold transition-colors duration-200 rounded-full ${
-                    isActive(link.href)
-                      ? useLightText 
-                        ? 'text-white bg-white/15' 
-                        : 'text-primary bg-primary/10'
-                      : useLightText 
-                        ? 'text-white/70 hover:text-white hover:bg-white/10' 
-                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                  }`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * index, duration: 0.4 }}
                 >
-                  {link.name}
-                  {isActive(link.href) && (
-                    <span
-                      className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                        useLightText ? 'bg-white' : 'bg-primary'
-                      }`}
-                    />
-                  )}
-                </Link>
+                  <Link
+                    to={link.href}
+                    className={`relative px-4 py-2.5 text-xs md:text-sm uppercase tracking-[0.1em] font-semibold transition-all duration-300 rounded-full ${
+                      isActive(link.href)
+                        ? useLightText 
+                          ? 'text-white bg-white/20' 
+                          : 'text-primary bg-primary/10'
+                        : useLightText 
+                          ? 'text-white/70 hover:text-white hover:bg-white/10' 
+                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+                    }`}
+                  >
+                    {link.name}
+                    {isActive(link.href) && (
+                      <motion.span
+                        layoutId="nav-indicator"
+                        className={`absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${
+                          useLightText ? 'bg-white' : 'bg-primary'
+                        }`}
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
 
             {/* Mobile Menu Button */}
-            <button
+            <motion.button
               onClick={toggleMenu}
-              className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200 ${
+              whileTap={{ scale: 0.9 }}
+              className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                 useLightText 
-                  ? 'text-white bg-white/10 active:bg-white/20' 
-                  : 'text-foreground bg-secondary/70 active:bg-secondary'
+                  ? 'text-white bg-white/15 hover:bg-white/25' 
+                  : 'text-foreground bg-secondary/80 hover:bg-secondary'
               }`}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+              <AnimatePresence mode="wait">
+                {isMobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Full Screen Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 md:hidden bg-foreground"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[99] md:hidden bg-foreground"
           >
-            <div className="h-full flex flex-col items-center justify-center px-6">
-              <nav className="flex flex-col items-center gap-3">
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-[0.03]">
+              <div 
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `radial-gradient(circle at center, hsl(var(--background)) 1px, transparent 1px)`,
+                  backgroundSize: '40px 40px'
+                }}
+              />
+            </div>
+
+            <div className="h-full flex flex-col items-center justify-center px-6 relative">
+              <nav className="flex flex-col items-center gap-4">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href || 
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -156,32 +206,40 @@ const Header = memo(() => {
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05, duration: 0.3 }}
+                      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <Link
                         to={link.href}
                         className="block py-2 text-center"
                       >
-                        <span 
-                          className={`font-serif text-3xl sm:text-4xl transition-colors ${
+                        <motion.span 
+                          className={`font-serif text-4xl sm:text-5xl transition-colors ${
                             active 
                               ? 'text-primary font-bold' 
-                              : 'text-background/50 active:text-background/70'
+                              : 'text-background/50 hover:text-background/70'
                           }`}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                         >
                           {link.name}
-                        </span>
+                        </motion.span>
                       </Link>
                     </motion.div>
                   );
                 })}
               </nav>
 
-              <span className="absolute bottom-8 text-[10px] uppercase tracking-[0.15em] text-background/30">
+              <motion.span 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="absolute bottom-8 text-[10px] uppercase tracking-[0.2em] text-background/30"
+              >
                 Since 2000 · India & Kenya
-              </span>
+              </motion.span>
             </div>
           </motion.div>
         )}
