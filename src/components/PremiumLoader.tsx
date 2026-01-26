@@ -57,41 +57,44 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
 
       {/* Center content */}
       <div className="relative flex flex-col items-center px-6">
-        {/* Logo */}
+        {/* Logo + Company name side by side */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-6"
+          className="flex items-center gap-3 mb-4"
         >
           <img 
             src={saiLogoCmyk} 
             alt="Sai Enterprises" 
-            className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+            className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
           />
+          <div className="flex flex-col">
+            <h1
+              className="text-xl sm:text-2xl font-serif font-bold tracking-wide"
+              style={{ color: '#e8eaed' }}
+            >
+              Sai Enterprises
+            </h1>
+            <span 
+              className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em]"
+              style={{ color: '#00bcd4' }}
+            >
+              Graphic Machinery Suppliers
+            </span>
+          </div>
         </motion.div>
 
-        {/* Company name */}
-        <motion.h1
+        {/* Caption */}
+        <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-xl sm:text-2xl font-serif font-bold tracking-wide text-center mb-1"
-          style={{ color: '#e8eaed' }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-sm sm:text-base font-serif italic text-center mb-8"
+          style={{ color: '#9aa0a6' }}
         >
-          Sai Enterprises
-        </motion.h1>
-
-        {/* Tagline */}
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-          className="text-[10px] uppercase tracking-[0.2em] mb-8"
-          style={{ color: '#00bcd4' }}
-        >
-          Graphic Machinery Suppliers
-        </motion.span>
+          We believe in long-term relationships.
+        </motion.p>
 
         {/* Progress bar */}
         <motion.div

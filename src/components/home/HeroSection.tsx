@@ -89,9 +89,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-5 sm:mb-6 md:mb-8"
+            className="mb-6 sm:mb-8 md:mb-10"
           >
-            <h1 className="font-serif text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-background leading-[1.1] max-w-5xl">
+            <h1 className="font-serif text-[2.75rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-background leading-[1.05] max-w-5xl">
               We believe in
               <motion.span 
                 className="block text-primary"
@@ -110,11 +110,32 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-background/70 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-md sm:max-w-lg md:max-w-xl mb-8 sm:mb-10 md:mb-14"
+            className="text-background/80 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-sm sm:max-w-lg md:max-w-xl mb-8 sm:mb-10 md:mb-14"
           >
             Premium graphic machinery suppliers. Trusted by printers across 
             two continents for quality and exceptional service.
           </motion.p>
+
+          {/* Mobile Stats Strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="flex sm:hidden gap-6 mb-8 pb-6 border-b border-background/20"
+          >
+            <div className="text-center">
+              <span className="block text-2xl font-serif font-bold text-primary">25+</span>
+              <span className="text-[10px] uppercase tracking-wider text-background/60">Years</span>
+            </div>
+            <div className="text-center">
+              <span className="block text-2xl font-serif font-bold text-background">500+</span>
+              <span className="text-[10px] uppercase tracking-wider text-background/60">Clients</span>
+            </div>
+            <div className="text-center">
+              <span className="block text-2xl font-serif font-bold text-background">2</span>
+              <span className="text-[10px] uppercase tracking-wider text-background/60">Continents</span>
+            </div>
+          </motion.div>
 
           {/* CTAs */}
           <motion.div
@@ -125,16 +146,16 @@ const HeroSection = () => {
           >
             <Link
               to="/machinery"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 rounded-sm"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 rounded-sm text-base font-semibold tracking-wide"
             >
-              <span className="text-sm font-semibold tracking-wide">Explore Machinery</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Explore Machinery
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to="/contact"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-background/10 backdrop-blur-sm border border-background/30 text-background hover:bg-background/20 transition-all duration-300 rounded-sm"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-background/10 backdrop-blur-sm border border-background/30 text-background hover:bg-background/20 transition-all duration-300 rounded-sm text-base font-semibold tracking-wide"
             >
-              <span className="text-sm font-semibold tracking-wide">Contact Us</span>
+              Contact Us
             </Link>
           </motion.div>
         </div>
