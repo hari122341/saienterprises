@@ -70,11 +70,11 @@ const Header = memo(() => {
         }`}
       >
         <div className="px-4 sm:px-6 md:px-8">
-          <div className="flex items-center justify-between h-13 sm:h-14 md:h-16">
+          <div className="flex items-center justify-between h-12 sm:h-12 md:h-14">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 sm:gap-3">
+            <Link to="/" className="flex items-center gap-2 sm:gap-2.5">
               <motion.div 
-                className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11"
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
@@ -87,13 +87,13 @@ const Header = memo(() => {
               </motion.div>
               <div className="flex flex-col">
                 <span 
-                  className={`font-serif text-base sm:text-lg md:text-xl font-bold tracking-wide leading-tight transition-colors duration-200 ${
+                  className={`font-serif text-sm sm:text-[15px] md:text-base font-bold tracking-wide leading-tight transition-colors duration-200 ${
                     useLightText ? 'text-white' : 'text-foreground'
                   }`}
                 >
                   Sai Enterprises
                 </span>
-                <span className={`text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-[0.12em] transition-colors duration-200 ${
+                <span className={`text-[7px] sm:text-[8px] md:text-[9px] uppercase tracking-[0.12em] transition-colors duration-200 ${
                   useLightText ? 'text-white/60' : 'text-primary'
                 }`}>
                   Graphic Machinery
@@ -112,7 +112,7 @@ const Header = memo(() => {
                 >
                   <Link
                     to={link.href}
-                    className={`relative px-4 py-2.5 text-xs md:text-sm uppercase tracking-[0.1em] font-semibold transition-all duration-300 rounded-full ${
+                    className={`relative px-3 py-2 text-[10px] md:text-xs uppercase tracking-[0.12em] font-semibold transition-all duration-300 rounded-full ${
                       isActive(link.href)
                         ? useLightText 
                           ? 'text-white bg-white/20' 
