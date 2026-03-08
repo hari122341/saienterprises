@@ -182,29 +182,11 @@ const Header = memo(() => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[200] md:hidden"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[200] md:hidden bg-foreground overflow-hidden"
           >
-            {/* Background */}
-            <div className="absolute inset-0 bg-foreground" />
-
-            {/* Subtle grid texture */}
-            <div className="absolute inset-0 opacity-[0.03]">
-              <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern id="mob-grid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
-                    <circle cx="1" cy="1" r="0.8" fill="hsl(var(--background))" />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#mob-grid)" />
-              </svg>
-            </div>
-
-            {/* Ambient glow */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-primary/8 blur-[100px] pointer-events-none" />
-
-            <div className="relative z-10 h-full flex flex-col items-center justify-center px-8 pt-20">
-              <nav className="flex flex-col items-center gap-2">
+            <div className="h-full flex flex-col items-center justify-center px-8">
+              <nav className="flex flex-col items-center gap-3">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href ||
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -212,18 +194,18 @@ const Header = memo(() => {
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, y: 28 }}
+                      initial={{ opacity: 0, y: 24 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -16 }}
-                      transition={{ delay: 0.05 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <Link
                         to={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-2.5 text-center"
+                        className="block py-2 text-center"
                       >
                         <span className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
-                          active ? 'text-primary font-bold' : 'text-background/60 hover:text-background/80'
+                          active ? 'text-primary font-bold' : 'text-white/50 hover:text-white/70'
                         }`}>
                           {link.name}
                         </span>
@@ -234,9 +216,9 @@ const Header = memo(() => {
               </nav>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
                 className="absolute bottom-12 flex flex-col items-center gap-5"
               >
                 <Link
@@ -246,8 +228,13 @@ const Header = memo(() => {
                 >
                   Get a Quote <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-background/20">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
                   Since 2000 · India & Kenya
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
                 </span>
               </motion.div>
             </div>
