@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/ScrollReveal';
+import yearsBadge from '@/assets/24-years-badge.png';
 
 const WhySaiSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -25,8 +26,19 @@ const WhySaiSection = () => {
     <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
-          {/* Header - Centered */}
+          {/* Header with badge */}
           <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-14">
+            <motion.div 
+              className="inline-block mb-6"
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <img 
+                src={yearsBadge} 
+                alt="24 Years of Excellence in Industry" 
+                className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain mx-auto"
+              />
+            </motion.div>
             <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <span className="w-8 h-px bg-primary" />
               Why Us
@@ -37,7 +49,7 @@ const WhySaiSection = () => {
             </h2>
           </ScrollReveal>
 
-          {/* Stats Grid - Equal height cards */}
+          {/* Stats Grid */}
           <ScrollReveal animation="fadeUp" delay={0.1}>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-10 sm:mb-14">
               {pillars.map((pillar) => (
@@ -59,7 +71,7 @@ const WhySaiSection = () => {
             </div>
           </ScrollReveal>
 
-          {/* CTA - Centered */}
+          {/* CTA */}
           <ScrollReveal animation="fadeUp" delay={0.2} className="max-w-xl mx-auto text-center">
             <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-6 leading-relaxed">
               We don't just sell machinery.<br />
