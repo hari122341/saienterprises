@@ -1,4 +1,4 @@
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -46,15 +46,7 @@ const Counter = ({ end, suffix = '', start, durationMs = 1400 }: CounterProps) =
 };
 
 const WhySaiSection = () => {
-  const containerRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
-
-  useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
 
   const statsInView = useInView(statsRef, { once: true, amount: 0.35 });
 
