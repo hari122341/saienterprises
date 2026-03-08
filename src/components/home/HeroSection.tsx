@@ -1,17 +1,56 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import heroImage from '@/assets/hero-industrial.jpg';
+import hpmMachine from '@/assets/hpm-machine.png';
 import hpmLogo from '@/assets/hpm-logo.png';
 import yearsBadge from '@/assets/24-years-badge.png';
 import largestSellingBadge from '@/assets/largest-selling-badge.png';
 
-const trustStats = [
-  { value: '24+', label: 'Years of Experience' },
-  { value: '500+', label: 'Installations' },
-  { value: '#1', label: 'Largest Paper Cutter Seller' },
-];
+/* ── Floating grid dots ── */
+const GridOverlay = () => (
+  <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden opacity-[0.07]">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hero-grid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="hsl(var(--background))" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hero-grid)" />
+    </svg>
+  </div>
+);
+
+/* ── Floating particles ── */
+const Particles = () => {
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 18 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 2 + Math.random() * 3,
+        dur: 14 + Math.random() * 20,
+        delay: Math.random() * -20,
+      })),
+    []
+  );
+
+  return (
+    <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full bg-primary/25"
+          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
+          animate={{ y: [0, -30, 0], opacity: [0.15, 0.5, 0.15] }}
+          transition={{ duration: p.dur, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+        />
+      ))}
+    </div>
+  );
+};
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -23,6 +62,7 @@ const HeroSection = () => {
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.45], [0, -80]);
+  const machineY = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <section
@@ -30,116 +70,132 @@ const HeroSection = () => {
       ref={containerRef}
       className="relative min-h-screen min-h-[100dvh] overflow-hidden bg-foreground"
     >
+      {/* BG image + overlays */}
       <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
-        <img src={heroImage} alt="HPM industrial paper cutting machinery" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-foreground/75" />
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/65 to-foreground" />
+        <img src={heroImage} alt="Industrial printing facility" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-foreground/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/70 to-foreground/95" />
       </motion.div>
 
+      <GridOverlay />
+      <Particles />
+
+      {/* Ambient glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/6 blur-[100px] pointer-events-none z-[3]" />
+
+      {/* Content */}
       <motion.div
-        className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col justify-center px-5 sm:px-8 md:px-12"
+        className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        <div className="mx-auto w-full max-w-6xl text-center pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.15 }}
-            className="inline-flex items-center gap-3 rounded-full border border-background/20 bg-background/10 px-4 sm:px-5 py-2 backdrop-blur-sm"
-          >
-            <img src={hpmLogo} alt="HPM logo" className="h-5 sm:h-6 w-auto" />
-            <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-background/80">
-              Sole HPM Agent in India
-            </span>
-          </motion.div>
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-5 sm:px-8 lg:px-16 xl:px-24 pt-28 sm:pt-32 pb-8 gap-6 lg:gap-14 xl:gap-20">
 
-          <motion.h1
-            initial={{ opacity: 0, y: 34 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-7 sm:mt-8 font-serif text-background text-[clamp(2.4rem,8.5vw,6.4rem)] leading-[0.95] tracking-[-0.03em]"
-          >
-            India&apos;s Largest
-            <span className="block text-primary italic font-semibold">HPM Paper Cutter</span>
-            Distribution House
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 26 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.4 }}
-            className="mx-auto mt-5 sm:mt-6 max-w-3xl text-background/75 text-sm sm:text-base md:text-lg leading-relaxed"
-          >
-            Trusted by print leaders for 24+ years with precision machinery, authentic support,
-            and long-term partnerships across India and East Africa.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
-            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
-          >
-            <Link
-              to="/machinery"
-              className="group inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-colors hover:bg-primary/90"
+          {/* Left: Copy */}
+          <div className="flex-1 max-w-2xl text-center lg:text-left">
+            {/* HPM pill */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="inline-flex items-center gap-3 rounded-full border border-background/15 bg-background/[0.07] backdrop-blur-sm px-4 py-2 mb-6 sm:mb-7"
             >
-              Explore Machinery
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2.5 border border-background/25 bg-background/10 text-background px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-colors hover:bg-background/15"
-            >
-              Request Quote
-            </Link>
-          </motion.div>
+              <img src={hpmLogo} alt="HPM" className="h-5 sm:h-6 w-auto" />
+              <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-background/70">
+                Sole HPM Agent in India
+              </span>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.7 }}
-            className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 border border-background/15"
-          >
-            {trustStats.map((item) => (
-              <div
-                key={item.label}
-                className="bg-background/[0.06] px-5 py-4 sm:py-5 border-b sm:border-b-0 sm:border-r last:border-b-0 sm:last:border-r-0 border-background/15"
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 36 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif text-background text-[clamp(2.2rem,7.5vw,5.8rem)] leading-[0.96] tracking-[-0.03em] mb-5 sm:mb-6"
+            >
+              Precision That
+              <span className="block text-primary italic font-semibold">Powers Print.</span>
+            </motion.h1>
+
+            {/* Subline */}
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-background/60 text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 mb-8 sm:mb-9"
+            >
+              India's largest HPM paper cutter distribution house. 24+ years of trusted partnerships
+              delivering world-class graphic and corrugation machinery across two continents.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.52 }}
+              className="flex flex-col sm:flex-row items-center lg:items-start gap-3"
+            >
+              <Link
+                to="/machinery"
+                className="group inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
               >
-                <p className="font-serif text-background text-2xl sm:text-3xl leading-none">{item.value}</p>
-                <p className="mt-2 text-background/60 text-[10px] sm:text-xs uppercase tracking-[0.16em]">{item.label}</p>
-              </div>
-            ))}
-          </motion.div>
+                Explore Machinery
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2.5 border border-background/20 bg-background/[0.06] text-background/85 px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-300 hover:bg-background/12 hover:text-background"
+              >
+                Request Quote
+              </Link>
+            </motion.div>
 
+            {/* Trust badges row */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.68 }}
+              className="mt-9 sm:mt-10 flex items-center justify-center lg:justify-start gap-4 sm:gap-5"
+            >
+              <div className="bg-white/90 rounded-lg p-2 shadow-md">
+                <img src={hpmLogo} alt="HPM Sole Agent" className="h-8 sm:h-9 w-auto object-contain" />
+              </div>
+              <img
+                src={largestSellingBadge}
+                alt="India's largest selling paper cutter"
+                className="h-12 sm:h-14 w-auto object-contain drop-shadow-md"
+              />
+              <img
+                src={yearsBadge}
+                alt="24 years of excellence"
+                className="h-12 sm:h-14 w-auto object-contain drop-shadow-md"
+              />
+            </motion.div>
+          </div>
+
+          {/* Right: Machine */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.82 }}
-            className="mt-7 sm:mt-8 flex items-center justify-center gap-4 sm:gap-6"
+            className="flex-1 max-w-md xl:max-w-lg flex items-center justify-center"
+            style={{ y: machineY }}
           >
-            <img
-              src={largestSellingBadge}
-              alt="India's largest selling paper cutter badge"
-              className="h-12 sm:h-14 md:h-16 w-auto object-contain"
-              loading="lazy"
-            />
-            <img
-              src={yearsBadge}
-              alt="24 years experience badge"
-              className="h-12 sm:h-14 md:h-16 w-auto object-contain"
-              loading="lazy"
+            <motion.img
+              src={hpmMachine}
+              alt="HPM Paper Cutting Machine"
+              className="w-full max-w-[380px] xl:max-w-[440px] h-auto drop-shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
+              initial={{ opacity: 0, scale: 0.92, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             />
           </motion.div>
         </div>
       </motion.div>
 
+      {/* Scroll indicator */}
       <motion.button
         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-1 text-background/55 hover:text-background transition-colors"
+        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-1 text-background/40 hover:text-background/70 transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1.2 }}
+        transition={{ delay: 1.2 }}
       >
         <span className="text-[10px] uppercase tracking-[0.24em]">Scroll</span>
         <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
