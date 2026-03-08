@@ -2,159 +2,148 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import hpmMachine from '@/assets/hpm-machine.png';
+import heroImage from '@/assets/hero-industrial.jpg';
 import hpmLogo from '@/assets/hpm-logo.png';
+import yearsBadge from '@/assets/24-years-badge.png';
+import largestSellingBadge from '@/assets/largest-selling-badge.png';
 
-const stats = [
-  { value: '24+', label: 'Years' },
-  { value: '500+', label: 'Clients' },
-  { value: '#1', label: 'In India' },
-  { value: '2', label: 'Continents' },
+const trustStats = [
+  { value: '24+', label: 'Years of Experience' },
+  { value: '500+', label: 'Installations' },
+  { value: '#1', label: 'Largest Paper Cutter Seller' },
 ];
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ['start start', 'end start'],
   });
 
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.4], [0, -80]);
-  const machineY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const machineScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.45], [0, -80]);
 
   return (
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen min-h-[100dvh] bg-foreground overflow-hidden"
+      className="relative min-h-screen min-h-[100dvh] overflow-hidden bg-foreground"
     >
-      {/* Ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/8 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-foreground to-transparent z-[5] pointer-events-none" />
+      <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
+        <img src={heroImage} alt="HPM industrial paper cutting machinery" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-foreground/75" />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/65 to-foreground" />
+      </motion.div>
 
-      {/* Content */}
       <motion.div
-        className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col"
+        className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col justify-center px-5 sm:px-8 md:px-12"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        {/* Upper section: text + machine */}
-        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-5 sm:px-8 lg:px-16 xl:px-24 pt-28 sm:pt-32 pb-8 gap-4 lg:gap-12 xl:gap-20">
-          
-          {/* Left: Copy */}
-          <div className="flex-1 max-w-2xl text-center lg:text-left">
-            {/* HPM Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-3 mb-6 sm:mb-8 bg-background/[0.06] backdrop-blur-sm border border-background/10 rounded-full px-4 py-2"
-            >
-              <img src={hpmLogo} alt="HPM" className="h-5 sm:h-6 w-auto" />
-              <span className="text-[10px] sm:text-xs uppercase tracking-[0.18em] text-background/70 font-medium">
-                Sole Agent in India
-              </span>
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5.5rem] text-background leading-[1.0] tracking-[-0.03em] mb-5 sm:mb-6"
-            >
-              India's <span className="italic font-normal text-primary">Largest</span>
-              <br />
-              Paper Cutter
-              <br />
-              Distributor
-            </motion.h1>
-
-            {/* Subline */}
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-background/55 text-sm sm:text-base lg:text-lg leading-relaxed max-w-md mx-auto lg:mx-0 mb-7 sm:mb-9"
-            >
-              Premium graphic & corrugation machinery trusted by 500+ printers. 
-              24 years of engineering excellence across two continents.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col sm:flex-row items-center lg:items-start gap-3"
-            >
-              <Link
-                to="/machinery"
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 rounded-sm text-sm font-semibold tracking-wide uppercase"
-              >
-                Explore Machinery
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 border border-background/20 text-background/80 hover:bg-background/10 hover:text-background transition-all duration-300 rounded-sm text-sm font-semibold tracking-wide uppercase"
-              >
-                Get a Quote
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Right: Machine Image */}
+        <div className="mx-auto w-full max-w-6xl text-center pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16">
           <motion.div
-            className="flex-1 max-w-lg xl:max-w-xl flex items-center justify-center"
-            style={{ y: machineY, scale: machineScale }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+            className="inline-flex items-center gap-3 rounded-full border border-background/20 bg-background/10 px-4 sm:px-5 py-2 backdrop-blur-sm"
           >
-            <motion.img
-              src={hpmMachine}
-              alt="HPM Paper Cutting Machine"
-              className="w-full max-w-[420px] xl:max-w-[500px] h-auto drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            <img src={hpmLogo} alt="HPM logo" className="h-5 sm:h-6 w-auto" />
+            <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-background/80">
+              Sole HPM Agent in India
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-7 sm:mt-8 font-serif text-background text-[clamp(2.4rem,8.5vw,6.4rem)] leading-[0.95] tracking-[-0.03em]"
+          >
+            India&apos;s Largest
+            <span className="block text-primary italic font-semibold">HPM Paper Cutter</span>
+            Distribution House
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.4 }}
+            className="mx-auto mt-5 sm:mt-6 max-w-3xl text-background/75 text-sm sm:text-base md:text-lg leading-relaxed"
+          >
+            Trusted by print leaders for 24+ years with precision machinery, authentic support,
+            and long-term partnerships across India and East Africa.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+          >
+            <Link
+              to="/machinery"
+              className="group inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-colors hover:bg-primary/90"
+            >
+              Explore Machinery
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2.5 border border-background/25 bg-background/10 text-background px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-colors hover:bg-background/15"
+            >
+              Request Quote
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.7 }}
+            className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 border border-background/15"
+          >
+            {trustStats.map((item) => (
+              <div
+                key={item.label}
+                className="bg-background/[0.06] px-5 py-4 sm:py-5 border-b sm:border-b-0 sm:border-r last:border-b-0 sm:last:border-r-0 border-background/15"
+              >
+                <p className="font-serif text-background text-2xl sm:text-3xl leading-none">{item.value}</p>
+                <p className="mt-2 text-background/60 text-[10px] sm:text-xs uppercase tracking-[0.16em]">{item.label}</p>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.82 }}
+            className="mt-7 sm:mt-8 flex items-center justify-center gap-4 sm:gap-6"
+          >
+            <img
+              src={largestSellingBadge}
+              alt="India's largest selling paper cutter badge"
+              className="h-12 sm:h-14 md:h-16 w-auto object-contain"
+              loading="lazy"
+            />
+            <img
+              src={yearsBadge}
+              alt="24 years experience badge"
+              className="h-12 sm:h-14 md:h-16 w-auto object-contain"
+              loading="lazy"
             />
           </motion.div>
         </div>
-
-        {/* Bottom Stats Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="relative z-10 border-t border-background/10"
-        >
-          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-5 sm:py-6 flex items-center justify-between sm:justify-center gap-6 sm:gap-16">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                className="text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.9 + i * 0.08 }}
-              >
-                <div className="font-serif text-xl sm:text-2xl md:text-3xl text-background tracking-tight">{stat.value}</div>
-                <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-background/40 mt-1">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.button
         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-        className="hidden sm:flex absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-1 text-background/30 hover:text-background/60 transition-colors"
+        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-1 text-background/55 hover:text-background transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ duration: 0.5, delay: 1.2 }}
       >
-        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-          <ChevronDown className="w-5 h-5" />
+        <span className="text-[10px] uppercase tracking-[0.24em]">Scroll</span>
+        <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
+          <ChevronDown className="w-4 h-4" />
         </motion.div>
       </motion.button>
     </section>
