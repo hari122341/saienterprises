@@ -112,8 +112,9 @@ const HeroSection = () => {
               transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="font-serif text-background text-[clamp(2.2rem,7.5vw,5.8rem)] leading-[0.96] tracking-[-0.03em] mb-5 sm:mb-6"
             >
-              Precision That
-              <span className="block text-primary italic font-semibold">Powers Print.</span>
+              <span className="block text-primary italic font-semibold">#1 in India.</span>
+              The Largest Paper Cutter
+              <span className="block">Distribution House.</span>
             </motion.h1>
 
             {/* Subline */}
