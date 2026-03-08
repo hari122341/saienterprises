@@ -150,42 +150,68 @@ const HeroSection = () => {
               </Link>
             </motion.div>
 
-            {/* Trust badges row */}
+            {/* Trust badges - moved below CTAs, bigger & highlighted */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.68 }}
-              className="mt-9 sm:mt-10 flex items-center justify-center lg:justify-start gap-4 sm:gap-5"
+              className="mt-9 sm:mt-10 flex items-center justify-center lg:justify-start gap-3 sm:gap-4"
             >
-              <div className="bg-white/90 rounded-lg p-2 shadow-md">
-                <img src={hpmLogo} alt="HPM Sole Agent" className="h-8 sm:h-9 w-auto object-contain" />
-              </div>
-              <img
-                src={largestSellingBadge}
-                alt="India's largest selling paper cutter"
-                className="h-12 sm:h-14 w-auto object-contain drop-shadow-md"
-              />
-              <img
-                src={yearsBadge}
-                alt="24 years of excellence"
-                className="h-12 sm:h-14 w-auto object-contain drop-shadow-md"
-              />
+              {[
+                { src: hpmLogo, alt: 'HPM Sole Agent India', bg: true },
+                { src: largestSellingBadge, alt: "India's largest selling paper cutter", bg: false },
+                { src: yearsBadge, alt: '24 years of excellence', bg: false },
+              ].map((badge, i) => (
+                <motion.div
+                  key={badge.alt}
+                  className={`rounded-lg border border-background/15 backdrop-blur-sm shadow-lg ${badge.bg ? 'bg-white/95 p-2.5 sm:p-3' : 'bg-background/10 p-2 sm:p-2.5'}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.72 + i * 0.1 }}
+                  whileHover={{ scale: 1.08, y: -3 }}
+                >
+                  <img
+                    src={badge.src}
+                    alt={badge.alt}
+                    className="h-10 sm:h-12 md:h-14 w-auto object-contain"
+                  />
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 
-          {/* Right: Machine */}
+          {/* Right: Machine + surrounding context */}
           <motion.div
-            className="flex-1 max-w-md xl:max-w-lg flex items-center justify-center"
+            className="flex-1 max-w-md xl:max-w-lg flex flex-col items-center justify-center gap-6"
             style={{ y: machineY }}
           >
-            <motion.img
-              src={hpmMachine}
-              alt="HPM Paper Cutting Machine"
-              className="w-full max-w-[380px] xl:max-w-[440px] h-auto drop-shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
-              initial={{ opacity: 0, scale: 0.92, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            />
+            {/* Glow behind machine */}
+            <div className="relative">
+              <div className="absolute inset-0 -m-8 bg-primary/8 rounded-full blur-[60px] pointer-events-none" />
+              <motion.img
+                src={hpmMachine}
+                alt="HPM Paper Cutting Machine"
+                className="relative w-full max-w-[380px] xl:max-w-[440px] h-auto drop-shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
+                initial={{ opacity: 0, scale: 0.92, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              />
+            </div>
+
+            {/* Machine caption card */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="bg-background/[0.08] backdrop-blur-sm border border-background/12 rounded-lg px-5 py-3.5 text-center max-w-xs"
+            >
+              <p className="font-serif text-background text-sm sm:text-base font-semibold leading-snug">
+                HPM Programmable Paper Cutter
+              </p>
+              <p className="text-background/50 text-[10px] sm:text-xs uppercase tracking-[0.18em] mt-1.5">
+                Precision Engineered in Germany
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </motion.div>
