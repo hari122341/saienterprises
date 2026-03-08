@@ -170,34 +170,30 @@ const HeroSection = () => {
               />
             </div>
 
-            {/* 3 Trust badges — prominent */}
+            {/* 3 Trust badges — uniform styling */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
-              className="flex items-stretch justify-center gap-3 sm:gap-4 w-full max-w-sm"
+              className="grid grid-cols-3 gap-3 w-full max-w-sm"
             >
               {[
-                { src: hpmLogo, alt: 'HPM Sole Agent India', whiteBg: true },
-                { src: largestSellingBadge, alt: "India's largest selling paper cutter", whiteBg: false },
-                { src: yearsBadge, alt: '24 years of excellence', whiteBg: false },
+                { src: hpmLogo, alt: 'HPM Sole Agent India' },
+                { src: largestSellingBadge, alt: "India's largest selling paper cutter" },
+                { src: yearsBadge, alt: '24 years of excellence' },
               ].map((badge, i) => (
                 <motion.div
                   key={badge.alt}
-                  className={`flex-1 flex items-center justify-center rounded-lg border shadow-xl backdrop-blur-sm ${
-                    badge.whiteBg
-                      ? 'bg-white/95 border-white/30 p-3 sm:p-4'
-                      : 'bg-background/[0.12] border-background/20 p-2.5 sm:p-3'
-                  }`}
+                  className="aspect-square flex items-center justify-center rounded-lg bg-foreground/60 border border-background/12 backdrop-blur-sm shadow-lg p-3 sm:p-4"
                   initial={{ opacity: 0, scale: 0.85, y: 14 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.72 + i * 0.12 }}
-                  whileHover={{ scale: 1.06, y: -4 }}
+                  whileHover={{ scale: 1.06, y: -4, borderColor: 'hsl(var(--primary) / 0.4)' }}
                 >
                   <img
                     src={badge.src}
                     alt={badge.alt}
-                    className="h-12 sm:h-14 md:h-16 w-auto object-contain"
+                    className="w-full h-full object-contain"
                   />
                 </motion.div>
               ))}
