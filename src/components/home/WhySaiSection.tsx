@@ -1,42 +1,77 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/ScrollReveal';
 import yearsBadge from '@/assets/24-years-badge.png';
 
+type CounterProps = {
+  end: number;
+  suffix?: string;
+  start: boolean;
+  durationMs?: number;
+};
+
+const Counter = ({ end, suffix = '', start, durationMs = 1400 }: CounterProps) => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!start) return;
+
+    let frameId = 0;
+    const startedAt = performance.now();
+
+    const animate = (now: number) => {
+      const elapsed = now - startedAt;
+      const progress = Math.min(elapsed / durationMs, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(end * eased));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animate);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(frameId);
+  }, [durationMs, end, start]);
+
+  return (
+    <span>
+      {value}
+      {suffix}
+    </span>
+  );
+};
+
 const WhySaiSection = () => {
-  const containerRef = useRef<HTMLElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const lineScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+  const statsInView = useInView(statsRef, { once: true, amount: 0.35 });
 
   const pillars = [
-    { number: '24+', label: 'Years of Trust', description: 'Building relationships since 2000' },
-    { number: '500+', label: 'Clients Served', description: 'Across India and East Africa' },
-    { number: '100%', label: 'Genuine Products', description: 'Only authentic machinery' },
-    { number: '2', label: 'Continents', description: 'India & Kenya operations' },
+    { end: 24, suffix: '+', label: 'Years of Trust', description: 'Building relationships since 2000' },
+    { end: 500, suffix: '+', label: 'Clients Served', description: 'Across India and East Africa' },
+    { end: 100, suffix: '%', label: 'Genuine Products', description: 'Only authentic machinery' },
+    { end: 2, suffix: '', label: 'Continents', description: 'India & Kenya operations' },
   ];
 
   return (
-    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
+    <section className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
-          {/* Header with badge */}
           <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-14">
-            <motion.div 
+            <motion.div
               className="inline-block mb-6"
               whileHover={{ scale: 1.05, rotate: 2 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 300 }}
             >
-              <img 
-                src={yearsBadge} 
-                alt="24 Years of Excellence in Industry" 
+              <img
+                src={yearsBadge}
+                alt="24 Years of Excellence in Industry"
                 className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain mx-auto"
+                loading="lazy"
               />
             </motion.div>
             <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
@@ -49,20 +84,19 @@ const WhySaiSection = () => {
             </h2>
           </ScrollReveal>
 
-          {/* Stats Grid */}
           <ScrollReveal animation="fadeUp" delay={0.1}>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-10 sm:mb-14">
+            <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-10 sm:mb-14">
               {pillars.map((pillar) => (
                 <motion.div
                   key={pillar.label}
                   className="bg-background p-4 sm:p-6 md:p-8 group hover:bg-secondary/30 transition-colors duration-500 text-center flex flex-col justify-center min-h-[160px] sm:min-h-[180px]"
                   whileHover={{ y: -5 }}
                 >
-                  <motion.span 
+                  <motion.span
                     className="block font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-primary mb-2 sm:mb-3"
                     whileHover={{ scale: 1.05 }}
                   >
-                    {pillar.number}
+                    <Counter end={pillar.end} suffix={pillar.suffix} start={statsInView} />
                   </motion.span>
                   <h4 className="font-medium text-foreground mb-1 text-xs sm:text-sm">{pillar.label}</h4>
                   <p className="text-muted-foreground text-[10px] sm:text-xs leading-relaxed">{pillar.description}</p>
@@ -71,10 +105,10 @@ const WhySaiSection = () => {
             </div>
           </ScrollReveal>
 
-          {/* CTA */}
           <ScrollReveal animation="fadeUp" delay={0.2} className="max-w-xl mx-auto text-center">
             <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-6 leading-relaxed">
-              We don't just sell machinery.<br />
+              We don't just sell machinery.
+              <br />
               We build <span className="text-primary">partnerships.</span>
             </h3>
             <p className="text-muted-foreground leading-relaxed mb-8">
