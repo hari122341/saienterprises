@@ -62,7 +62,7 @@ const HeroSection = () => {
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.45], [0, -80]);
-  const machineY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const machineY = useTransform(scrollYProgress, [0.35, 1], [0, 50]);
 
   return (
     <section
