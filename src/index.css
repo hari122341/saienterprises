@@ -296,7 +296,7 @@
   ───────────────────────────────────────────────────────────────────────── */
   
   .trust-item .value {
-    font-family: 'DM Serif Display', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
     @apply text-2xl md:text-3xl text-foreground mb-1;
     line-height: 1.2;
   }
