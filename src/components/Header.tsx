@@ -235,11 +235,6 @@ const Header = memo(() => {
             </div>
           </motion.div>
         )}
-                </span>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
       </AnimatePresence>
     </>
   );
