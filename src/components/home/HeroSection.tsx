@@ -159,25 +159,40 @@ const HeroSection = () => {
               </Link>
             </motion.div>
 
-            {/* Mobile Trust Badges — inline below CTAs on small screens */}
+            {/* Mobile Machine + Trust Badges */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="flex lg:hidden items-center justify-center gap-3 mt-8"
+              transition={{ duration: 0.6, delay: 0.65 }}
+              className="flex lg:hidden flex-col items-center gap-6 mt-8"
             >
-              {badges.map((badge, i) => (
-                <motion.div
-                  key={badge.alt}
-                  className="w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] flex items-center justify-center rounded-lg bg-background/[0.08] border border-background/15 backdrop-blur-sm p-2.5"
-                  initial={{ opacity: 0, scale: 0.8 }}
+              {/* Machine image on mobile */}
+              <div className="relative w-full max-w-[260px] sm:max-w-[300px]">
+                <div className="absolute inset-0 -m-8 bg-primary/10 rounded-full blur-[60px] pointer-events-none" />
+                <motion.img
+                  src={hpmMachine}
+                  alt="HPM Paper Cutting Machine"
+                  className="relative w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.8 + i * 0.1 }}
-                  whileHover={{ scale: 1.08 }}
-                >
-                  <img src={badge.src} alt={badge.alt} className="w-full h-full object-contain" />
-                </motion.div>
-              ))}
+                  transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                />
+              </div>
+
+              {/* Trust badges */}
+              <div className="flex items-center justify-center gap-3">
+                {badges.map((badge, i) => (
+                  <motion.div
+                    key={badge.alt}
+                    className="w-[80px] h-[80px] sm:w-[95px] sm:h-[95px] flex items-center justify-center rounded-lg bg-background/[0.08] border border-background/15 backdrop-blur-sm p-2"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.9 + i * 0.1 }}
+                  >
+                    <img src={badge.src} alt={badge.alt} className="w-full h-full object-contain" />
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           </div>
 
