@@ -1,8 +1,11 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Shield, Award, Globe2 } from 'lucide-react';
 import heroImage from '@/assets/hero-industrial.jpg';
+import hpmLogo from '@/assets/hpm-logo.png';
+import yearsBadge from '@/assets/24-years-badge.png';
+import largestSellingBadge from '@/assets/largest-selling-badge.png';
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -15,10 +18,6 @@ const HeroSection = () => {
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.4], [0, -60]);
-
-  // Floating decorative elements
-  const floatY1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const floatY2 = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
   return (
     <section 
@@ -36,20 +35,9 @@ const HeroSection = () => {
           alt="Industrial printing machinery" 
           className="w-full h-full object-cover"
         />
-        {/* Sophisticated overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/80 to-foreground/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-transparent to-foreground/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/85 to-foreground/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-transparent to-foreground/30" />
       </motion.div>
-
-      {/* Subtle accent dot */}
-      <motion.div
-        className="hidden sm:block absolute top-1/3 right-1/3 w-2 h-2 bg-primary rounded-full pointer-events-none"
-        animate={{ 
-          scale: [1, 1.5, 1],
-          opacity: [0.5, 1, 0.5]
-        }}
-        transition={{ duration: 3, repeat: Infinity }}
-      />
 
       {/* Main Content */}
       <motion.div 
@@ -57,17 +45,29 @@ const HeroSection = () => {
         style={{ opacity: contentOpacity, y: contentY }}
       >
         <div className="max-w-7xl mx-auto w-full">
-          {/* Badge */}
+          {/* Trust strip - top badges */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mb-5 sm:mb-6 md:mb-8"
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8"
           >
-            <div className="inline-flex items-center gap-2 sm:gap-3 bg-background/5 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full border border-background/10">
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/80 font-medium">
-                Since 2000 · India & East Africa
+            <div className="inline-flex items-center gap-2 bg-background/8 backdrop-blur-sm px-3 py-1.5 rounded-full border border-background/10">
+              <Shield className="w-3 h-3 text-primary" />
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-background/80 font-medium">
+                Sole HPM Agent in India
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-background/8 backdrop-blur-sm px-3 py-1.5 rounded-full border border-background/10">
+              <Award className="w-3 h-3 text-primary" />
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-background/80 font-medium">
+                24+ Years of Excellence
+              </span>
+            </div>
+            <div className="hidden sm:inline-flex items-center gap-2 bg-background/8 backdrop-blur-sm px-3 py-1.5 rounded-full border border-background/10">
+              <Globe2 className="w-3 h-3 text-primary" />
+              <span className="text-[10px] uppercase tracking-[0.15em] text-background/80 font-medium">
+                India & East Africa
               </span>
             </div>
           </motion.div>
@@ -77,51 +77,68 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-6 sm:mb-8 md:mb-10"
+            className="mb-6 sm:mb-8"
           >
-            <h1 className="font-serif text-[2.25rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-background leading-[1.05] max-w-5xl">
-              We believe in
+            <h1 className="font-serif text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-background leading-[1.02] max-w-5xl">
+              India's largest
               <motion.span 
                 className="block text-primary"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                long-term
+                paper cutter
               </motion.span>
-              relationships.
+              distributor.
             </h1>
           </motion.div>
 
-          {/* Description */}
+          {/* Subline */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-background/80 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-sm sm:max-w-lg md:max-w-xl mb-8 sm:mb-10 md:mb-14"
+            className="text-background/70 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-sm sm:max-w-lg md:max-w-xl mb-8 sm:mb-10"
           >
-            Premium graphic machinery suppliers. Trusted by printers across 
-            two continents for quality and exceptional service.
+            Sole agents for HPM Paper Cutters. Premium graphic and corrugation 
+            machinery trusted by 500+ printers across two continents.
           </motion.p>
 
-          {/* Mobile Stats Strip */}
+          {/* HPM Logo + Badges row */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
-            className="flex sm:hidden gap-6 mb-8 pb-6 border-b border-background/20"
+            className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-10 pb-8 sm:pb-10 border-b border-background/15"
           >
-            <div className="text-center">
-              <span className="block text-2xl font-serif font-bold text-primary">25+</span>
-              <span className="text-[10px] uppercase tracking-wider text-background/60">Years</span>
-            </div>
-            <div className="text-center">
-              <span className="block text-2xl font-serif font-bold text-background">500+</span>
-              <span className="text-[10px] uppercase tracking-wider text-background/60">Clients</span>
-            </div>
-            <div className="text-center">
-              <span className="block text-2xl font-serif font-bold text-background">2</span>
-              <span className="text-[10px] uppercase tracking-wider text-background/60">Continents</span>
+            <motion.div 
+              className="bg-background/10 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 border border-background/10"
+              whileHover={{ scale: 1.05 }}
+            >
+              <img src={hpmLogo} alt="HPM Paper Cutter" className="h-10 sm:h-12 md:h-14 w-auto object-contain" />
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+            >
+              <img src={largestSellingBadge} alt="India's Largest Selling Paper Cutter" className="h-14 sm:h-16 md:h-20 w-auto object-contain brightness-0 invert opacity-70" />
+            </motion.div>
+            <motion.div 
+              className="hidden sm:block"
+              whileHover={{ scale: 1.05, rotate: 3 }}
+            >
+              <img src={yearsBadge} alt="24 Years of Excellence" className="h-16 md:h-20 w-auto object-contain" />
+            </motion.div>
+
+            {/* Mobile stats */}
+            <div className="sm:hidden flex gap-5 ml-auto">
+              <div className="text-center">
+                <span className="block text-xl font-serif font-bold text-primary">500+</span>
+                <span className="text-[9px] uppercase tracking-wider text-background/50">Clients</span>
+              </div>
+              <div className="text-center">
+                <span className="block text-xl font-serif font-bold text-background/90">2</span>
+                <span className="text-[9px] uppercase tracking-wider text-background/50">Continents</span>
+              </div>
             </div>
           </motion.div>
 
@@ -129,7 +146,7 @@ const HeroSection = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
+            transition={{ duration: 0.7, delay: 0.65 }}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4"
           >
             <Link
@@ -143,13 +160,13 @@ const HeroSection = () => {
               to="/contact"
               className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-background/10 backdrop-blur-sm border border-background/30 text-background hover:bg-background/20 transition-all duration-300 rounded-sm text-base font-semibold tracking-wide"
             >
-              Contact Us
+              Get a Quote
             </Link>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll Indicator - hidden on small mobile */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
