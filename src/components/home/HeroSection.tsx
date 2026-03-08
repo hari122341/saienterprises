@@ -109,24 +109,25 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
-            className="flex items-center justify-center gap-4 sm:gap-6 mb-8 sm:mb-10 pb-8 sm:pb-10 border-b border-background/15 mx-auto max-w-2xl"
+            className="flex items-center justify-center gap-5 sm:gap-8 mb-8 sm:mb-10 pb-8 sm:pb-10 border-b border-background/15 mx-auto max-w-2xl"
           >
             <motion.div 
-              className="bg-background/10 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 border border-background/10"
+              className="bg-white/95 rounded-lg p-3 sm:p-4 shadow-lg"
               whileHover={{ scale: 1.05 }}
             >
               <img src={hpmLogo} alt="HPM Paper Cutter" className="h-10 sm:h-12 md:h-14 w-auto object-contain" />
             </motion.div>
             <motion.div 
+              className="bg-white/95 rounded-full p-2 sm:p-3 shadow-lg"
               whileHover={{ scale: 1.05 }}
             >
-              <img src={largestSellingBadge} alt="India's Largest Selling Paper Cutter" className="h-14 sm:h-16 md:h-20 w-auto object-contain brightness-0 invert opacity-70" />
+              <img src={largestSellingBadge} alt="India's Largest Selling Paper Cutter" className="h-12 sm:h-14 md:h-16 w-auto object-contain" />
             </motion.div>
             <motion.div 
               className="hidden sm:block"
               whileHover={{ scale: 1.05, rotate: 3 }}
             >
-              <img src={yearsBadge} alt="24 Years of Excellence" className="h-16 md:h-20 w-auto object-contain" />
+              <img src={yearsBadge} alt="24 Years of Excellence" className="h-16 md:h-20 w-auto object-contain drop-shadow-lg" />
             </motion.div>
           </motion.div>
 
