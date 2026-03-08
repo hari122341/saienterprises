@@ -140,27 +140,30 @@
      TYPOGRAPHY - Cormorant Garamond (Elegant) + Plus Jakarta Sans (Modern)
   ───────────────────────────────────────────────────────────────────────── */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
   }
 
   h1 {
     @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl;
-    font-weight: 400;
+    font-weight: 800;
   }
 
   h2 {
     @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
+    font-weight: 700;
   }
 
   h3 {
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+    font-weight: 600;
   }
 
   h4 {
     @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+    font-weight: 600;
   }
 
   p {
