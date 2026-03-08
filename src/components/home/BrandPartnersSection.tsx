@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { partnerBrands } from '@/data/products';
-import { Star } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
+import hpmLogo from '@/assets/hpm-logo.png';
+import largestSellingBadge from '@/assets/largest-selling-badge.png';
+import hpmMachine from '@/assets/hpm-machine.png';
 
 const BrandPartnersSection = () => {
   const containerRef = useRef(null);
@@ -96,28 +98,61 @@ const BrandPartnersSection = () => {
         </motion.div>
       </div>
 
-      {/* HPM Exclusive - Premium treatment */}
+      {/* HPM Exclusive Partnership - Premium showcase */}
       <div className="px-6 sm:px-8 md:px-12 lg:px-20">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <ScrollReveal animation="scaleUp" delay={0.2}>
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="relative py-10 sm:py-12 px-8 sm:px-12 border border-primary/30 bg-primary/5"
+              whileHover={{ scale: 1.01 }}
+              className="relative border border-primary/20 bg-background overflow-hidden"
             >
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
-                <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-primary/60" />
-                  <span className="font-black text-4xl sm:text-5xl md:text-6xl text-primary tracking-wider">HPM</span>
-                  <Star className="w-4 h-4 text-primary/60" />
-                </div>
-                <div className="hidden sm:block h-10 w-px bg-primary/30" />
-                <div className="text-center sm:text-left">
-                  <span className="text-foreground font-medium block mb-1">
-                    Sole Agent for HPM in India
-                  </span>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+              {/* Subtle corner accents */}
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-primary/30" />
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-primary/30" />
+
+              <div className="grid md:grid-cols-2 gap-0">
+                {/* Left - HPM branding */}
+                <div className="p-8 sm:p-10 md:p-12 flex flex-col justify-center">
+                  <span className="text-[9px] uppercase tracking-[0.25em] text-primary font-medium mb-6 block">
                     Exclusive Partnership
                   </span>
+                  
+                  <img 
+                    src={hpmLogo} 
+                    alt="HPM Paper Cutter" 
+                    className="w-48 sm:w-56 md:w-64 h-auto object-contain mb-6"
+                  />
+                  
+                  <p className="text-foreground font-serif text-lg sm:text-xl mb-2">
+                    Sole Agent for HPM in India
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                    Authorized exclusive distributor of HPM paper cutting machines across the Indian subcontinent.
+                  </p>
+
+                  {/* Largest Selling Badge */}
+                  <div className="flex items-center gap-4">
+                    <img 
+                      src={largestSellingBadge} 
+                      alt="India's Largest Selling Paper Cutter" 
+                      className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+                    />
+                    <div>
+                      <p className="text-xs font-semibold text-foreground">India's Largest Selling</p>
+                      <p className="text-[10px] text-muted-foreground">Paper Cutting Machine</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right - Machine image */}
+                <div className="relative bg-secondary/20 flex items-center justify-center p-6 sm:p-8 min-h-[280px]">
+                  <motion.img 
+                    src={hpmMachine}
+                    alt="HPM Paper Cutting Machine"
+                    className="w-full max-w-md h-auto object-contain"
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ duration: 0.4 }}
+                  />
                 </div>
               </div>
             </motion.div>

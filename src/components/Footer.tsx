@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { companyInfo } from '@/data/products';
 import saiLogoCmyk from '@/assets/sai-logo-cmyk.png';
+import eCatalogueQr from '@/assets/e-catalogue-qr.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer = () => {
       <div className="px-5 sm:px-8 md:px-12 lg:px-20">
         {/* Main Footer */}
         <div className="py-12 sm:py-16 md:py-20 border-b border-background/10">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-20">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-10 lg:gap-16">
             {/* Left - Brand */}
             <div>
               <div className="flex items-center gap-3 mb-5 sm:mb-6">
@@ -36,9 +37,9 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Right - CTA */}
-            <div className="flex flex-col justify-center lg:items-end">
-              <p className="font-serif text-xl sm:text-2xl md:text-3xl text-background mb-5 sm:mb-6 lg:text-right leading-snug">
+            {/* Center - CTA */}
+            <div className="flex flex-col justify-center">
+              <p className="font-serif text-xl sm:text-2xl md:text-3xl text-background mb-5 sm:mb-6 leading-snug">
                 Ready to elevate your<br className="hidden sm:block" />
                 print production?
               </p>
@@ -49,6 +50,23 @@ const Footer = () => {
                 <span className="text-sm font-medium">Get in touch</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
+            </div>
+
+            {/* Right - E-Catalogue QR */}
+            <div className="flex flex-col items-center lg:items-end justify-center">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="bg-background rounded-lg p-3 sm:p-4 w-fit"
+              >
+                <img 
+                  src={eCatalogueQr} 
+                  alt="Scan for complete E-Catalogue" 
+                  className="w-28 h-28 sm:w-32 sm:h-32 object-contain"
+                />
+              </motion.div>
+              <p className="text-[10px] uppercase tracking-[0.15em] text-background/40 mt-3 text-center">
+                Scan for E-Catalogue
+              </p>
             </div>
           </div>
         </div>
@@ -94,17 +112,6 @@ const Footer = () => {
                   </a>
                 ))}
               </div>
-            </div>
-            <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Follow Us</p>
-              <a 
-                href={`https://${companyInfo.facebook}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors"
-              >
-                Facebook
-              </a>
             </div>
           </div>
         </div>

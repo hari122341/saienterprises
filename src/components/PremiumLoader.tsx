@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import saiLogoCmyk from '@/assets/sai-logo-cmyk.png';
+import saiLogoFull from '@/assets/sai-logo-full.png';
 
 // Critical images to preload
 const criticalImages = [
   '/src/assets/hero-industrial.jpg',
-  '/src/assets/sai-logo-cmyk.png',
+  '/src/assets/sai-logo-full.png',
   '/src/assets/machinery-corrugation.jpg',
   '/src/assets/machinery-prepress.jpg',
 ];
@@ -28,13 +28,11 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
     const totalImages = criticalImages.length;
     let imagesLoaded = 0;
     
-    // Preload images and track progress
     criticalImages.forEach((src) => {
       const img = new Image();
       img.onload = () => {
         imagesLoaded++;
         setLoadedImages(imagesLoaded);
-        // Calculate progress based on image loading (70% weight) + minimum time (30% weight)
         const imageProgress = (imagesLoaded / totalImages) * 70;
         setProgress(prev => Math.max(prev, Math.round(imageProgress)));
       };
@@ -47,7 +45,6 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
       img.src = src;
     });
 
-    // Smooth progress animation for remaining 30%
     const minDuration = 2500;
     const startTime = Date.now();
     
@@ -67,7 +64,6 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
     
     requestAnimationFrame(animateProgress);
 
-    // Complete after minimum duration and all images loaded
     const checkComplete = setInterval(() => {
       const elapsed = Date.now() - startTime;
       if (elapsed >= minDuration && imagesLoaded >= totalImages) {
@@ -77,7 +73,6 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
       }
     }, 100);
 
-    // Fallback timeout
     const timeout = setTimeout(() => {
       setProgress(100);
       handleComplete();
@@ -110,41 +105,27 @@ const PremiumLoader = ({ onComplete }: PremiumLoaderProps) => {
 
       {/* Ambient glow */}
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(0,156,204,0.15), transparent 70%)' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(0,156,204,0.12), transparent 70%)' }}
       />
 
       {/* Center content */}
       <div className="relative flex flex-col items-center px-6">
-        {/* Logo + Company name side by side */}
+        {/* Full Sai Logo */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-4 mb-6"
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8"
         >
           <img 
-            src={saiLogoCmyk} 
-            alt="Sai Enterprises" 
-            className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+            src={saiLogoFull} 
+            alt="Sai Enterprises - Graphic Machinery Suppliers" 
+            className="w-64 sm:w-80 md:w-96 h-auto object-contain"
           />
-          <div className="flex flex-col">
-            <h1
-              className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold tracking-wide"
-              style={{ color: '#e8eaed' }}
-            >
-              Sai Enterprises
-            </h1>
-            <span 
-              className="text-[10px] sm:text-xs uppercase tracking-[0.15em]"
-              style={{ color: '#00bcd4' }}
-            >
-              Graphic Machinery Suppliers
-            </span>
-          </div>
         </motion.div>
 
-        {/* Caption */}
+        {/* Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
