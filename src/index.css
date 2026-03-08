@@ -185,10 +185,10 @@
 
   /* Display word - large editorial text */
   .display-word {
-    font-family: 'DM Serif Display', Georgia, serif;
-    @apply text-5xl md:text-6xl lg:text-7xl font-normal;
+    font-family: 'Playfair Display', Georgia, serif;
+    @apply text-5xl md:text-6xl lg:text-7xl font-extrabold;
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   /* Serif text utility */
