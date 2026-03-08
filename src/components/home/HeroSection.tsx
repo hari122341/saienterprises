@@ -44,13 +44,13 @@ const HeroSection = () => {
         className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col justify-center px-5 sm:px-8 md:px-12 lg:px-20 py-24"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        <div className="max-w-7xl mx-auto w-full">
+        <div className="max-w-7xl mx-auto w-full text-center">
           {/* Trust strip - top badges */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8"
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8"
           >
             <div className="inline-flex items-center gap-2 bg-background/8 backdrop-blur-sm px-3 py-1.5 rounded-full border border-background/10">
               <Shield className="w-3 h-3 text-primary" />
@@ -79,12 +79,12 @@ const HeroSection = () => {
             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="mb-6 sm:mb-8"
           >
-            <h1 className="font-serif text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-background leading-[1.02] max-w-5xl">
+            <h1 className="font-serif text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-background leading-[1.02] mx-auto">
               India's largest
               <motion.span 
                 className="block text-primary"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
                 paper cutter
@@ -98,7 +98,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-background/70 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-sm sm:max-w-lg md:max-w-xl mb-8 sm:mb-10"
+            className="text-background/70 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-xl mx-auto mb-8 sm:mb-10"
           >
             Sole agents for HPM Paper Cutters. Premium graphic and corrugation 
             machinery trusted by 500+ printers across two continents.
@@ -109,7 +109,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
-            className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-10 pb-8 sm:pb-10 border-b border-background/15"
+            className="flex items-center justify-center gap-4 sm:gap-6 mb-8 sm:mb-10 pb-8 sm:pb-10 border-b border-background/15 mx-auto max-w-2xl"
           >
             <motion.div 
               className="bg-background/10 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 border border-background/10"
@@ -128,18 +128,6 @@ const HeroSection = () => {
             >
               <img src={yearsBadge} alt="24 Years of Excellence" className="h-16 md:h-20 w-auto object-contain" />
             </motion.div>
-
-            {/* Mobile stats */}
-            <div className="sm:hidden flex gap-5 ml-auto">
-              <div className="text-center">
-                <span className="block text-xl font-serif font-bold text-primary">500+</span>
-                <span className="text-[9px] uppercase tracking-wider text-background/50">Clients</span>
-              </div>
-              <div className="text-center">
-                <span className="block text-xl font-serif font-bold text-background/90">2</span>
-                <span className="text-[9px] uppercase tracking-wider text-background/50">Continents</span>
-              </div>
-            </div>
           </motion.div>
 
           {/* CTAs */}
@@ -147,7 +135,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.65 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
             <Link
               to="/machinery"
