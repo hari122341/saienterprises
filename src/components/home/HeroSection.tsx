@@ -26,7 +26,7 @@ const GridOverlay = () => (
 const Particles = () => {
   const particles = useMemo(
     () =>
-      Array.from({ length: 18 }, (_, i) => ({
+      Array.from({ length: 14 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
@@ -42,15 +42,22 @@ const Particles = () => {
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-primary/25"
+          className="absolute rounded-full bg-primary/20"
           style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
-          animate={{ y: [0, -30, 0], opacity: [0.15, 0.5, 0.15] }}
+          animate={{ y: [0, -30, 0], opacity: [0.1, 0.4, 0.1] }}
           transition={{ duration: p.dur, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
         />
       ))}
     </div>
   );
 };
+
+/* ── Trust badges data ── */
+const badges = [
+  { src: hpmLogo, alt: 'HPM Sole Agent India', label: 'HPM Agent' },
+  { src: largestSellingBadge, alt: "India's largest selling paper cutter", label: '#1 Selling' },
+  { src: yearsBadge, alt: '24 years of excellence', label: '24+ Years' },
+];
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -60,9 +67,10 @@ const HeroSection = () => {
   });
 
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.45], [0, -80]);
-  const machineY = useTransform(scrollYProgress, [0.35, 1], [0, 50]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
+  // Delayed parallax — badges stay fully visible longer
+  const machineY = useTransform(scrollYProgress, [0.4, 1], [0, 40]);
 
   return (
     <section
@@ -74,21 +82,22 @@ const HeroSection = () => {
       <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
         <img src={heroImage} alt="Industrial printing facility" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-foreground/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/70 to-foreground/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/50 via-foreground/70 to-foreground" />
       </motion.div>
 
       <GridOverlay />
       <Particles />
 
-      {/* Ambient glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/6 blur-[100px] pointer-events-none z-[3]" />
+      {/* Ambient glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/6 blur-[120px] pointer-events-none z-[3]" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-primary/4 blur-[80px] pointer-events-none z-[3]" />
 
       {/* Content */}
       <motion.div
         className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-5 sm:px-8 lg:px-16 xl:px-24 pt-28 sm:pt-32 pb-8 gap-6 lg:gap-14 xl:gap-20">
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-5 sm:px-8 lg:px-16 xl:px-24 pt-24 sm:pt-28 pb-16 sm:pb-8 gap-8 lg:gap-14 xl:gap-20">
 
           {/* Left: Copy */}
           <div className="flex-1 max-w-2xl text-center lg:text-left">
@@ -97,7 +106,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="inline-flex items-center gap-3 rounded-full border border-background/15 bg-background/[0.07] backdrop-blur-sm px-4 py-2 mb-6 sm:mb-7"
+              className="inline-flex items-center gap-3 rounded-full border border-background/15 bg-background/[0.07] backdrop-blur-sm px-4 py-2 mb-5 sm:mb-7"
             >
               <img src={hpmLogo} alt="HPM" className="h-5 sm:h-6 w-auto" />
               <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-background/70">
@@ -110,7 +119,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 36 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif text-background text-[clamp(2.2rem,7.5vw,5.8rem)] leading-[0.96] tracking-[-0.03em] mb-5 sm:mb-6"
+              className="font-serif text-background text-[clamp(2rem,7vw,5.8rem)] leading-[0.96] tracking-[-0.03em] mb-4 sm:mb-6"
             >
               <span className="block text-primary italic font-semibold">#1 in India.</span>
               The Largest Paper Cutter
@@ -122,7 +131,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-background/60 text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 mb-8 sm:mb-9"
+              className="text-background/55 text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 mb-7 sm:mb-9"
             >
               India's largest HPM paper cutter distribution house. 24+ years of trusted partnerships
               delivering world-class graphic and corrugation machinery across two continents.
@@ -137,7 +146,7 @@ const HeroSection = () => {
             >
               <Link
                 to="/machinery"
-                className="group inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
+                className="group inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground px-7 sm:px-8 py-3.5 rounded-sm text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25"
               >
                 Explore Machinery
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -150,45 +159,61 @@ const HeroSection = () => {
               </Link>
             </motion.div>
 
+            {/* Mobile Trust Badges — inline below CTAs on small screens */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex lg:hidden items-center justify-center gap-3 mt-8"
+            >
+              {badges.map((badge, i) => (
+                <motion.div
+                  key={badge.alt}
+                  className="w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] flex items-center justify-center rounded-lg bg-background/[0.08] border border-background/15 backdrop-blur-sm p-2.5"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8 + i * 0.1 }}
+                  whileHover={{ scale: 1.08 }}
+                >
+                  <img src={badge.src} alt={badge.alt} className="w-full h-full object-contain" />
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
 
-          {/* Right: Machine + Trust Badges */}
+          {/* Right: Machine + Trust Badges (desktop only) */}
           <motion.div
-            className="flex-1 max-w-md xl:max-w-lg flex flex-col items-center justify-center gap-7"
+            className="hidden lg:flex flex-1 max-w-md xl:max-w-lg flex-col items-center justify-center gap-8"
             style={{ y: machineY }}
           >
             {/* Glow behind machine */}
             <div className="relative">
-              <div className="absolute inset-0 -m-10 bg-primary/10 rounded-full blur-[70px] pointer-events-none" />
+              <div className="absolute inset-0 -m-12 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
               <motion.img
                 src={hpmMachine}
                 alt="HPM Paper Cutting Machine"
-                className="relative w-full max-w-[360px] xl:max-w-[420px] h-auto drop-shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
+                className="relative w-full max-w-[380px] xl:max-w-[440px] h-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
                 initial={{ opacity: 0, scale: 0.92, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               />
             </div>
 
-            {/* 3 Trust badges — uniform styling */}
+            {/* 3 Trust badges */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
-              className="grid grid-cols-3 gap-3 w-full max-w-sm"
+              className="grid grid-cols-3 gap-3.5 w-full max-w-sm"
             >
-              {[
-                { src: hpmLogo, alt: 'HPM Sole Agent India' },
-                { src: largestSellingBadge, alt: "India's largest selling paper cutter" },
-                { src: yearsBadge, alt: '24 years of excellence' },
-              ].map((badge, i) => (
+              {badges.map((badge, i) => (
                 <motion.div
                   key={badge.alt}
-                  className="aspect-square flex items-center justify-center rounded-lg bg-foreground/60 border border-background/12 backdrop-blur-sm shadow-lg p-3 sm:p-4"
+                  className="aspect-square flex flex-col items-center justify-center rounded-lg bg-background/[0.08] border border-background/15 backdrop-blur-sm shadow-lg p-3 xl:p-4 group cursor-default"
                   initial={{ opacity: 0, scale: 0.85, y: 14 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.72 + i * 0.12 }}
-                  whileHover={{ scale: 1.06, y: -4, borderColor: 'hsl(var(--primary) / 0.4)' }}
+                  whileHover={{ scale: 1.08, y: -6, borderColor: 'hsl(var(--primary) / 0.5)' }}
                 >
                   <img
                     src={badge.src}
@@ -204,7 +229,7 @@ const HeroSection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.9 }}
-              className="text-background/40 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-center"
+              className="text-background/35 text-[10px] uppercase tracking-[0.22em] text-center"
             >
               HPM Programmable Paper Cutter · German Engineered
             </motion.p>
@@ -215,7 +240,7 @@ const HeroSection = () => {
       {/* Scroll indicator */}
       <motion.button
         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-1 text-background/40 hover:text-background/70 transition-colors"
+        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-1 text-background/35 hover:text-background/60 transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
