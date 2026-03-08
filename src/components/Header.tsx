@@ -203,7 +203,7 @@ const Header = memo(() => {
             {/* Ambient glow */}
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-primary/8 blur-[100px] pointer-events-none" />
 
-            <div className="relative h-full flex flex-col items-center justify-center px-8 pt-20">
+            <div className="relative z-10 h-full flex flex-col items-center justify-center px-8 pt-20">
               <nav className="flex flex-col items-center gap-2">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
                   const active = location.pathname === link.href ||
