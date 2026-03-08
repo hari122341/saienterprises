@@ -58,7 +58,7 @@ const WhySaiSection = () => {
   ];
 
   return (
-    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
+    <section className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-14">
