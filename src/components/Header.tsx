@@ -223,7 +223,7 @@ const Header = memo(() => {
                         className="block py-2.5 text-center"
                       >
                         <span className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
-                          active ? 'text-primary font-bold' : 'text-background/35 hover:text-background/60'
+                          active ? 'text-primary font-bold' : 'text-background/60 hover:text-background/80'
                         }`}>
                           {link.name}
                         </span>
