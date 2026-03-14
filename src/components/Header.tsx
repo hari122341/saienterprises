@@ -52,7 +52,7 @@ const Header = memo(() => {
   const toggleMenu = useCallback(() => setIsMobileMenuOpen(p => !p), []);
 
   return (
-    <div className="contents">
+    <>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
