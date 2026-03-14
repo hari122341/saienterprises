@@ -52,7 +52,7 @@ const Header = memo(() => {
   const toggleMenu = useCallback(() => setIsMobileMenuOpen(p => !p), []);
 
   return (
-    <>
+    <div className="contents">
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -175,21 +175,14 @@ const Header = memo(() => {
         </div>
       </motion.header>
 
-      {/* Mobile overlay */}
+      {/* Mobile full-screen menu — rendered via portal-like fixed positioning */}
       {isMobileMenuOpen && (
         <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 200,
-            backgroundColor: 'hsl(210 25% 10%)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          className="fixed inset-0 z-[200] md:hidden flex flex-col items-center justify-center"
+          style={{ backgroundColor: 'hsl(210, 25%, 10%)' }}
         >
-          <nav className="flex flex-col items-center gap-4">
+          {/* Push content below header */}
+          <nav className="flex flex-col items-center gap-4 mt-14">
             {[{ name: 'Home', href: '/' }, ...navLinks].map((link) => {
               const active = location.pathname === link.href ||
                 (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
@@ -202,8 +195,9 @@ const Header = memo(() => {
                   className="block py-2 text-center"
                 >
                   <span
-                    className="font-serif text-4xl sm:text-5xl transition-colors duration-300"
-                    style={{ color: active ? 'hsl(195 85% 40%)' : 'rgba(255,255,255,0.5)' }}
+                    className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
+                      active ? 'text-primary font-bold' : 'text-white/50 hover:text-white/70'
+                    }`}
                   >
                     {link.name}
                   </span>
@@ -220,13 +214,13 @@ const Header = memo(() => {
             >
               Get a Quote <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
-            <span style={{ color: 'rgba(255,255,255,0.2)' }} className="text-[10px] uppercase tracking-[0.2em]">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
               Since 2000 · India & Kenya
             </span>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 });
 
