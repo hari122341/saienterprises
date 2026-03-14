@@ -17,37 +17,24 @@ const Counter = ({ end, suffix = '', start, durationMs = 1400 }: CounterProps) =
 
   useEffect(() => {
     if (!start) return;
-
     let frameId = 0;
     const startedAt = performance.now();
-
     const animate = (now: number) => {
       const elapsed = now - startedAt;
       const progress = Math.min(elapsed / durationMs, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setValue(Math.round(end * eased));
-
-      if (progress < 1) {
-        frameId = requestAnimationFrame(animate);
-      }
+      if (progress < 1) frameId = requestAnimationFrame(animate);
     };
-
     frameId = requestAnimationFrame(animate);
-
     return () => cancelAnimationFrame(frameId);
   }, [durationMs, end, start]);
 
-  return (
-    <span>
-      {value}
-      {suffix}
-    </span>
-  );
+  return <span>{value}{suffix}</span>;
 };
 
 const WhySaiSection = () => {
   const statsRef = useRef<HTMLDivElement>(null);
-
   const statsInView = useInView(statsRef, { once: true, amount: 0.35 });
 
   const pillars = [
@@ -59,6 +46,16 @@ const WhySaiSection = () => {
 
   return (
     <section className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
+      {/* Ambient glow */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/4 blur-[120px] pointer-events-none"
+        animate={{ scale: [1, 1.15, 1] }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+
+      {/* Top divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-14">
@@ -70,7 +67,7 @@ const WhySaiSection = () => {
               <img
                 src={yearsBadge}
                 alt="24 Years of Excellence in Industry"
-                className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain mx-auto"
+                className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain mx-auto drop-shadow-lg"
                 loading="lazy"
               />
             </motion.div>
@@ -85,21 +82,22 @@ const WhySaiSection = () => {
           </ScrollReveal>
 
           <ScrollReveal animation="fadeUp" delay={0.1}>
-            <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border mb-10 sm:mb-14">
+            <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border/60 mb-10 sm:mb-14">
               {pillars.map((pillar) => (
                 <motion.div
                   key={pillar.label}
-                  className="bg-background p-4 sm:p-6 md:p-8 group hover:bg-secondary/30 transition-colors duration-500 text-center flex flex-col justify-center min-h-[160px] sm:min-h-[180px]"
+                  className="relative bg-background p-5 sm:p-7 md:p-9 group hover:bg-secondary/20 transition-all duration-500 text-center flex flex-col justify-center min-h-[170px] sm:min-h-[190px] overflow-hidden"
                   whileHover={{ y: -5 }}
                 >
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   <motion.span
-                    className="block font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-primary mb-2 sm:mb-3"
+                    className="block font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary mb-2 sm:mb-3 relative"
                     whileHover={{ scale: 1.05 }}
                   >
                     <Counter end={pillar.end} suffix={pillar.suffix} start={statsInView} />
                   </motion.span>
-                  <h4 className="font-medium text-foreground mb-1 text-xs sm:text-sm">{pillar.label}</h4>
-                  <p className="text-muted-foreground text-[10px] sm:text-xs leading-relaxed">{pillar.description}</p>
+                  <h4 className="font-medium text-foreground mb-1 text-xs sm:text-sm relative">{pillar.label}</h4>
+                  <p className="text-muted-foreground text-[10px] sm:text-xs leading-relaxed relative">{pillar.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -109,16 +107,16 @@ const WhySaiSection = () => {
             <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-6 leading-relaxed">
               We don't just sell machinery.
               <br />
-              We build <span className="text-primary">partnerships.</span>
+              We build <span className="text-primary italic">partnerships.</span>
             </h3>
             <p className="text-muted-foreground leading-relaxed mb-8">
               Every client relationship begins with understanding your needs.
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-3 bg-foreground text-background px-6 py-3 hover:bg-foreground/90 transition-colors group"
+              className="inline-flex items-center gap-3 bg-foreground text-background px-7 py-3.5 hover:bg-foreground/90 transition-all duration-300 group hover:shadow-lg"
             >
-              <span className="text-sm font-medium">Start a conversation</span>
+              <span className="text-sm font-medium tracking-wide">Start a conversation</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </ScrollReveal>

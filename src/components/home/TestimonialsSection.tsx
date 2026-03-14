@@ -51,14 +51,11 @@ const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Auto-scroll with configurable speed
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
     }, 4000);
-    
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
@@ -78,11 +75,26 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-40 bg-background overflow-hidden">
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-36 bg-background overflow-hidden">
+      {/* Ambient glows */}
+      <motion.div
+        className="absolute top-1/3 left-1/4 w-[500px] h-[400px] rounded-full bg-primary/4 blur-[120px] pointer-events-none"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-accent/3 blur-[100px] pointer-events-none"
+        animate={{ x: [0, 30, 0] }}
+        transition={{ duration: 10, repeat: Infinity }}
+      />
+
+      {/* Top divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <ScrollReveal animation="fadeUp" className="text-center mb-16 sm:mb-20">
+          <ScrollReveal animation="fadeUp" className="text-center mb-14 sm:mb-18">
             <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <span className="w-8 h-px bg-primary" />
               Testimonials
@@ -103,11 +115,15 @@ const TestimonialsSection = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -30, scale: 0.98 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-card border border-border p-8 sm:p-12 md:p-16 relative shadow-sm"
+                className="relative bg-card border border-border p-8 sm:p-12 md:p-16 shadow-sm overflow-hidden"
               >
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-primary/15 pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-primary/15 pointer-events-none" />
+
                 {/* Quote icon */}
                 <div className="absolute top-8 right-8 sm:top-12 sm:right-12">
-                  <Quote className="w-12 h-12 sm:w-16 sm:h-16 text-primary/10" />
+                  <Quote className="w-12 h-12 sm:w-16 sm:h-16 text-primary/8" />
                 </div>
 
                 {/* Stars */}
@@ -119,7 +135,7 @@ const TestimonialsSection = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: i * 0.1 }}
                     >
-                      <Star className="w-5 h-5 fill-primary text-primary" />
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-primary text-primary" />
                     </motion.div>
                   ))}
                 </div>
@@ -147,7 +163,7 @@ const TestimonialsSection = () => {
                   <div className="flex items-center gap-3">
                     <motion.button
                       onClick={handlePrev}
-                      className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
+                      className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all duration-300"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -173,26 +189,18 @@ const TestimonialsSection = () => {
                     onClick={() => handleDotClick(index)}
                     className="relative group p-1"
                   >
-                    <span className={`block w-2 h-2 rounded-full transition-all duration-300 ${
+                    <span className={`block h-2 rounded-full transition-all duration-500 ${
                       index === activeIndex 
                         ? 'bg-primary w-8' 
-                        : 'bg-border hover:bg-muted-foreground'
+                        : 'bg-border hover:bg-muted-foreground w-2'
                     }`} />
-                    {index === activeIndex && isAutoPlaying && (
-                      <motion.span 
-                        className="absolute inset-0 rounded-full border border-primary/50"
-                        initial={{ scale: 1, opacity: 1 }}
-                        animate={{ scale: 1.5, opacity: 0 }}
-                        transition={{ duration: 4, repeat: Infinity }}
-                      />
-                    )}
                   </button>
                 ))}
               </div>
 
               {/* Auto-play indicator */}
               <motion.p 
-                className="text-center text-xs text-muted-foreground mt-4"
+                className="text-center text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60 mt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}

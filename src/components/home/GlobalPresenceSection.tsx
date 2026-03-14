@@ -26,19 +26,24 @@ const GlobalPresenceSection = () => {
 
   return (
     <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-foreground overflow-hidden">
-      {/* Subtle ambient glow */}
+      {/* Ambient glows */}
       <motion.div 
         className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[150px]"
-        animate={{ 
-          x: [100, 0, 100],
-          opacity: [0.3, 0.5, 0.3]
-        }}
+        animate={{ x: [100, 0, 100], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       />
+      <motion.div 
+        className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/6 blur-[120px]"
+        animate={{ y: [50, -20, 50] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Top line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-background/10 to-transparent" />
 
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
-          {/* Header - Centered */}
+          {/* Header */}
           <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-12">
             <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
               <span className="w-8 h-px bg-primary" />
@@ -50,7 +55,7 @@ const GlobalPresenceSection = () => {
             </h2>
           </ScrollReveal>
 
-          {/* Main Locations Grid - Equal height cards */}
+          {/* Main Locations Grid */}
           <div className="grid md:grid-cols-2 gap-4 sm:gap-5 mb-8 sm:mb-10">
             {locations.map((location, index) => (
               <ScrollReveal key={location.city} animation={index === 0 ? 'slideLeft' : 'slideRight'} delay={0.1 + index * 0.1}>
@@ -63,7 +68,7 @@ const GlobalPresenceSection = () => {
                   }`}
                   style={{ borderRadius: '2px' }}
                 >
-                  {/* Subtle gradient overlay on hover */}
+                  {/* Hover gradient overlay */}
                   <div 
                     className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
                       location.isPrimary 
@@ -71,8 +76,12 @@ const GlobalPresenceSection = () => {
                         : 'bg-gradient-to-br from-primary/10 to-transparent'
                     }`}
                   />
+                  {/* Corner accent */}
+                  <div className={`absolute top-0 right-0 w-12 h-12 border-t border-r ${
+                    location.isPrimary ? 'border-white/10' : 'border-primary/10'
+                  } pointer-events-none`} />
 
-                  <div className="relative p-5 sm:p-6 md:p-8 min-h-[160px] sm:min-h-[180px] flex flex-col">
+                  <div className="relative p-5 sm:p-6 md:p-8 min-h-[170px] sm:min-h-[190px] flex flex-col">
                     <div className="flex items-start justify-between mb-4">
                       <span className={`text-[9px] uppercase tracking-[0.2em] font-medium ${
                         location.isPrimary ? 'text-primary-foreground/60' : 'text-background/40'
@@ -89,7 +98,7 @@ const GlobalPresenceSection = () => {
                       </motion.div>
                     </div>
                     
-                    <h3 className={`font-serif text-2xl sm:text-3xl md:text-4xl mb-1 mt-auto ${
+                    <h3 className={`font-serif text-3xl sm:text-4xl md:text-5xl mb-1 mt-auto ${
                       location.isPrimary ? 'text-primary-foreground' : 'text-background'
                     }`}>
                       {location.city}
@@ -116,7 +125,7 @@ const GlobalPresenceSection = () => {
                   <motion.span 
                     key={city}
                     whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                    className="text-background/60 text-sm px-5 py-2 bg-background/5 rounded-full border border-background/10 cursor-default transition-all"
+                    className="text-background/60 text-sm px-5 py-2.5 bg-background/5 rounded-full border border-background/10 cursor-default transition-all"
                   >
                     {city}
                   </motion.span>

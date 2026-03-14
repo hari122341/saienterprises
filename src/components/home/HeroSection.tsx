@@ -88,9 +88,18 @@ const HeroSection = () => {
       <GridOverlay />
       <Particles />
 
-      {/* Ambient glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/6 blur-[120px] pointer-events-none z-[3]" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-primary/4 blur-[80px] pointer-events-none z-[3]" />
+      {/* Ambient glows — animated for premium feel */}
+      <motion.div
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/8 blur-[120px] pointer-events-none z-[3]"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none z-[3]"
+        animate={{ x: [0, 40, 0], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <div className="absolute top-1/2 right-0 w-[300px] h-[400px] rounded-full bg-accent/4 blur-[100px] pointer-events-none z-[3]" />
 
       {/* Content */}
       <motion.div
@@ -166,16 +175,24 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.65 }}
               className="flex lg:hidden flex-col items-center gap-6 mt-8"
             >
-              {/* Machine image on mobile */}
+              {/* Machine image on mobile — gentle float */}
               <div className="relative w-full max-w-[260px] sm:max-w-[300px]">
-                <div className="absolute inset-0 -m-8 bg-primary/10 rounded-full blur-[60px] pointer-events-none" />
+                <motion.div
+                  className="absolute inset-0 -m-8 bg-primary/15 rounded-full blur-[60px] pointer-events-none"
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.7, 0.4] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                />
                 <motion.img
                   src={hpmMachine}
                   alt="HPM Paper Cutting Machine"
-                  className="relative w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+                  className="relative w-full h-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
                   initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+                  transition={{
+                    opacity: { duration: 0.8, delay: 0.7 },
+                    scale: { duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] },
+                    y: { duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 },
+                  }}
                 />
               </div>
 
@@ -201,16 +218,24 @@ const HeroSection = () => {
             className="hidden lg:flex flex-1 max-w-md xl:max-w-lg flex-col items-center justify-center gap-8"
             style={{ y: machineY }}
           >
-            {/* Glow behind machine */}
+            {/* Glow behind machine — breathing */}
             <div className="relative">
-              <div className="absolute inset-0 -m-12 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
+              <motion.div
+                className="absolute inset-0 -m-12 bg-primary/12 rounded-full blur-[80px] pointer-events-none"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              />
               <motion.img
                 src={hpmMachine}
                 alt="HPM Paper Cutting Machine"
                 className="relative w-full max-w-[380px] xl:max-w-[440px] h-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
                 initial={{ opacity: 0, scale: 0.92, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                transition={{
+                  opacity: { duration: 1, delay: 0.45 },
+                  scale: { duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] },
+                  y: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 },
+                }}
               />
             </div>
 
