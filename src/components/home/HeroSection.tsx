@@ -88,9 +88,18 @@ const HeroSection = () => {
       <GridOverlay />
       <Particles />
 
-      {/* Ambient glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/6 blur-[120px] pointer-events-none z-[3]" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-primary/4 blur-[80px] pointer-events-none z-[3]" />
+      {/* Ambient glows — animated for premium feel */}
+      <motion.div
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-primary/8 blur-[120px] pointer-events-none z-[3]"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none z-[3]"
+        animate={{ x: [0, 40, 0], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <div className="absolute top-1/2 right-0 w-[300px] h-[400px] rounded-full bg-accent/4 blur-[100px] pointer-events-none z-[3]" />
 
       {/* Content */}
       <motion.div
