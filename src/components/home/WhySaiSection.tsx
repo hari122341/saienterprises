@@ -59,26 +59,27 @@ const WhySaiSection = () => {
       <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal animation="fadeUp" className="text-center mb-10 sm:mb-14">
+            <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
+              <span className="w-8 h-px bg-primary" />
+              Why Us
+              <span className="w-8 h-px bg-primary" />
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mb-6">
+              Trust built over <span className="text-primary italic">two decades.</span>
+            </h2>
+            {/* Badge below the heading, properly centered */}
             <motion.div
-              className="inline-block mb-6"
+              className="inline-block"
               whileHover={{ scale: 1.05, rotate: 2 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
               <img
                 src={yearsBadge}
                 alt="24 Years of Excellence in Industry"
-                className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain mx-auto drop-shadow-lg"
+                className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain mx-auto drop-shadow-lg"
                 loading="lazy"
               />
             </motion.div>
-            <span className="inline-flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
-              <span className="w-8 h-px bg-primary" />
-              Why Us
-              <span className="w-8 h-px bg-primary" />
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-              Trust built over <span className="text-primary italic">two decades.</span>
-            </h2>
           </ScrollReveal>
 
           <ScrollReveal animation="fadeUp" delay={0.1}>

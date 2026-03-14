@@ -175,10 +175,16 @@ const Header = memo(() => {
         </div>
       </motion.header>
 
-      {/* Mobile overlay — z-[200] ensures it's above everything except header */}
+      {/* Mobile overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-[200] md:hidden bg-foreground overflow-hidden animate-fade-in">
+          <motion.div
+            className="fixed inset-0 z-[200] md:hidden bg-foreground overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="h-full flex flex-col items-center justify-center px-8">
               <nav className="flex flex-col items-center gap-3">
                 {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
@@ -186,10 +192,11 @@ const Header = memo(() => {
                     (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
 
                   return (
-                    <div
+                    <motion.div
                       key={link.name}
-                      className="animate-fade-up"
-                      style={{ animationDelay: `${i * 60}ms`, animationFillMode: 'both' }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <Link
                         to={link.href}
@@ -202,14 +209,16 @@ const Header = memo(() => {
                           {link.name}
                         </span>
                       </Link>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </nav>
 
-              <div
-                className="absolute bottom-12 flex flex-col items-center gap-5 animate-fade-up"
-                style={{ animationDelay: '300ms', animationFillMode: 'both' }}
+              <motion.div
+                className="absolute bottom-12 flex flex-col items-center gap-5"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
               >
                 <Link
                   to="/contact"
@@ -221,9 +230,9 @@ const Header = memo(() => {
                 <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
                   Since 2000 · India & Kenya
                 </span>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
