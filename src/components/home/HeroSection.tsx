@@ -218,16 +218,24 @@ const HeroSection = () => {
             className="hidden lg:flex flex-1 max-w-md xl:max-w-lg flex-col items-center justify-center gap-8"
             style={{ y: machineY }}
           >
-            {/* Glow behind machine */}
+            {/* Glow behind machine — breathing */}
             <div className="relative">
-              <div className="absolute inset-0 -m-12 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
+              <motion.div
+                className="absolute inset-0 -m-12 bg-primary/12 rounded-full blur-[80px] pointer-events-none"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              />
               <motion.img
                 src={hpmMachine}
                 alt="HPM Paper Cutting Machine"
                 className="relative w-full max-w-[380px] xl:max-w-[440px] h-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
                 initial={{ opacity: 0, scale: 0.92, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                transition={{
+                  opacity: { duration: 1, delay: 0.45 },
+                  scale: { duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] },
+                  y: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 },
+                }}
               />
             </div>
 

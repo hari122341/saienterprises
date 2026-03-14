@@ -9,10 +9,20 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-foreground text-background">
-      <div className="px-5 sm:px-8 md:px-12 lg:px-20">
+    <footer className="relative bg-foreground text-background overflow-hidden">
+      {/* Ambient glow */}
+      <motion.div
+        className="absolute top-0 right-1/4 w-[500px] h-[300px] rounded-full bg-primary/6 blur-[120px] pointer-events-none"
+        animate={{ x: [0, 50, 0], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 12, repeat: Infinity }}
+      />
+
+      {/* Top accent line */}
+      <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+
+      <div className="relative z-10 px-5 sm:px-8 md:px-12 lg:px-20">
         {/* Main Footer */}
-        <div className="py-12 sm:py-16 md:py-20 border-b border-background/10">
+        <div className="py-14 sm:py-18 md:py-22 border-b border-background/10">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-10 lg:gap-16">
             {/* Left - Brand */}
             <div>
@@ -25,12 +35,12 @@ const Footer = () => {
                   <span className="text-[9px] uppercase tracking-[0.15em] text-primary">Graphic Machinery Suppliers</span>
                 </div>
               </div>
-              <p className="text-background/50 text-sm leading-relaxed max-w-sm mb-6 sm:mb-8">
+              <p className="text-background/45 text-sm leading-relaxed max-w-sm mb-6 sm:mb-8">
                 Premium graphic machinery suppliers. Building long-term relationships across India and East Africa since 2000.
               </p>
               <div className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-2">
                 {companyInfo.emails.map((email) => (
-                  <a key={email} href={`mailto:${email}`} className="text-sm text-background/70 hover:text-primary transition-colors break-all">
+                  <a key={email} href={`mailto:${email}`} className="text-sm text-background/60 hover:text-primary transition-colors break-all">
                     {email}
                   </a>
                 ))}
@@ -45,9 +55,9 @@ const Footer = () => {
               </p>
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-5 sm:px-6 py-3 hover:bg-primary/90 transition-colors w-fit"
+                className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3.5 hover:bg-primary/90 transition-all duration-300 w-fit hover:shadow-lg hover:shadow-primary/20"
               >
-                <span className="text-sm font-medium">Get in touch</span>
+                <span className="text-sm font-medium tracking-wide">Get in touch</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
             </div>
@@ -56,7 +66,7 @@ const Footer = () => {
             <div className="flex flex-col items-center lg:items-end justify-center">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="bg-background rounded-lg p-3 sm:p-4 w-fit"
+                className="bg-background rounded-lg p-3 sm:p-4 w-fit shadow-lg"
               >
                 <img 
                   src={eCatalogueQr} 
@@ -64,7 +74,7 @@ const Footer = () => {
                   className="w-28 h-28 sm:w-32 sm:h-32 object-contain"
                 />
               </motion.div>
-              <p className="text-[10px] uppercase tracking-[0.15em] text-background/40 mt-3 text-center">
+              <p className="text-[10px] uppercase tracking-[0.15em] text-background/35 mt-3 text-center">
                 Scan for E-Catalogue
               </p>
             </div>
@@ -72,42 +82,42 @@ const Footer = () => {
         </div>
 
         {/* Links */}
-        <div className="py-10 sm:py-12 border-b border-background/10">
+        <div className="py-10 sm:py-12 border-b border-background/8">
           <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Navigate</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/25 mb-3 sm:mb-4">Navigate</p>
               <nav className="space-y-2">
                 {['About', 'Machinery', 'Partners', 'Contact'].map((item) => (
-                  <Link key={item} to={`/${item.toLowerCase()}`} className="block text-sm text-background/60 hover:text-background transition-colors">
+                  <Link key={item} to={`/${item.toLowerCase()}`} className="block text-sm text-background/55 hover:text-background transition-colors">
                     {item}
                   </Link>
                 ))}
               </nav>
             </div>
             <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Locations</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/25 mb-3 sm:mb-4">Locations</p>
               <div className="space-y-1.5 sm:space-y-2 text-sm">
                 <p className="text-primary">Hyderabad</p>
-                <p className="text-background/40">New Delhi</p>
-                <p className="text-background/40">Pune</p>
+                <p className="text-background/35">New Delhi</p>
+                <p className="text-background/35">Pune</p>
                 <p className="text-primary">Nairobi</p>
               </div>
             </div>
             <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Call Us</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/25 mb-3 sm:mb-4">Call Us</p>
               <div className="space-y-1.5 sm:space-y-2">
                 {companyInfo.phones.map((phone) => (
-                  <a key={phone} href={`tel:${phone.replace(/\s/g, '')}`} className="block text-xs sm:text-sm text-background/60 hover:text-background transition-colors">
+                  <a key={phone} href={`tel:${phone.replace(/\s/g, '')}`} className="block text-xs sm:text-sm text-background/55 hover:text-background transition-colors">
                     {phone}
                   </a>
                 ))}
               </div>
             </div>
             <div>
-              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/30 mb-3 sm:mb-4">Mail Us</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-background/25 mb-3 sm:mb-4">Mail Us</p>
               <div className="space-y-1.5 sm:space-y-2">
                 {companyInfo.emails.map((email) => (
-                  <a key={email} href={`mailto:${email}`} className="block text-xs sm:text-sm text-background/60 hover:text-background transition-colors break-all">
+                  <a key={email} href={`mailto:${email}`} className="block text-xs sm:text-sm text-background/55 hover:text-background transition-colors break-all">
                     {email}
                   </a>
                 ))}
@@ -118,12 +128,12 @@ const Footer = () => {
 
         {/* Bottom */}
         <div className="py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-background/30">
+          <p className="text-xs text-background/25">
             © {currentYear} {companyInfo.name}
           </p>
-          <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.15em] text-background/30">
+          <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.15em] text-background/25">
             <span>India</span>
-            <span className="w-3 h-px bg-background/20" />
+            <span className="w-3 h-px bg-background/15" />
             <span>Kenya</span>
           </div>
         </div>

@@ -34,20 +34,23 @@ const ServicesSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const lineY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
     <>
       <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24 bg-background overflow-hidden">
+        {/* Top divider */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+        {/* Ambient glow */}
+        <motion.div
+          className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-primary/4 blur-[120px] pointer-events-none"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+
         <div className="relative z-10 px-6 sm:px-8 md:px-12 lg:px-20">
           <div className="max-w-7xl mx-auto">
-            {/* Header - Centered */}
+            {/* Header */}
             <ScrollReveal animation="fadeUp" className="text-center mb-12 sm:mb-16">
               <span className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-4">
                 <span className="w-8 h-px bg-primary" />
@@ -83,7 +86,7 @@ const ServicesSection = () => {
                       }`}
                       style={{ scrollSnapAlign: 'start' }}
                     >
-                      <div className="relative p-5 h-[220px] flex flex-col">
+                      <div className="relative p-5 h-[230px] flex flex-col">
                         <span className={`text-[10px] uppercase tracking-[0.15em] mb-3 block ${
                           service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
                         }`}>
@@ -117,7 +120,7 @@ const ServicesSection = () => {
               </div>
             </div>
 
-            {/* Desktop Grid - Equal height cards */}
+            {/* Desktop Grid */}
             <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {services.map((service, index) => {
                 const isHovered = hoveredIndex === index;
@@ -137,9 +140,13 @@ const ServicesSection = () => {
                           : 'bg-card border border-border hover:border-primary/30'
                       }`}
                     >
-                      {/* Fixed height container with flex layout */}
-                      <div className="relative p-6 h-[280px] flex flex-col">
-                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-4 block ${
+                      <div className="relative p-6 h-[290px] flex flex-col">
+                        {/* Hover gradient overlay */}
+                        {!service.highlight && (
+                          <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        )}
+
+                        <span className={`text-[10px] uppercase tracking-[0.15em] mb-4 block relative ${
                           service.highlight ? 'text-primary-foreground/50' : 'text-muted-foreground'
                         }`}>
                           0{index + 1}
@@ -151,19 +158,19 @@ const ServicesSection = () => {
                           </div>
                         )}
 
-                        <h3 className={`font-serif text-xl md:text-2xl mb-3 ${
+                        <h3 className={`font-serif text-xl md:text-2xl mb-3 relative ${
                           service.highlight ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary'
                         } transition-colors duration-300`}>
                           {service.title}
                         </h3>
                         
-                        <p className={`text-sm leading-relaxed mb-auto ${
+                        <p className={`text-sm leading-relaxed mb-auto relative ${
                           service.highlight ? 'text-primary-foreground/70' : 'text-muted-foreground'
                         }`}>
                           {service.description}
                         </p>
 
-                        <div className="flex items-center justify-between mt-6">
+                        <div className="flex items-center justify-between mt-6 relative">
                           <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
                             service.highlight 
                               ? 'bg-primary-foreground/10 text-primary-foreground' 
@@ -181,7 +188,7 @@ const ServicesSection = () => {
                           </motion.div>
                         </div>
 
-                        {/* Hover accent line */}
+                        {/* Bottom accent line */}
                         {!service.highlight && (
                           <motion.div
                             className="absolute bottom-0 left-0 h-0.5 bg-primary"
