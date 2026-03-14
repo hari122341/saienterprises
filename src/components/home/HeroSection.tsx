@@ -166,16 +166,24 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.65 }}
               className="flex lg:hidden flex-col items-center gap-6 mt-8"
             >
-              {/* Machine image on mobile */}
+              {/* Machine image on mobile — gentle float */}
               <div className="relative w-full max-w-[260px] sm:max-w-[300px]">
-                <div className="absolute inset-0 -m-8 bg-primary/10 rounded-full blur-[60px] pointer-events-none" />
+                <motion.div
+                  className="absolute inset-0 -m-8 bg-primary/15 rounded-full blur-[60px] pointer-events-none"
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.7, 0.4] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                />
                 <motion.img
                   src={hpmMachine}
                   alt="HPM Paper Cutting Machine"
-                  className="relative w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+                  className="relative w-full h-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
                   initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+                  transition={{
+                    opacity: { duration: 0.8, delay: 0.7 },
+                    scale: { duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] },
+                    y: { duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 },
+                  }}
                 />
               </div>
 
