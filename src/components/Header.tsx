@@ -175,57 +175,51 @@ const Header = memo(() => {
         </div>
       </motion.header>
 
-      {/* Mobile overlay — z-[200] ensures it's above everything except header */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-[200] md:hidden bg-foreground overflow-hidden animate-fade-in">
-            <div className="h-full flex flex-col items-center justify-center px-8">
-              <nav className="flex flex-col items-center gap-3">
-                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
-                  const active = location.pathname === link.href ||
-                    (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
+      {/* Mobile full-screen menu — rendered via portal-like fixed positioning */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-[200] md:hidden flex flex-col items-center justify-center"
+          style={{ backgroundColor: 'hsl(210, 25%, 10%)' }}
+        >
+          {/* Push content below header */}
+          <nav className="flex flex-col items-center gap-4 mt-14">
+            {[{ name: 'Home', href: '/' }, ...navLinks].map((link) => {
+              const active = location.pathname === link.href ||
+                (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
 
-                  return (
-                    <div
-                      key={link.name}
-                      className="animate-fade-up"
-                      style={{ animationDelay: `${i * 60}ms`, animationFillMode: 'both' }}
-                    >
-                      <Link
-                        to={link.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-2 text-center"
-                      >
-                        <span className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
-                          active ? 'text-primary font-bold' : 'text-white/50 hover:text-white/70'
-                        }`}>
-                          {link.name}
-                        </span>
-                      </Link>
-                    </div>
-                  );
-                })}
-              </nav>
-
-              <div
-                className="absolute bottom-12 flex flex-col items-center gap-5 animate-fade-up"
-                style={{ animationDelay: '300ms', animationFillMode: 'both' }}
-              >
+              return (
                 <Link
-                  to="/contact"
+                  key={link.name}
+                  to={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="group inline-flex items-center gap-2.5 bg-primary text-primary-foreground px-7 py-3.5 rounded-sm text-xs font-semibold uppercase tracking-[0.14em] transition-all hover:bg-primary/90"
+                  className="block py-2 text-center"
                 >
-                  Get a Quote <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <span
+                    className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
+                      active ? 'text-primary font-bold' : 'text-white/50 hover:text-white/70'
+                    }`}
+                  >
+                    {link.name}
+                  </span>
                 </Link>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
-                  Since 2000 · India & Kenya
-                </span>
-              </div>
-            </div>
+              );
+            })}
+          </nav>
+
+          <div className="absolute bottom-12 flex flex-col items-center gap-5">
+            <Link
+              to="/contact"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="group inline-flex items-center gap-2.5 bg-primary text-primary-foreground px-7 py-3.5 rounded-sm text-xs font-semibold uppercase tracking-[0.14em] transition-all hover:bg-primary/90"
+            >
+              Get a Quote <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
+              Since 2000 · India & Kenya
+            </span>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </>
   );
 });
