@@ -176,65 +176,49 @@ const Header = memo(() => {
       </motion.header>
 
       {/* Mobile overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            className="fixed inset-0 z-[200] md:hidden bg-foreground overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="h-full flex flex-col items-center justify-center px-8">
-              <nav className="flex flex-col items-center gap-3">
-                {[{ name: 'Home', href: '/' }, ...navLinks].map((link, i) => {
-                  const active = location.pathname === link.href ||
-                    (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[200] md:hidden bg-foreground overflow-hidden">
+          {/* Spacer for header */}
+          <div className="h-14 sm:h-16" />
+          
+          <div className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] flex flex-col items-center justify-center px-8">
+            <nav className="flex flex-col items-center gap-4">
+              {[{ name: 'Home', href: '/' }, ...navLinks].map((link) => {
+                const active = location.pathname === link.href ||
+                  (link.href === '/machinery' && location.pathname.startsWith('/machinery'));
 
-                  return (
-                    <motion.div
-                      key={link.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <Link
-                        to={link.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-2 text-center"
-                      >
-                        <span className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
-                          active ? 'text-primary font-bold' : 'text-white/50 hover:text-white/70'
-                        }`}>
-                          {link.name}
-                        </span>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </nav>
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-2 text-center"
+                  >
+                    <span className={`font-serif text-4xl sm:text-5xl transition-colors duration-300 ${
+                      active ? 'text-primary font-bold' : 'text-white/50 hover:text-white/70'
+                    }`}>
+                      {link.name}
+                    </span>
+                  </Link>
+                );
+              })}
+            </nav>
 
-              <motion.div
-                className="absolute bottom-12 flex flex-col items-center gap-5"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+            <div className="absolute bottom-12 flex flex-col items-center gap-5">
+              <Link
+                to="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="group inline-flex items-center gap-2.5 bg-primary text-primary-foreground px-7 py-3.5 rounded-sm text-xs font-semibold uppercase tracking-[0.14em] transition-all hover:bg-primary/90"
               >
-                <Link
-                  to="/contact"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="group inline-flex items-center gap-2.5 bg-primary text-primary-foreground px-7 py-3.5 rounded-sm text-xs font-semibold uppercase tracking-[0.14em] transition-all hover:bg-primary/90"
-                >
-                  Get a Quote <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
-                  Since 2000 · India & Kenya
-                </span>
-              </motion.div>
+                Get a Quote <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-white/20">
+                Since 2000 · India & Kenya
+              </span>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </>
   );
 });
